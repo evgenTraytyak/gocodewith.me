@@ -1,5 +1,6 @@
 # Ignore WebStorm IDE config.
 /.idea
+.DS_Store
 
 # Ignore node package
 /node_modules
