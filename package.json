@@ -3,7 +3,9 @@
   "version": "0.0.1",
   "description": "application for a multi-user online document editing",
   "main": "index.js",
+  "precommit": ["lint"],
   "scripts": {
+    "lint": "node_modules/.bin/jshint .",
     "test": "echo \"Error: no test specified\" && exit 1",
     "make": "rm index.css; find blocks/ -name \"*.css\" | xargs cat >> index.css; rm index.js; find blocks/ -name \"*.js\" | xargs cat >> index.js"
   },
@@ -22,6 +24,8 @@
     "gulp-concat": "^2.4.1",
     "gulp-watch": "^1.1.0",
     "lodash-node": "^2.4.1",
-    "socket.io": "^1.1.0"
+    "socket.io": "^1.1.0",
+    "jshint": "~2.5.6",
+    "precommit-hook": "~1.0.7"
   }
 }
