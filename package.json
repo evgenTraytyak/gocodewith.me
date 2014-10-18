@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/yandex-shri-minsk-2014/team-1/issues"
   },
-  "homepage": "https://github.com/yandex-shri-minsk-2014/team-1"
+  "homepage": "https://github.com/yandex-shri-minsk-2014/team-1",
+  "dependencies": {
+    "lodash-node": "^2.4.1"
+  }
 }
