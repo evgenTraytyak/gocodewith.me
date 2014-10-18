@@ -1,20 +1,29 @@
 var Team1 = Team1 || {};
 
 Team1 = {
-  stubUsers : [
-    {
-      id: 1
-      , title: "Nike"
+  stubData : {
+    usersList: [
+      {
+        id: 1
+        , title: "Nike"
+      }
+      ,{
+        id: 2
+        , title: "Max"
+      }
+      ,{
+        id: 3
+        , title: "John"
+      }
+    ],
+    user: {
+      id: 123,
+      title: "title"
+    },
+    "document": {
+      id: 123
     }
-    ,{
-      id: 2
-      , title: "Max"
-    }
-    ,{
-      id: 3
-      , title: "John"
-    }
-  ]
+  }
   , start : function (options) {
     _.bindAll(this);
 
@@ -28,19 +37,16 @@ Team1 = {
   , bindSocketHandlers : function () {
     this.socket.on("open", this.onSocketOpen)
 
-    this.socket.on("join", this.onSocketJoin)
+    //this.socket.on("join", this.onSocketJoin)
 
     this.socket.on("leave", this.onSocketLeave)
   }
 
   , onSocketJoin : function (data) {
-    var data { user : {} } // fix for wrong data format
-    this.Roster.add(data.user)
+    this.Roster.add(data) // data have wrong formating
   }
 
-  , onSocketLeave : function (data) {
-    if(!data.user)
-      return
+  , onSocketLeave : function (data) {    
     this.Roster.remove(data.user.id)
   }
 
@@ -55,5 +61,14 @@ Team1 = {
 
   , getSocket : function (socketUrl) {
     return io.connect(socketUrl, { reconnect: false })
+  }
+  , triggerOpenEvent: function () {
+    this.onSocketOpen(this.stubData)
+  }
+  , triggerJoin: function() {
+    this.onSocketJoin({title: "test title", id: 123});
+  }
+  , triggerLeave: function() {
+    this.onSocketLeave({user: {id: 123}})
   }
 }

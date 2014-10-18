@@ -23,5 +23,5 @@ Team1.Roster.prototype.fillList = function (usersList) {
 }
 
 Team1.Roster.prototype.addCurrentUser = function (user) {
-  this.usersListEl.append(this.userTpl(user).addClass("current"))
+  this.usersListEl.append($(this.userTpl(user)).addClass("current"))
 }
