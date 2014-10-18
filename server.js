@@ -24,7 +24,6 @@ process.argv.slice(2).forEach(function (val) {
 })
 
 http.createServer(function (request, response) {
-  
   //reading index file
   fs.readFile(CONFIG.f, function (err, page) {
     if (err) {
@@ -39,9 +38,3 @@ http.createServer(function (request, response) {
     response.end()
   })
 }).listen(CONFIG.http_port)
-
-
-
-
-  
-
