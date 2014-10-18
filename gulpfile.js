@@ -28,7 +28,14 @@ gulp.task('index.html', function () {
         ))
         .pipe(wrap('<style><%= contents %></style>'))
     , gulp
-      .src('blocks/**/*.js')
+      .src(
+        [ 'libs/jquery/dist/jquery.min.js'
+        , 'libs/lodash/dist/lodash.min.js'
+        , 'libs/socket.io-client/socket.io.js'
+        , 'blocks/page/page.js'
+        , 'blocks/**/*.js'
+        ]
+      )
       .pipe(concat('index.js'))
       .pipe(wrap('<script><%= contents %></script>'))
   )
