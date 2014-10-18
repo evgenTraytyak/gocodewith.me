@@ -1,0 +1,13 @@
+{
+  "node": true,
+
+  "laxcomma": true,
+  "curly": false,
+  "latedef": true,
+  "quotmark": true,
+  "undef": true,
+  "unused": true,
+  "trailing": true,
+  "globals": {
+  }
+}
