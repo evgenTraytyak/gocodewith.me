@@ -20,6 +20,5 @@
   },
   "disallowSpacesInCallExpression": true,
   "disallowTrailingWhitespace": true,
-  "requireCommaBeforeLineBreak": true,
   "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties"
 }
