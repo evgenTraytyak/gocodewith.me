@@ -1,5 +1,5 @@
 var gulp = require('gulp')
-  , watch = require('gulp-watch')
+  , gulpIgnore = require('gulp-ignore')
   , concat = require('gulp-concat')
   , autoprefixer = require('gulp-autoprefixer')
   , wrap = require('gulp-wrap')
@@ -8,7 +8,16 @@ var gulp = require('gulp')
 gulp.task('index.html', function () {
   streamqueue(
     { objectMode : true }
-    , gulp.src(['blocks/page/page.html', 'blocks/**/*.html'])
+    , gulp.src('blocks/page/page.html')
+    , gulp
+      .src('blocks/**/*.html')
+      .pipe(gulpIgnore.exclude('**/page.html'))
+      .pipe(wrap('<script '
+          + 'type="template" '
+          + 'id="<%= file.path.replace(/^.*\\/([^/]+)$/, \'$1\') %>">'
+          + '<%= file.contents %>'
+          + '</script>'
+      ))
     , gulp
         .src('blocks/**/*.css')
         .pipe(concat('index.css'))
