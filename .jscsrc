@@ -1,5 +1,5 @@
 {
-  "excludeFiles": ["node_modules/**"],
+  "excludeFiles": ["node_modules/**", "libs/**"],
   "maximumLineLength": 80,
   "validateIndentation": 2,
   "requireSpaceAfterKeywords": true,
