@@ -4,25 +4,25 @@ Team1 = {
   stubData :
     { usersList:
       [ { id: 1
-        , title: "Nike"
+        , title: 'Nike'
         }
       , { id: 2
-        , title: "Max"
+        , title: 'Max'
         }
       , { id: 3
-        , title: "John"
+        , title: 'John'
         }
       ]
     , user:
       { id: 123
-      , title: "title"
+      , title: 'title'
       }
     , document:
     { id: 123
     }
   }
   , start : function (options) {
-    _.bindAll(this)
+    _.bindAll(this);
 
     this.socket = this.getSocket(options.socketUrl)
 
@@ -32,11 +32,11 @@ Team1 = {
   }
 
   , bindSocketHandlers : function () {
-    this.socket.on("open", this.onSocketOpen)
+    this.socket.on('open', this.onSocketOpen)
 
-    this.socket.on("join", this.onSocketJoin)
+    this.socket.on('join', this.onSocketJoin)
 
-    this.socket.on("leave", this.onSocketLeave)
+    this.socket.on('leave', this.onSocketLeave)
   }
 
   , onSocketJoin : function (data) {
@@ -63,9 +63,15 @@ Team1 = {
     this.onSocketOpen(this.stubData)
   }
   , triggerJoin : function () {
-    this.onSocketJoin({title: "test title", id: 123});
+    this.onSocketJoin({title: 'test title', id: 123});
   }
   , triggerLeave : function () {
     this.onSocketLeave({user: {id: 123}})
   }
 }
+
+$(document).ready(function () {
+  Team1.start({
+    socketUrl: 'http://127.0.0.1:7900'
+  })
+})
