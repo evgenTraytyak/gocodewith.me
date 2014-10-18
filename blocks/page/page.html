@@ -20,21 +20,15 @@
   <li id="<%= id %>" class="roster-item"><%= name %></li>
 </script>
 
+<script src="https://cdn.socket.io/socket.io-1.1.0.js"></script>
 <script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>
 <script type="text/javascript" src="libs/lodash/dist/lodash.compat.min.js"></script>
 <script type="text/javascript" src="index.js"></script>
 
-<!-- Example (delete after use) -->
 <script type="text/javascript">
-
-  var socket = io.connect('http://127.0.0.1:7900', { reconnect: false });
-
-  socket.on('join', function (data) {
-    console.log(data.username + ' has joined');
-  });
-
-  socket.on('leave', function (data) {
-    console.log(data.username + ' has left');
-  });
-
+  $(document).ready(function () {
+    Team1.start({
+      socketUrl: 'http://127.0.0.1:7900'
+    })
+  })
 </script>
