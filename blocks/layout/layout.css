@@ -1,2 +1,18 @@
 .layout {
+<<<<<<< HEAD
 }
+=======
+  margin-top: -50px;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  box-sizing: border-box;
+}
+.editor {
+  width: 70%;
+  height: 100%;
+  background: #333;
+}
+
+>>>>>>> e030dad3d4904eb85f1a58a0c027cc1b70db3cdc

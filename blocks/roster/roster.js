@@ -1,5 +1,3 @@
-
-
 function Roster() {
   var _this = this;
 
