@@ -1,20 +1,17 @@
 var Team1 = Team1 || {};
 
 Team1 = {
-  stubUsers: [
-    {
-      id: 1
+  stubUsers:
+    [ { id: 1
       , name: "Nike"
-    }
-    ,{
-      id: 2
+      }
+    , { id: 2
       , name: "Max"
-    }
-    ,{
-      id: 3
+      }
+    , { id: 3
       , name: "John"
-    }
-  ]
+      }
+    ]
   , start : function (options) {
     _.bindAll(this);
 
