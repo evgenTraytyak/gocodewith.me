@@ -2,8 +2,9 @@ var http = require('http')
   , fs = require('fs')
   , log = require('npmlog')
   , path = require('path')
+  //, _ = require('lodash-node')
   //socket
-  , io = require('socket.io')()
+  //, io = require('socket.io')()
 
   //app variables
   , CONFIG = {
@@ -16,13 +17,14 @@ var http = require('http')
 process.argv.slice(2).forEach(function (val) {
   try {
     var param = val.split('=')
-    if (param[1]) CONFIG[param[0]] = param[1]
+    if (param[1]) { CONFIG[param[0]] = param[1] }
   } catch (e) {
     log.error('Internal', 'Cant parse param ' + val)
   }
 })
 
 http.createServer(function (request, response) {
+  
   //reading index file
   fs.readFile(CONFIG.f, function (err, page) {
     if (err) {
@@ -38,23 +40,8 @@ http.createServer(function (request, response) {
   })
 }).listen(CONFIG.http_port)
 
-log.info('HTTP server', 'Server started at port ' + CONFIG.http_port)
 
 
 
-io.listen(CONFIG.socket_port)
-  .on('connection', function(socket) {
-    var username = '' + Math.random()
+  
 
-    log.info('Socket.io server',  'User ' + username + ' has connected')
-
-    io.emit('join', {username: username})
-
-    socket.on('disconnect', function() {
-      log.info('Socket.io server',  'User ' + username + ' has disconnected')
-      socket.broadcast.emit('leave', {username: username})
-    })
-
-  })
-
-log.info('Socket server', 'Socket.io started at port ' + CONFIG.socket_port)
