@@ -18,5 +18,8 @@
       "beforeOpeningRoundBrace": true,
       "beforeOpeningCurlyBrace": true
   },
-  "disallowSpacesInCallExpression": true
+  "disallowSpacesInCallExpression": true,
+  "disallowTrailingWhitespace": true,
+  "requireCommaBeforeLineBreak": true,
+  "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties"
 }

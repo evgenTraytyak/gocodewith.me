@@ -17,7 +17,7 @@
 .editor {
   width: 70%;
   height: 100%;
-  background: #ffc;
+  background: #333;
 }
 
 /* http://meyerweb.com/eric/tools/css/reset/
@@ -80,7 +80,6 @@ body {
 .roster {
   width: 30%;
   height: 100%;
-  background: #cfc;
 }
 .roster-list {
   padding: 20px 0 0 30px;

@@ -1,8 +1,2 @@
-function TeamOne() {
 
-
-
-}
-
-new TeamOne;
 
