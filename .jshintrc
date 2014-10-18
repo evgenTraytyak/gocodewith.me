@@ -1,0 +1,16 @@
+{
+  "node": true,
+
+  "laxcomma": true,
+  "curly": true,
+  "latedef": true,
+  "quotmark": true,
+  "undef": true,
+  "unused": true,
+  "trailing": true,
+  "asi": true,
+  "maxlen": 80,
+  "indent": 2,
+  "globals": {  
+  }
+}
