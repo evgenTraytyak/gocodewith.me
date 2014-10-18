@@ -1,13 +1,14 @@
 .layout {
-
+  margin-top: -50px;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  box-sizing: border-box;
 }
 .editor {
-  float: left;
   width: 70%;
-  height: 200px;
+  height: 100%;
   background: #ffc;
 }
-.roster {
-  margin-left: 70%;
-  background: #cfc;
-}
+

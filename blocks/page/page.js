@@ -1,0 +1,8 @@
+function TeamOne() {
+
+
+
+}
+
+new TeamOne;
+

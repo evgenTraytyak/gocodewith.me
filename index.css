@@ -7,18 +7,19 @@
   padding: 17px 0 0 20px;
 }
 .layout {
-
+  margin-top: -50px;
+  padding-top: 50px;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  box-sizing: border-box;
 }
 .editor {
-  float: left;
   width: 70%;
-  height: 200px;
+  height: 100%;
   background: #ffc;
 }
-.roster {
-  margin-left: 70%;
-  background: #cfc;
-}
+
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -68,3 +69,24 @@ table {
   border-spacing: 0;
 }
 
+/*** Common ***/
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+
+.roster {
+  width: 30%;
+  height: 100%;
+  background: #cfc;
+}
+.roster-list {
+  padding: 20px 0 0 30px;
+}
+.roster-item {
+  margin-bottom: 20px;
+  font: 16px Verdana, sans-serif;
+  color: #333;
+}
