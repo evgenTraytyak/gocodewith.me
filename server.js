@@ -2,9 +2,9 @@ var http = require('http')
   , fs = require('fs')
   , log = require('npmlog')
   , path = require('path')
-  //, _ = require('lodash-node')
+  , _ = require('lodash-node')
   //socket
-  //, io = require('socket.io')()
+  , io = require('socket.io')()
 
   //app variables
   , CONFIG = {
@@ -38,3 +38,36 @@ http.createServer(function (request, response) {
     response.end()
   })
 }).listen(CONFIG.http_port)
+
+
+log.info('HTTP server', 'Server started at port ' + CONFIG.http_port)
+
+io.listen(CONFIG.socket_port)
+  .on('connection', function (socket) {
+    socket.on('open', function (data) {
+      var user = {
+            title: data.title || 'Anonimus'
+          , id: _.uniqueId('user')
+          }
+          , docId = (data.document && data.document.id)?
+                    data.document.id :
+                    _.uniqueId('file')
+
+      io.to(docId).emit('join', {
+        user: user
+      })
+
+      socket.emit('open', {
+        user: user,
+        document: {
+          id: docId,
+          users: []
+        }
+      });
+
+      socket.join(docId);
+
+    })
+  })
+
+log.info('Socket server', 'Socket.io started at port ' + CONFIG.socket_port)
