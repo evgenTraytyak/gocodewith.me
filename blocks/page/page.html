@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Team 1</title>
+  <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+
+<header class="header">
+  <div class="header-logo">Team-1</div>
+</header>
+
+<div class="layout">
+  <section class="editor"></section>
+  <aside class="roster">
+    <ul class="roster-list"></ul>
+  </aside>
+</div>
+
+<script type="template" id="user-tpl">
+  <li id="<%= id %>" class="roster-item"><%= name %></li>
+</script>
+
+<script type="text/javascript" src="libs/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="libs/lodash/dist/lodash.compat.min.js"></script>
+<script type="text/javascript" src="index.js"></script>
+
+<!-- Example (delete after use) -->
+<script type="text/javascript">
+
+  var socket = io.connect('http://127.0.0.1:7900', { reconnect: false });
+
+  socket.on('join', function (data) {
+    console.log(data.username + ' has joined');
+  });
+
+  socket.on('leave', function (data) {
+    console.log(data.username + ' has left');
+  });
+
+</script>
