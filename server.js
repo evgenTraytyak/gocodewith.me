@@ -1,40 +1,50 @@
 var http = require('http')
   , fs = require('fs')
   , log = require('npmlog')
-  , _ = require('lodash-node')
   , path = require('path')
   //socket
   , io = require('socket.io')()
 
   //app variables
-  , HTTP_PORT = 80 // server http port
-  , SOCKET_PORT = 7900 // socket port
-  , indexFile = path.join(__dirname, 'index.html')
-  
+  , CONFIG = {
+      http_port: 80 // node server.js http_port=80
+    , socket_port: 7900
+    , f: path.join(__dirname, 'index.html')
+  }
 
-http.createServer(function(request, response) {
+// Parse server params
+process.argv.slice(2).forEach(function (val) {
+  try {
+    var param = val.split('=')
+    if (param[1]) CONFIG[param[0]] = param[1]
+  } catch (e) {
+    log.error('Internal', 'Cant parse param ' + val)
+  }
+})
+
+http.createServer(function (request, response) {
   //reading index file
-  fs.readFile(indexFile, function(err, page) {
+  fs.readFile(CONFIG.f, function (err, page) {
     if (err) {
       log.error('HTTP server', err.message)
       response.writeHeader(500)
       response.end('error reading file')
       return;
     }
-    
-    response.writeHeader(200, {"Content-Type": "text/html"})
+
+    response.writeHeader(200, {'Content-Type': 'text/html'})
     response.write(page)
     response.end()
-  });
-}).listen(HTTP_PORT)
+  })
+}).listen(CONFIG.http_port)
 
-log.info('HTTP server', 'Server started at port ' + HTTP_PORT)
+log.info('HTTP server', 'Server started at port ' + CONFIG.http_port)
 
 
 
-io.listen(SOCKET_PORT)
-  .on('connection', function(socket) {
+io.listen(CONFIG.socket_port)
+  .on('connection', function () {
     log.info('Socket.io server',  'User connected.')
   })
 
-log.info('Socket server', 'Socket.io started at port ' + SOCKET_PORT)
+log.info('Socket server', 'Socket.io started at port ' + CONFIG.socket_port)
