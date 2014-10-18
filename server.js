@@ -43,8 +43,18 @@ log.info('HTTP server', 'Server started at port ' + CONFIG.http_port)
 
 
 io.listen(CONFIG.socket_port)
-  .on('connection', function () {
-    log.info('Socket.io server',  'User connected.')
+  .on('connection', function(socket) {
+    var username = '' + Math.random()
+
+    log.info('Socket.io server',  'User ' + username + ' has connected')
+
+    io.emit('join', {username: username})
+
+    socket.on('disconnect', function() {
+      log.info('Socket.io server',  'User ' + username + ' has disconnected')
+      socket.broadcast.emit('leave', {username: username})
+    })
+
   })
 
 log.info('Socket server', 'Socket.io started at port ' + CONFIG.socket_port)
