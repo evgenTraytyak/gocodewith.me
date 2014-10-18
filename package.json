@@ -4,7 +4,8 @@
   "description": "application for a multi-user online document editing",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "make": "rm index.css; find blocks/ -name \"*.css\" | xargs cat >> index.css; rm index.js; find blocks/ -name \"*.js\" | xargs cat >> index.js"
   },
   "repository": {
     "type": "git",
