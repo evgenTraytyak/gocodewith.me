@@ -11,6 +11,9 @@
   "asi": true,
   "maxlen": 80,
   "indent": 2,
-  "globals": {  
+  "globals": {
+    "$": true,
+    "_": true,
+    "document": true
   }
 }

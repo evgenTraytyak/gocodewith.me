@@ -1,32 +1,20 @@
-function Roster() {
-  var _this = this;
+var Team1 = Team1 || {}
 
-  this.users = [
-    {
-      name: 'Nike'
-    }
-    ,{
-      name: 'Max'
-    }
-    ,{
-      name: 'John'
-    }
-  ]
+Team1.Roster = function (list) {
+  var _this = this
 
-  this.usersListEl = $('.roster-list');
-  this.userTpl = _.template('<li class="roster-item"><%= name %></li>');
+  this.usersList = list
 
-  _.forEach(this.users, function(user) {
-    _this.add(user);
-  });
+  this.usersListEl = $(".roster-list")
+
+  this.userTpl = _.template($("#user-tpl").html())
+
+  _.forEach(this.usersList, function (user) {
+    _this.add(user)
+  })
 }
 
-Roster.prototype.add = function(user) {
-  this.usersListEl.append(this.userTpl(user));
+
+Team1.Roster.prototype.add = function (user) {
+  this.usersListEl.append(this.userTpl(user))
 }
-
-new Roster;
-
-
-
-

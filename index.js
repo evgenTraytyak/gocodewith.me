@@ -1,34 +1,43 @@
+var Team1 = Team1 || {};
 
-
-function Roster() {
-  var _this = this;
-
-  this.users = [
+Team1 = {
+  stubUsers: [
     {
-      name: 'Nike'
+      name: "Nike"
     }
     ,{
-      name: 'Max'
+      name: "Max"
     }
     ,{
-      name: 'John'
+      name: "John"
     }
   ]
 
-  this.usersListEl = $('.roster-list');
-  this.userTpl = _.template('<li class="roster-item"><%= name %></li>');
-
-  _.forEach(this.users, function(user) {
-    _this.add(user);
-  });
+  , start : function () {
+    this.Roster = new Team1.Roster(this.stubUsers)
+  }
 }
 
-Roster.prototype.add = function(user) {
-  this.usersListEl.append(this.userTpl(user));
+$(document).ready(function () {
+  Team1.start()
+})
+var Team1 = Team1 || {}
+
+Team1.Roster = function (list) {
+  var _this = this
+
+  this.usersList = list
+
+  this.usersListEl = $(".roster-list")
+
+  this.userTpl = _.template($("#user-tpl").html())
+
+  _.forEach(this.usersList, function (user) {
+    _this.add(user)
+  })
 }
 
-new Roster;
 
-
-
-
+Team1.Roster.prototype.add = function (user) {
+  this.usersListEl.append(this.userTpl(user))
+}
