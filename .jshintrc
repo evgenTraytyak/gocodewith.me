@@ -2,7 +2,7 @@
   "node": true,
 
   "laxcomma": true,
-  "curly": true,
+  "laxbreak"  : true,
   "latedef": true,
   "quotmark": true,
   "undef": true,

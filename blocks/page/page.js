@@ -1,33 +1,30 @@
 var Team1 = Team1 || {};
 
 Team1 = {
-  stubData : {
-    usersList: [
-      {
-        id: 1
+  stubData :
+    { usersList:
+      [ { id: 1
         , title: "Nike"
-      }
-      ,{
-        id: 2
+        }
+      , { id: 2
         , title: "Max"
-      }
-      ,{
-        id: 3
+        }
+      , { id: 3
         , title: "John"
+        }
+      ]
+    , user:
+      { id: 123
+      , title: "title"
       }
-    ],
-    user: {
-      id: 123,
-      title: "title"
-    },
-    "document": {
-      id: 123
+    , document:
+    { id: 123
     }
   }
   , start : function (options) {
-    _.bindAll(this);
+    _.bindAll(this)
 
-    this.socket = this.getSocket(options.socketUrl)    
+    this.socket = this.getSocket(options.socketUrl)
 
     this.bindSocketHandlers()
 
@@ -37,16 +34,16 @@ Team1 = {
   , bindSocketHandlers : function () {
     this.socket.on("open", this.onSocketOpen)
 
-    //this.socket.on("join", this.onSocketJoin)
+    this.socket.on("join", this.onSocketJoin)
 
     this.socket.on("leave", this.onSocketLeave)
   }
 
   , onSocketJoin : function (data) {
-    this.Roster.add(data) // data have wrong formating
+    this.Roster.add(data)
   }
 
-  , onSocketLeave : function (data) {    
+  , onSocketLeave : function (data) {
     this.Roster.remove(data.user.id)
   }
 
@@ -62,13 +59,13 @@ Team1 = {
   , getSocket : function (socketUrl) {
     return io.connect(socketUrl, { reconnect: false })
   }
-  , triggerOpenEvent: function () {
+  , triggerOpenEvent : function () {
     this.onSocketOpen(this.stubData)
   }
-  , triggerJoin: function() {
+  , triggerJoin : function () {
     this.onSocketJoin({title: "test title", id: 123});
   }
-  , triggerLeave: function() {
+  , triggerLeave : function () {
     this.onSocketLeave({user: {id: 123}})
   }
 }
