@@ -1,10 +1,15 @@
 var http = require('http')
   , fs = require('fs')
   , _ = require('lodash-node')
+  , path = require('path')
+  //socket
+  , io = require('socket.io')()
+
 
   //app variables
-  , PORT = 80 // server http port
-  , indexFile = 'index.html'
+  , HTTP_PORT = 80 // server http port
+  , SOCKET_PORT = 7900 // socket port
+  , indexFile = path.join(__dirname, 'index.html')
 
 
 http.createServer(function(request, response) {
@@ -21,6 +26,11 @@ http.createServer(function(request, response) {
     response.write(page)
     response.end()
   });
-}).listen(PORT)
+}).listen(HTTP_PORT)
 
-console.log('Server started at port ' + PORT)
+console.log('Server started at port ' + HTTP_PORT)
+
+io.listen(SOCKET_PORT)
+  .on('connection', function(socket) {
+    console.log('User connected.')
+  })
