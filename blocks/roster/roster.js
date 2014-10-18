@@ -18,3 +18,7 @@ Team1.Roster = function (list) {
 Team1.Roster.prototype.add = function (user) {
   this.usersListEl.append(this.userTpl(user))
 }
+
+Team1.Roster.prototype.remove = function (id) {
+  this.usersListEl.find("#" + id).remove()
+}
