@@ -1,45 +1,59 @@
 var Team1 = Team1 || {};
 
 Team1 = {
-  stubUsers: [
+  stubUsers : [
     {
       id: 1
-      , name: "Nike"
+      , title: "Nike"
     }
     ,{
       id: 2
-      , name: "Max"
+      , title: "Max"
     }
     ,{
       id: 3
-      , name: "John"
+      , title: "John"
     }
   ]
   , start : function (options) {
     _.bindAll(this);
 
-    this.socket = this.getSocket(options.socketUrl)
+    this.socket = this.getSocket(options.socketUrl)    
 
     this.bindSocketHandlers()
 
-    this.Roster = new Team1.Roster(this.stubUsers)
+    this.Roster = new Team1.Roster()
   }
 
   , bindSocketHandlers : function () {
     this.socket.on("open", this.onSocketOpen)
 
-    this.socket.on("close", this.onSocketClose)
+    this.socket.on("join", this.onSocketJoin)
+
+    this.socket.on("leave", this.onSocketLeave)
   }
 
-  , onSocketClose : function (data) {
-    console.log(data.username + " has left")
+  , onSocketJoin : function (data) {
+    var data { user : {} } // fix for wrong data format
+    this.Roster.add(data.user)
+  }
+
+  , onSocketLeave : function (data) {
+    if(!data.user)
+      return
+    this.Roster.remove(data.user.id)
   }
 
   , onSocketOpen : function (data) {
-    console.log(data.username + " has joined")
+    if (data.user) {
+      this.Roster.addCurrentUser(data.user)
+    }
+    if (data.usersList !== null) {
+      this.Roster.fillList(data.usersList)
+    }
   }
 
-  , getSocket: function (socketUrl) {
-    return io.connect(socketUrl, { reconnect: false });
+  , getSocket : function (socketUrl) {
+    return io.connect(socketUrl, { reconnect: false })
   }
 }
