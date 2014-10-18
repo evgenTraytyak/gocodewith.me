@@ -7,8 +7,19 @@
   padding: 17px 0 0 20px;
 }
 .layout {
-	
-}/* http://meyerweb.com/eric/tools/css/reset/
+
+}
+.editor {
+  float: left;
+  width: 70%;
+  height: 200px;
+  background: #ffc;
+}
+.roster {
+  margin-left: 70%;
+  background: #cfc;
+}
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -56,3 +67,4 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+
