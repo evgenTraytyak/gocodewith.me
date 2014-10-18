@@ -3,13 +3,16 @@ var Team1 = Team1 || {};
 Team1 = {
   stubUsers: [
     {
-      name: "Nike"
+      id: 1
+      , name: "Nike"
     }
     ,{
-      name: "Max"
+      id: 2
+      , name: "Max"
     }
     ,{
-      name: "John"
+      id: 3
+      , name: "John"
     }
   ]
 

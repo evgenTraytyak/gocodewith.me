@@ -3,13 +3,16 @@ var Team1 = Team1 || {};
 Team1 = {
   stubUsers: [
     {
-      name: "Nike"
+      id: 1
+      , name: "Nike"
     }
     ,{
-      name: "Max"
+      id: 2
+      , name: "Max"
     }
     ,{
-      name: "John"
+      id: 3
+      , name: "John"
     }
   ]
 
@@ -40,4 +43,8 @@ Team1.Roster = function (list) {
 
 Team1.Roster.prototype.add = function (user) {
   this.usersListEl.append(this.userTpl(user))
+}
+
+Team1.Roster.prototype.remove = function (id) {
+  this.usersListEl.find("#" + id).remove()
 }
