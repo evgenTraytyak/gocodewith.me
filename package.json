@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/yandex-shri-minsk-2014/team-1",
   "dependencies": {
+    "gulp": "^3.8.8",
+    "gulp-concat": "^2.4.1",
+    "gulp-watch": "^1.1.0",
     "lodash-node": "^2.4.1",
     "socket.io": "^1.1.0"
   }
