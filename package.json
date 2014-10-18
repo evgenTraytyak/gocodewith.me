@@ -8,7 +8,7 @@
     "lint": "node_modules/.bin/jshint .",
     "codestyle": "node_modules/.bin/jscs .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "make": "rm index.css; find blocks/ -name \"*.css\" | xargs cat >> index.css; rm index.js; find blocks/ -name \"*.js\" | xargs cat >> index.js"
+    "make": "./node_modules/.bin/gulp"
   },
   "repository": {
     "type": "git",
