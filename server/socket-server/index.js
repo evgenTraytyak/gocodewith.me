@@ -7,10 +7,10 @@ var _ = require('lodash-node')
   , logPrefix = 'Socket Server'
   , isStarted = !1
 
-exports.start = function (CONFIG) {
-  if (!isStarted) {
+exports.start = function (config) {
+  if (config && !isStarted) {
     try {
-      io.listen(CONFIG.socket_port)
+      io.listen(config.port)
         .on('connection', function (socket) {
           socket.on('open', function (data) {
             var user = {
@@ -37,7 +37,7 @@ exports.start = function (CONFIG) {
         })
 
       log.info(logPrefix
-        , 'Socket.io started at port ' + CONFIG.socket_port)
+        , 'Socket.io started at port ' + config.port)
       isStarted = !0
     } catch (e) {
       log.error(logPrefix, 'Server can\'t start. ' + e)
