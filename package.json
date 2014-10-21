@@ -2,7 +2,7 @@
   "name": "Later",
   "version": "0.0.1",
   "description": "application for a multi-user online document editing",
-  "main": "index.js",
+  "main": "server.js",
   "precommit": ["lint", "codestyle"],
   "scripts": {
     "lint": "node_modules/.bin/jshint .",
