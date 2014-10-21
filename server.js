@@ -1,6 +1,4 @@
-var http = require('http')
-  , fs = require('fs')
-  , log = require('npmlog')
+var log = require('npmlog')
   , path = require('path')
   , _ = require('lodash-node')
   //socket
@@ -23,24 +21,7 @@ process.argv.slice(2).forEach(function (val) {
   }
 })
 
-http.createServer(function (request, response) {
-  //reading index file
-  fs.readFile(CONFIG.f, function (err, page) {
-    if (err) {
-      log.error('HTTP server', err.message)
-      response.writeHeader(500)
-      response.end('error reading file')
-      return;
-    }
-
-    response.writeHeader(200, {'Content-Type': 'text/html'})
-    response.write(page)
-    response.end()
-  })
-}).listen(CONFIG.http_port)
-
-
-log.info('HTTP server', 'Server started at port ' + CONFIG.http_port)
+require('./server/http-server').start(CONFIG)
 
 io.listen(CONFIG.socket_port)
   .on('connection', function (socket) {
