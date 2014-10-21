@@ -1,2 +1,9 @@
 {
+  "http_server": {
+    "port": 80,
+    "index": "index.html"
+  },
+  "socket_server": {
+    "port": 7900
+  }
 }

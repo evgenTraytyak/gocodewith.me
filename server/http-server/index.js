@@ -6,16 +6,17 @@ var http = require('http')
   , log = require('npmlog')
   , isStarted = !1
 
-exports.start = function (CONFIG) {
-  if (!isStarted) {
+exports.start = function (config) {
+  if (config && !isStarted) {
     try {
       http.createServer(function (request, response) {
         //reading index file
-        fs.readFile(CONFIG.f, function (err, page) {
+        fs.readFile(config.index, function (err, page) {
           if (err) {
             log.error('HTTP server', err.message)
             response.writeHeader(500)
-            response.end('error reading file')
+            response.end('Can\'t read ' + config.index +
+                         ' file. (Try to create it: npm run make)')
             return
           }
 
@@ -23,8 +24,8 @@ exports.start = function (CONFIG) {
           response.write(page)
           response.end()
         })
-      }).listen(CONFIG.http_port)
-      log.info('HTTP server', 'Server started at port ' + CONFIG.http_port)
+      }).listen(config.port)
+      log.info('HTTP server', 'Server started at port ' + config.port)
       isStarted = !0
     } catch (e) {
       log.error('HTTP server', 'Server can\'t start. ' + e)
