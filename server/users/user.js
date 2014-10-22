@@ -8,11 +8,12 @@ var _ = require('lodash-node')
   , getUID = function () {
     return _.uniqueId('user-')
   }
-
+  , Documents = require('../documents')
 // Constructor for User
   , User = module.exports = function (params) {
     this._connection = params.connection
     this.id = getUID()
+    this.document = null
     this.props = {
       title: 'Anonymous'
     }
@@ -123,19 +124,21 @@ proto.exportPrivateData = function () {
  * Open document
  * @param document {Document}
  */
-proto.openDocument = function () {
-  // need to create & save document
+proto.openDocument = function (document) {
+  this.document = Documents.factory(document).addCollaborator(this)
   this.emit('open', {
     user: this.exportPrivateData(),
-    document: {}
+    document: this.document.exportPublicData()
   })
+  return this
 }
 
 /**
  * Close last opened document
  */
 proto.closeDocument = function () {
-  // leave doc
+  if (this.document !== null) this.document.removeCollaborator(this)
+  return this
 }
 //endregion
 

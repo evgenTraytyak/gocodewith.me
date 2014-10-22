@@ -40,7 +40,7 @@ Team1 = {
   }
 
   , onSocketJoin : function (data) {
-    this.Roster.add(data)
+    this.Roster.add(data.user)
   }
 
   , onSocketLeave : function (data) {
@@ -48,11 +48,8 @@ Team1 = {
   }
 
   , onSocketOpen : function (data) {
-    if (data.user) {
-      this.Roster.addCurrentUser(data.user)
-    }
-    if (data.usersList !== null) {
-      this.Roster.fillList(data.usersList)
+    if (data.document && data.document.users) {
+      this.Roster.fillList(data.document.users)
     }
   }
 
