@@ -24,14 +24,14 @@ var _ = require('lodash-node')
 
 
 //region *** Events API ***
-
+// NOTE: All events delegated to connection object
 /**
  * Predefined events behavior
  * @type {Object}
  */
 proto.events = {
   'open' : '_resolveOpenEvent'
-  , 'disconnect' : 'destroy'
+, 'disconnect' : 'destroy'
 }
 
 /**
