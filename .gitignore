@@ -1,7 +1,9 @@
 # Ignore WebStorm IDE config.
-/.idea
+.idea
 .DS_Store
 
 # Ignore node package
-/node_modules
-/libs
+node_modules
+libs
+index.html
+npm-debug.log

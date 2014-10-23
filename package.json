@@ -2,13 +2,13 @@
   "name": "Later",
   "version": "0.0.1",
   "description": "application for a multi-user online document editing",
-  "main": "index.js",
+  "main": "server.js",
   "precommit": ["lint", "codestyle"],
   "scripts": {
     "lint": "node_modules/.bin/jshint .",
     "codestyle": "node_modules/.bin/jscs .",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "make": "rm index.css; find blocks/ -name \"*.css\" | xargs cat >> index.css; rm index.js; find blocks/ -name \"*.js\" | xargs cat >> index.js"
+    "make": "./node_modules/.bin/gulp"
   },
   "repository": {
     "type": "git",
@@ -26,10 +26,8 @@
     "gulp-concat": "^2.4.1",
     "gulp-watch": "^1.1.0",
     "gulp-wrap": "^0.3.0",
-    "jshint": "~2.5.6",
+    "gulp-ignore": "^1.2.1",
     "lodash-node": "^2.4.1",
-    "npmlog": "^0.1.1",
-    "precommit-hook": "~1.0.7",
     "socket.io": "^1.1.0",
     "streamqueue": "^0.1.1"
   }
