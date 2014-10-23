@@ -16,7 +16,9 @@ var http = require('http')
 process.argv.slice(2).forEach(function (val) {
   try {
     var param = val.split('=')
-    if (param[1]) CONFIG[param[0]] = param[1]
+    if (param[1]) {
+      CONFIG[param[0]] = param[1]
+    }
   } catch (e) {
     log.error('Internal', 'Cant parse param ' + val)
   }
@@ -43,14 +45,14 @@ log.info('HTTP server', 'Server started at port ' + CONFIG.http_port)
 
 
 io.listen(CONFIG.socket_port)
-  .on('connection', function(socket) {
+  .on('connection', function (socket) {
     var username = '' + Math.random()
 
     log.info('Socket.io server',  'User ' + username + ' has connected')
 
     io.emit('join', {username: username})
 
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function () {
       log.info('Socket.io server',  'User ' + username + ' has disconnected')
       socket.broadcast.emit('leave', {username: username})
     })

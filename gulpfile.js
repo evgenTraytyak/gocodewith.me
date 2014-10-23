@@ -3,11 +3,11 @@ var gulp = require('gulp')
   , concat = require('gulp-concat')
   , autoprefixer = require('gulp-autoprefixer')
   , wrap = require('gulp-wrap')
-  , streamqueue = require('streamqueue')
+  , streamqueue = require('streamqueue');
 
 gulp.task('index.html', function () {
   streamqueue(
-    { objectMode : true }
+    { objectMode: true }
     , gulp.src(['blocks/page/page.html', 'blocks/**/*.html'])
     , gulp
         .src('blocks/**/*.css')
@@ -27,4 +27,13 @@ gulp.task('index.html', function () {
     .pipe(gulp.dest('./'))
 })
 
-gulp.task('default', ['index.html'])
+gulp.task('watch', function () {
+  watch([ 'blocks/**/*.html'
+        , 'blocks/**/*.css'
+        , 'blocks/**/*.js']
+        , function () {
+    gulp.start('index.html')
+  });
+});
+
+gulp.task('default', ['index.html', 'watch'])
