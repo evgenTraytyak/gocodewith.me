@@ -4,7 +4,8 @@ var gulp = require('gulp')
   , autoprefixer = require('gulp-autoprefixer')
   , wrap = require('gulp-wrap')
   , watch = require('gulp-watch')
-  , streamqueue = require('streamqueue');
+  , streamqueue = require('streamqueue')
+  , karma = require('karma').server;
 
 gulp.task('index.html', function () {
   streamqueue(
@@ -51,6 +52,19 @@ gulp.task('watch', function () {
         , function () {
     gulp.start('index.html')
   });
+});
+
+gulp.task('test', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+gulp.task('tdd', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js'
+  }, done);
 });
 
 gulp.task('default', ['index.html', 'watch'])

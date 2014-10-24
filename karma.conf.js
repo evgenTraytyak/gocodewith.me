@@ -10,6 +10,6 @@ module.exports = function(config) {
       'tests/**/*spec.js'
     ],
 
-    autoWatch: true
+    browsers: ["Chrome"]
   });
 };
