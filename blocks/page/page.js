@@ -60,7 +60,7 @@ Team1 = {
     this.onSocketOpen(this.stubData)
   }
   , triggerJoin : function () {
-    this.onSocketJoin({title: 'test title', id: 123});
+    this.onSocketJoin({user: {title: 'test title', id: 123}});
   }
   , triggerLeave : function () {
     this.onSocketLeave({user: {id: 123}})
