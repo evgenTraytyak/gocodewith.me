@@ -1,27 +1,7 @@
 var Team1 = Team1 || {};
 
 Team1 = {
-  stubData :
-    { usersList:
-      [ { id: 1
-        , title: 'Nike'
-        }
-      , { id: 2
-        , title: 'Max'
-        }
-      , { id: 3
-        , title: 'John'
-        }
-      ]
-    , user:
-      { id: 123
-      , title: 'title'
-      }
-    , document:
-    { id: 123
-    }
-  }
-  , start : function (options) {
+  start : function (options) {
     _.bindAll(this);
 
     this.socket = this.getSocket(options.socketUrl)
@@ -55,15 +35,6 @@ Team1 = {
 
   , getSocket : function (socketUrl) {
     return io.connect(socketUrl, { reconnect: false })
-  }
-  , triggerOpenEvent : function () {
-    this.onSocketOpen(this.stubData)
-  }
-  , triggerJoin : function () {
-    this.onSocketJoin({user: {title: 'test title', id: 123}});
-  }
-  , triggerLeave : function () {
-    this.onSocketLeave({user: {id: 123}})
   }
 }
 
