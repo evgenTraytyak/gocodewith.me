@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "description": "application for a multi-user online document editing",
   "main": "server.js",
-  "precommit": ["lint", "codestyle"],
+  "precommit": [
+    "lint",
+    "codestyle"
+  ],
   "scripts": {
     "lint": "node_modules/.bin/jshint .",
     "codestyle": "node_modules/.bin/jscs .",
@@ -28,6 +31,7 @@
     "gulp-wrap": "^0.3.0",
     "gulp-ignore": "^1.2.1",
     "lodash-node": "^2.4.1",
+    "ot": "0.0.14",
     "socket.io": "^1.1.0",
     "streamqueue": "^0.1.1"
   },
