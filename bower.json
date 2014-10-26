@@ -22,6 +22,7 @@
     "jquery": "~2.1.1",
     "lodash": "~2.4.1",
     "socket.io-client": "~1.1.0",
-    "codemirror": "~4.7.0"
+    "codemirror": "~4.7.0",
+    "ot": "~0.0.14"
   }
 }
