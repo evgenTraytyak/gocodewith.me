@@ -27,10 +27,11 @@
     "gulp": "^3.8.8",
     "gulp-autoprefixer": "^1.0.1",
     "gulp-concat": "^2.4.1",
+    "gulp-ignore": "^1.2.1",
     "gulp-watch": "^1.1.0",
     "gulp-wrap": "^0.3.0",
-    "gulp-ignore": "^1.2.1",
     "lodash-node": "^2.4.1",
+    "npmlog": "^0.1.1",
     "ot": "0.0.14",
     "socket.io": "^1.1.0",
     "streamqueue": "^0.1.1"
