@@ -11,6 +11,16 @@ Team1 = {
     this.Roster = new Team1.Roster()
   }
 
+  /**
+   * Simple auth.
+   * @returns {jQuery.Deferred}
+   */
+  , auth : function () {
+    return jQuery.Deferred().resolve({
+      title: window.prompt('Your name:')
+    })
+  }
+
   , bindSocketHandlers : function () {
     this.socket.on('open', this.onSocketOpen)
 
