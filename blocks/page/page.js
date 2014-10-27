@@ -1,34 +1,47 @@
 var Team1 = Team1 || {};
 
 Team1 = {
-  stubData :
-    { usersList:
-      [ { id: 1
-        , title: 'Nike'
-        }
-      , { id: 2
-        , title: 'Max'
-        }
-      , { id: 3
-        , title: 'John'
-        }
-      ]
-    , user:
-      { id: 123
-      , title: 'title'
-      }
-    , document:
-    { id: 123
-    }
-  }
-  , start : function (options) {
+  start : function (options) {
     _.bindAll(this);
-
     this.socket = this.getSocket(options.socketUrl)
-
     this.bindSocketHandlers()
+    this.auth().done(this.openDocument)
+  }
 
+  /**
+   * Simple auth.
+   * @returns {jQuery.Deferred}
+   */
+  , auth : function () {
+    var user = {
+      title: window.prompt('Your name:')
+    }
+    this.__user = user
+    return jQuery.Deferred().resolve(user).promise()
+  }
+
+  /**
+   * Create interface for document
+   */
+  , buildDocumentInterface : function (document) {
     this.Roster = new Team1.Roster()
+    if (document.users)
+      this.Roster.fillList(document.users)
+    if (document.id)
+      location.hash = "#" + document.id
+  }
+
+  /**
+   * Init document
+   */
+  , openDocument : function () {
+    this.socket.emit('open', {
+      user : this.__user,
+      document : {
+        id : location.hash.replace("#", "") || null
+      }
+    })
+    return this
   }
 
   , bindSocketHandlers : function () {
@@ -48,22 +61,13 @@ Team1 = {
   }
 
   , onSocketOpen : function (data) {
-    if (data.document && data.document.users) {
-      this.Roster.fillList(data.document.users)
-    }
+    if (data.user)
+      _.extend(this.__user, data.user)
+    this.buildDocumentInterface(data.document || {})
   }
 
   , getSocket : function (socketUrl) {
     return io.connect(socketUrl, { reconnect: false })
-  }
-  , triggerOpenEvent : function () {
-    this.onSocketOpen(this.stubData)
-  }
-  , triggerJoin : function () {
-    this.onSocketJoin({user: {title: 'test title', id: 123}});
-  }
-  , triggerLeave : function () {
-    this.onSocketLeave({user: {id: 123}})
   }
 }
 
