@@ -6,9 +6,9 @@ module.exports = function(config) {
       'libs/jquery/dist/jquery.js',
       'libs/lodash/dist/lodash.min.js',
       'libs/socket.io-client/socket.io.js',
-      'blocks/**/*.js',
+      'blocks/roster/roster.js',
       'tests/**/*spec.js',
-      'tests/fixtures/*.html'
+      'blocks/**/*.html'
     ],
 
     browsers: ["Firefox"]
