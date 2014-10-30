@@ -20,9 +20,5 @@ Team1.Roster = function () {
     })
   }
 
-  this.addCurrentUser = function (user) {
-    usersListEl.append($(userTpl(user)).addClass("current"))
-  }
-
   return this
 }

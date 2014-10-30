@@ -46,11 +46,4 @@ describe("Roster Tests", function () {
 
     expect($(".roster-list")).not.toContainElement($("#"+ testId))
   })
-
-  it("should provide a way to add current user", function () {
-    this.testObj.addCurrentUser(this.testData.user)
-
-    expect($(".roster-list").find("li")).toHaveText(this.testData.user.title)
-    expect($(".roster-list")).toContainElement("#"+ this.testData.user.id +".roster-item.current")
-  })
 })
