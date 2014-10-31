@@ -13,6 +13,13 @@ module.exports = function(config) {
       'index.html',
     ],
 
+    preprocessors: {
+      // source files, that you wanna generate coverage for
+      // do not include tests or libraries
+      // (these files will be instrumented by Istanbul)
+      'blocks/**/*.js': ['coverage']
+    },
+
     browsers: ["Firefox"],
 
     autoWatch: true
