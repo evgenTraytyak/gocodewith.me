@@ -1,24 +1,23 @@
 var Team1 = Team1 || {}
 
 Team1.Roster = function () {
-  var usersListEl = $(".roster-list")
-    , userTpl = _.template($("#user-tpl").html());
+  this.usersListEl = $(".roster-list")
 
-  this.add = function (user) {
-    usersListEl.append(userTpl(user))
-  }
+  this.userTpl = _.template($("#user-tpl").html());
+}
 
-  this.remove = function (id) {
-    usersListEl.find("#" + id).remove()
-  }
+Team1.Roster.prototype.add = function (user) {
+  this.usersListEl.append(this.userTpl(user))
+}
 
-  this.fillList = function (usersList) {
-    var _this = this
+Team1.Roster.prototype.remove = function (id) {
+  this.usersListEl.find("#" + id).remove()
+}
 
-    _.forEach(usersList, function (user) {
-      _this.add(user)
-    })
-  }
+Team1.Roster.prototype.fillList = function (usersList) {
+  var _this = this
 
-  return this
+  _.forEach(usersList, function (user) {
+    _this.add(user)
+  })
 }
