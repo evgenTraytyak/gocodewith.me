@@ -20,7 +20,7 @@ module.exports = function(config) {
       'blocks/**/*.js': ['coverage']
     },
 
-    browsers: ["Firefox"],
+    browsers: ['Firefox'],
 
     autoWatch: true
   })

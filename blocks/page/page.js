@@ -17,7 +17,7 @@ Team1 = {
       title: window.prompt('Your name:')
     }
     this.__user = user
-    return jQuery.Deferred().resolve(user).promise()
+    return $.Deferred().resolve(user).promise()
   }
 
   /**
@@ -29,7 +29,7 @@ Team1 = {
     if (document.users)
       this.Roster.fillList(document.users)
     if (document.id)
-      location.hash = "#" + document.id
+      window.location.hash = '#' + document.id
   }
 
   /**
@@ -39,7 +39,7 @@ Team1 = {
     this.socket.emit('open', {
       user : this.__user,
       document : {
-        id : location.hash.replace("#", "") || null
+        id : window.location.hash.replace('#', '') || null
       }
     })
     return this

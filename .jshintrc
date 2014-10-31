@@ -15,6 +15,7 @@
     "$": true,
     "_": true,
     "document": true,
-    "io": true
+    "io": true,
+    "window": true
   }
 }
