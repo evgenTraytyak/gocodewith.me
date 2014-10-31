@@ -25,6 +25,7 @@ Team1 = {
    */
   , buildDocumentInterface : function (document) {
     this.Roster = new Team1.Roster()
+
     if (document.users)
       this.Roster.fillList(document.users)
     if (document.id)
