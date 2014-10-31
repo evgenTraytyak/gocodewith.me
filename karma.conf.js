@@ -10,7 +10,7 @@ module.exports = function(config) {
       'blocks/roster/roster.js',
       'tests/**/*spec.js',
       'blocks/**/*.html',
-      'index.html',
+      'index.html'
     ],
 
     preprocessors: {

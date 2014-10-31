@@ -3,7 +3,7 @@ var Team1 = Team1 || {}
 Team1.Roster = function () {
   this.usersListEl = $(".roster-list")
 
-  this.userTpl = _.template($("#user-tpl").html());
+  this.userTpl = _.template($("#user-tpl").html())
 }
 
 Team1.Roster.prototype.add = function (user) {
