@@ -43,7 +43,7 @@
     "karma-chrome-launcher": "~0.1",
     "karma-firefox-launcher": "~0.1",
     "karma-coverage": "~0.1",
-    "jslint": "~0.6.5",
+    "jshint": "~2.5.8",
     "jscs": "~1.7.3"
   }
 }
