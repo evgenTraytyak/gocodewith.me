@@ -71,6 +71,7 @@ Team1 = {
   }
 }
 
+//wrong place for it.
 $(document).ready(function () {
   Team1.start({
     socketUrl: 'http://127.0.0.1:7900'

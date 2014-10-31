@@ -9,7 +9,8 @@ module.exports = function(config) {
       'blocks/page/page.js',
       'blocks/roster/roster.js',
       'tests/**/*spec.js',
-      'blocks/**/*.html'
+      'blocks/**/*.html',
+      'index.html',
     ],
 
     browsers: ["Firefox"],
