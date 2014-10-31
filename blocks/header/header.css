@@ -2,6 +2,7 @@
   height: 40px;
   background: #e7e7e7 linear-gradient(#fafafa, #e7e7e7);
   border-bottom: 1px solid #a6a6a6;
+  box-sizing: border-box;
 }
 .header-logo {
   color: #828282;
