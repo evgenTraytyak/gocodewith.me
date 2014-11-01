@@ -1,7 +1,7 @@
 var Team1 = Team1 || {}
 
 Team1.Editor = function () {
-   _.bindAll(this, "onCursorActivity")
+  _.bindAll(this, "onCursorActivity")
 
   this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0])
 

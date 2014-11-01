@@ -6,6 +6,15 @@ var io = require('socket.io')()
   , Users = require('./users')
   , logPrefix = 'Socket Server'
   , isStarted = !1
+  //, Duplex = require('stream').Duplex
+  //, livedb = require('livedb')
+  //, sharejs = require('share')
+  // store sharejs documents in memory
+  //, backend = livedb.client(livedb.memory())
+  //, share = sharejs.server.createClient({
+  //  backend: backend
+  //})
+
 
 exports.start = function (config) {
   if (config && !isStarted) {
