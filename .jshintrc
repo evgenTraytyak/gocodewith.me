@@ -16,6 +16,7 @@
     "_": true,
     "document": true,
     "io": true,
-    "window": true
+    "window": true,
+    "CodeMirror": true
   }
 }

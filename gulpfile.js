@@ -21,7 +21,11 @@ gulp.task('index.html', function () {
           + '</script>'
       ))
     , gulp
-        .src('blocks/**/*.css')
+        .src(
+          [ 'blocks/**/*.css'
+          , 'libs/codemirror/lib/codemirror.css'
+          ]
+        )
         .pipe(concat('index.css'))
         .pipe(autoprefixer(
           { browsers: ['last 3 versions']
@@ -34,6 +38,7 @@ gulp.task('index.html', function () {
         [ 'libs/jquery/dist/jquery.min.js'
         , 'libs/lodash/dist/lodash.min.js'
         , 'libs/socket.io-client/socket.io.js'
+        , 'libs/codemirror/lib/codemirror.js'
         , 'blocks/page/page.js'
         , 'blocks/**/*.js'
         ]
