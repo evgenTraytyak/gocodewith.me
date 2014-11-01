@@ -14,15 +14,19 @@ var log = require('npmlog')
   , share = sharejs.server.createClient({
     backend: backend
   })
-  , WebSocketServer = require( 'ws' ).Server
+  , WebSocketServer = require('ws').Server
 
 
 exports.start = function (config) {
   if (config && !isStarted) {
     try {
-      var wss = new WebSocketServer(config.port)
+      var wss = new WebSocketServer(config)
 
       wss.on('connection', function (socket) {
+        log.info(logPrefix
+          , 'Socket.io started at port ' + config.port)
+        isStarted = !0
+
         var stream = new Duplex({ objectMode: true })
 
         stream._write = function (chunk, encoding, callback) {
