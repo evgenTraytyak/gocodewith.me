@@ -28,16 +28,17 @@ Team1 = {
     this.Roster = new Team1.Roster()
     this.Editor = new Team1.Editor()
 
-    var doc = this.sjs.get('users', 'seph')
+    var doc = this.sjs.get('users', 'seph'),
+      self = this
     doc.subscribe()
     doc.whenReady(function () {
       if (!doc.type) doc.create('text');
       if (doc.type && doc.type.name === 'text')
-        doc.attachCodeMirror(this.Editor.codeEditor)
+        doc.attachCodeMirror(self.Editor.codeEditor)
     })
 
-    if (document.users)
-      this.Roster.fillList(document.users)
+    //if (document.users)
+    //  this.Roster.fillList(document.users)
     if (document.id)
       window.location.hash = '#' + document.id
   }
@@ -46,24 +47,47 @@ Team1 = {
    * Init document
    */
   , openDocument : function () {
-    this.socket.emit('open', {
+    this.send(JSON.stringify({
       user : this.__user,
       document : {
         id : window.location.hash.replace('#', '') || null
       }
-    })
+    }))
     return this
   }
 
   , bindSocketHandlers : function () {
-    this.socket.on('open', this.onSocketOpen)
+    this.socket.onopen = this.onSocketOpen
+    //
+    //this.socket.onmessage = this.onSocketJoin
+    //
+    //this.socket.onclose = this.onSocketLeave
+  }
 
-    this.socket.on('join', this.onSocketJoin)
+  , send: function (message, callback) {
+    var self = this
+    this.waitForConnection(function () {
+      self.socket.send(message);
+      if (typeof callback !== 'undefined') {
+        callback();
+    }
+    }, 1000);
+  }
 
-    this.socket.on('leave', this.onSocketLeave)
+  , waitForConnection: function (callback, interval) {
+    if (this.socket.readyState === 1) {
+      callback();
+    } else {
+      var that = this;
+      setTimeout(function () {
+        that.waitForConnection(callback);
+      }, interval);
+    }
   }
 
   , onSocketJoin : function (data) {
+    console.log("onSocketJoin", data)
+
     this.Roster.add(data.user)
   }
 
@@ -72,13 +96,14 @@ Team1 = {
   }
 
   , onSocketOpen : function (data) {
+    console.log("onSocketOpen", data)
     if (data.user)
       _.extend(this.__user, data.user)
     this.buildDocumentInterface(data.document || {})
   }
 
   , getSocket : function () {
-    return new WebSocket('ws://' + window.location.host + ':7900')
+    return new WebSocket('ws://' + "localhost" + ':7900')
   }
 }
 
