@@ -20,11 +20,13 @@ var log = require('npmlog')
 exports.start = function (config) {
   if (config && !isStarted) {
     try {
+      console.log(config);
       var wss = new WebSocketServer(config)
+
 
       wss.on('connection', function (socket) {
         log.info(logPrefix
-          , 'Socket.io started at port ' + config.port)
+          , 'Websocket server started at port ' + config.port)
         isStarted = !0
 
         var stream = new Duplex({ objectMode: true })

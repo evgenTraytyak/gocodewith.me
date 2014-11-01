@@ -4,6 +4,7 @@ Team1 = {
   start : function (options) {
     _.bindAll(this);
     this.socket = this.getSocket(options.socketUrl)
+    this.sjs = new window.sharejs.Connection(this.socket);
     this.bindSocketHandlers()
     this.auth().done(this.openDocument)
   }
@@ -26,6 +27,14 @@ Team1 = {
   , buildDocumentInterface : function (document) {
     this.Roster = new Team1.Roster()
     this.Editor = new Team1.Editor()
+
+    var doc = this.sjs.get('users', 'seph')
+    doc.subscribe()
+    doc.whenReady(function () {
+      if (!doc.type) doc.create('text');
+      if (doc.type && doc.type.name === 'text')
+        doc.attachCodeMirror(this.Editor.codeEditor)
+    })
 
     if (document.users)
       this.Roster.fillList(document.users)
@@ -68,8 +77,8 @@ Team1 = {
     this.buildDocumentInterface(data.document || {})
   }
 
-  , getSocket : function (socketUrl) {
-    return io.connect(socketUrl, { reconnect: false })
+  , getSocket : function () {
+    return new WebSocket('ws://' + window.location.host + ':7900')
   }
 }
 
