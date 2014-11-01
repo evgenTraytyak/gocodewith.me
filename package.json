@@ -36,7 +36,8 @@
     "socket.io": "^1.1.0",
     "streamqueue": "^0.1.1",
     "livedb": "^0.4.8",
-    "share": "^0.7.3"
+    "share": "^0.7.3",
+    "ws": "0.4.32"
   },
   "devDependencies": {
     "jscs": "~1.7.3",
