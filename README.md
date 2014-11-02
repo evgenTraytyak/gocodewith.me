@@ -1,5 +1,6 @@
 #%Крутое название%
 
+![David](https://david-dm.org/yandex-shri-minsk-2014/team-1.png)
 
 ## Как запустить:
 
