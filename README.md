@@ -1,18 +1,38 @@
-#%Крутое название%
+#WingPad
 
 ![David](https://david-dm.org/yandex-shri-minsk-2014/team-1.png)
+[![Issue Stats](http://issuestats.com/github/yandex-shri-minsk-2014/team-1/badge/pr)](http://issuestats.com/github/yandex-shri-minsk-2014/team-1)
+[![Issue Stats](http://issuestats.com/github/yandex-shri-minsk-2014/team-1/badge/issue)](http://issuestats.com/github/yandex-shri-minsk-2014/team-1)
 
-## Как запустить:
+Collaborative real-time code editor
 
- Из папки проекта:
+## Installing and running
 
-* `npm install`  -- устанавливаем все зависимости из package.json
-* `bower install` -- устанавливаем все зависимости из bower.json
-* `npm run make` -- запускаем сборщик gulp
-* `node server.js` -- запускаем сервер (http и websocket). Если нужен автоматический перезапуск сервера после изменения файлов проекта (предварительно устанавливаем): `npm install -g supervisor` и запускаем: `supervisor server.js`
+Navigate to the app folder and type following commands:
 
-## Структура проекта:
+* `npm install`  -- install all dependencies from package.json
+* `bower install` -- install all dependencies from bower.json
+* `npm run make` -- run gulp
+* `node server.js` -- run server
 
-`blocks/` -- frontend-часть. Весь клиентский код (html, css, js) пишем в соответствующие блоки
-`config/` -- основные настройки проекта (в данный момент -- номера http и websocket портов)
-`server/` -- backend. Содержит описания сущностей (user, document) и логику обработки запросов.
+## Dependencies:
+
+Text editor implemented in JavaScript for the browser:
+
+[Codemirror](http://codemirror.net/)
+
+Operational Transform library:
+
+[ShareJS](http://sharejs.org/)
+
+Websocket library:
+
+[Websocket](https://github.com/einaros/ws)
+
+## Project structure:
+
+`blocks/` -- frontend. Client code (html, css, js) should be placed into appropriate blocks
+
+`config/` -- basic app config (currently - port numbers)
+
+`server/` -- backend. Entity descriptions (user, document) and request processing logic (e.g. operational transformation).
