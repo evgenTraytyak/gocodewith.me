@@ -2,49 +2,65 @@
  * Created by Mantsevich on 21.10.2014.
  */
 var log = require('npmlog')
-//, io = require('socket.io')()
-//, Users = require('./users')
+  , User = new require('./users/user')()
   , logPrefix = 'Socket Server'
   , isStarted = !1
   , Duplex = require('stream').Duplex
   , livedb = require('livedb')
   , sharejs = require('share')
-  //store sharejs documents in memory
   , backend = livedb.client(livedb.memory())
-  , share = sharejs.server.createClient({
-    backend: backend
-  })
+  , share = sharejs.server.createClient(
+    { backend: backend
+    }
+  )
   , WebSocketServer = require('ws').Server
 
 
 exports.start = function (config) {
   if (config && !isStarted) {
     try {
-      console.log(config);
       var wss = new WebSocketServer(config)
 
-
       wss.on('connection', function (socket) {
+        var stream = new Duplex({ objectMode: true })
+
         log.info(logPrefix
           , 'Websocket server started at port ' + config.port)
-        isStarted = !0
 
-        var stream = new Duplex({ objectMode: true })
+        isStarted = !0
 
         stream._write = function (chunk, encoding, callback) {
           console.log('server -> client ', chunk)
+
           socket.send(JSON.stringify(chunk))
+
           return callback()
         }
 
         stream._read = function () {}
 
         stream.headers = socket.upgradeReq.headers
-
         stream.remoteAddress = socket.upgradeReq.connection.remoteAddress
 
         socket.on('message', function (data) {
           console.log('client -> server ', data)
+
+          var jsonData = JSON.parse(data)
+
+          if (jsonData.a === "open") {
+            socket.send(JSON.stringify({
+              a: "open",
+              document: {
+                users: [{
+                  id: 'test',
+                  title: "test"
+                }]
+              }
+            }));
+
+            return;
+          }
+
           return stream.push(JSON.parse(data))
         })
 

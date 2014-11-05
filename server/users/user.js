@@ -10,19 +10,17 @@ var _ = require('lodash-node')
   }
   , Documents = require('../documents')
 // Constructor for User
-  , User = module.exports = function (params) {
-    this._connection = params.connection
+  , User = function () {
     this.id = getUID()
     this.document = null
     this.props = {
       title: 'Anonymous'
     }
-    this._bindEvents()
   }
 // Ref to the prototype
   , proto = User.prototype
 
-
+module.exports = User;
 
 //region *** Events API ***
 // NOTE: All events delegated to connection object

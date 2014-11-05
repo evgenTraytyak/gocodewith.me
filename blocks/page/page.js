@@ -3,9 +3,14 @@ var Team1 = Team1 || {};
 Team1 = {
   start : function (options) {
     _.bindAll(this);
+
     this.socket = this.getSocket(options.socketUrl)
+
     this.sjs = new window.sharejs.Connection(this.socket);
+    this.doc = this.sjs.get('users', 'seph');
+
     this.bindSocketHandlers()
+
     this.auth().done(this.openDocument)
   }
 
@@ -17,7 +22,9 @@ Team1 = {
     var user = {
       title: window.prompt('Your name:')
     }
+
     this.__user = user
+
     return $.Deferred().resolve(user).promise()
   }
 
@@ -25,29 +32,29 @@ Team1 = {
    * Create interface for document
    */
   , buildDocumentInterface : function (document) {
+    var self = this
+
     this.Roster = new Team1.Roster()
     this.Editor = new Team1.Editor()
 
-    var doc = this.sjs.get('users', 'seph'),
-      self = this
-    doc.subscribe()
-    doc.whenReady(function () {
-      if (!doc.type) doc.create('text');
-      if (doc.type && doc.type.name === 'text')
-        doc.attachCodeMirror(self.Editor.codeEditor)
+    this.doc.subscribe()
+
+    this.doc.whenReady(function () {
+      if (!self.doc.type) self.doc.create('text');
+
+      if (self.doc.type && self.doc.type.name === 'text')
+        self.doc.attachCodeMirror(self.Editor.codeEditor)
     })
 
-    //if (document.users)
-    //  this.Roster.fillList(document.users)
+    if (document.users)
+      this.Roster.fillList(document.users)
     if (document.id)
       window.location.hash = '#' + document.id
   }
 
-  /**
-   * Init document
-   */
   , openDocument : function () {
     this.send(JSON.stringify({
+      a: "open",
       user : this.__user,
       document : {
         id : window.location.hash.replace('#', '') || null
@@ -57,7 +64,8 @@ Team1 = {
   }
 
   , bindSocketHandlers : function () {
-    this.socket.onopen = this.onSocketOpen
+    this.doc.setOnOpenMessageFn(this.onSocketOpen);
+    //this.sjs.on("open", this.onSocketOpen)
     //
     //this.socket.onmessage = this.onSocketJoin
     //
@@ -66,11 +74,13 @@ Team1 = {
 
   , send: function (message, callback) {
     var self = this
+
     this.waitForConnection(function () {
       self.socket.send(message);
+
       if (typeof callback !== 'undefined') {
         callback();
-    }
+      }
     }, 1000);
   }
 
@@ -79,6 +89,7 @@ Team1 = {
       callback();
     } else {
       var that = this;
+
       setTimeout(function () {
         that.waitForConnection(callback);
       }, interval);
