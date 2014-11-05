@@ -2,7 +2,7 @@
  * Created by Mantsevich on 21.10.2014.
  */
 var log = require('npmlog')
-  , User = new require('./users/user')()
+  //, User = new require('./users/user')()
   , logPrefix = 'Socket Server'
   , isStarted = !1
   , Duplex = require('stream').Duplex
@@ -47,13 +47,13 @@ exports.start = function (config) {
 
           var jsonData = JSON.parse(data)
 
-          if (jsonData.a === "open") {
+          if (jsonData.a === 'open') {
             socket.send(JSON.stringify({
-              a: "open",
+              a: 'open',
               document: {
                 users: [{
                   id: 'test',
-                  title: "test"
+                  title: 'test'
                 }]
               }
             }));

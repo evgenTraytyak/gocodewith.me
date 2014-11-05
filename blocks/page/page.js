@@ -54,7 +54,7 @@ Team1 = {
 
   , openDocument : function () {
     this.send(JSON.stringify({
-      a: "open",
+      a: 'open',
       user : this.__user,
       document : {
         id : window.location.hash.replace('#', '') || null
@@ -65,7 +65,7 @@ Team1 = {
 
   , bindSocketHandlers : function () {
     this.doc.setOnOpenMessageFn(this.onSocketOpen);
-    //this.sjs.on("open", this.onSocketOpen)
+    //this.sjs.on('open', this.onSocketOpen)
     //
     //this.socket.onmessage = this.onSocketJoin
     //
@@ -97,7 +97,7 @@ Team1 = {
   }
 
   , onSocketJoin : function (data) {
-    console.log("onSocketJoin", data)
+    console.log('onSocketJoin', data)
 
     this.Roster.add(data.user)
   }
@@ -107,14 +107,14 @@ Team1 = {
   }
 
   , onSocketOpen : function (data) {
-    console.log("onSocketOpen", data)
+    console.log('onSocketOpen', data)
     if (data.user)
       _.extend(this.__user, data.user)
     this.buildDocumentInterface(data.document || {})
   }
 
   , getSocket : function () {
-    return new WebSocket('ws://' + "localhost" + ':7900')
+    return new WebSocket('ws://' + 'localhost' + ':7900')
   }
 }
 
