@@ -2,7 +2,7 @@
  * Created by Mantsevich on 21.10.2014.
  */
 var log = require('npmlog')
-  //, User = new require('./users/user')()
+  , Users = require('./users')
   , logPrefix = 'Socket Server'
   , isStarted = !1
   , Duplex = require('stream').Duplex
@@ -17,67 +17,22 @@ var log = require('npmlog')
 
 
 exports.start = function (config) {
+  var socket = {}
+    , stream = {}
+    , User
+
   if (config && !isStarted) {
     try {
       var wss = new WebSocketServer(config)
 
-      wss.on('connection', function (socket) {
-        var stream = new Duplex({ objectMode: true })
+      wss.on('connection', function (socketObj) {
+        stream = new Duplex({ objectMode: true })
 
-        log.info(logPrefix
-          , 'Websocket server started at port ' + config.port)
+        socket = socketObj
+
+        User = Users.factory(socket, stream)
 
         isStarted = !0
-
-        stream._write = function (chunk, encoding, callback) {
-          console.log('server -> client ', chunk)
-
-          socket.send(JSON.stringify(chunk))
-
-          return callback()
-        }
-
-        stream._read = function () {}
-
-        stream.headers = socket.upgradeReq.headers
-        stream.remoteAddress = socket.upgradeReq.connection.remoteAddress
-
-        socket.on('message', function (data) {
-          console.log('client -> server ', data)
-
-          var jsonData = JSON.parse(data)
-
-          if (jsonData.a === 'open') {
-            socket.send(JSON.stringify({
-              a: 'open',
-              document: {
-                users: [{
-                  id: 'test',
-                  title: 'test'
-                }]
-              }
-            }));
-
-            return;
-          }
-
-          return stream.push(JSON.parse(data))
-        })
-
-        stream.on('error', function (msg) {
-          return socket.close(msg)
-        })
-
-        socket.on('close', function (reason) {
-          stream.push(null)
-          stream.emit('close')
-          console.log('client went away')
-          return socket.close( reason )
-        })
-
-        stream.on('end', function () {
-          return socket.close()
-        })
 
         return share.listen(stream)
       })

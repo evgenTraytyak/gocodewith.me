@@ -56,10 +56,10 @@ window.sharejs.Doc.prototype._onMessage = function (msg) {
         break;
       }
 
-      if (this.inflightData) window.xf(this.inflightData, msg);
+      if (this.inflightData) xf(this.inflightData, msg);
 
       for (var i = 0; i < this.pendingData.length; i++) {
-        window.xf(this.pendingData[i], msg);
+        xf(this.pendingData[i], msg);
       }
 
       this.version++;
@@ -74,12 +74,32 @@ window.sharejs.Doc.prototype._onMessage = function (msg) {
       this.onOpenMessageFn(msg);
       break;
 
+    case 'join':
+      this.onJoinMessageFn(msg);
+      break;
+
+    case 'leave':
+      this.onCloseMessageFn(msg);
+      break;
+
     default:
       if (console) console.warn('Unhandled document message:', msg);
       break;
   }
 };
 
+window.sharejs.Doc.prototype.onOpenMessageFn = function () {};
+window.sharejs.Doc.prototype.onJoinMessageFn = function () {};
+window.sharejs.Doc.prototype.onCloseMessageFn = function () {};
+
 window.sharejs.Doc.prototype.setOnOpenMessageFn = function (fn) {
   window.sharejs.Doc.prototype.onOpenMessageFn = fn;
+};
+
+window.sharejs.Doc.prototype.setOnJoinMessageFn = function (fn) {
+  window.sharejs.Doc.prototype.onJoinMessageFn = fn;
+};
+
+window.sharejs.Doc.prototype.setOnCloseMessageFn = function (fn) {
+  window.sharejs.Doc.prototype.onCloseMessageFn = fn;
 };

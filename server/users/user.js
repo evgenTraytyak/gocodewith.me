@@ -4,72 +4,66 @@
 
 var _ = require('lodash-node')
 
-// Generator uniq id for users
   , getUID = function () {
     return _.uniqueId('user-')
   }
   , Documents = require('../documents')
-// Constructor for User
-  , User = function () {
+  , User = function (options) {
+    var self = this;
+    _.bindAll(this, 'onMessage')
+
+    this._connection = options.connection
+    this._stream = options.stream
     this.id = getUID()
     this.document = null
-    this.props = {
-      title: 'Anonymous'
+    this.props =
+    { title: 'Anonymous'
     }
+
+    this._stream._write = function (chunk, encoding, callback) {
+      self._connection.send(JSON.stringify(chunk))
+
+      return callback()
+    }
+
+    this._stream._read = function () {}
+
+    this._stream.headers = this._connection.upgradeReq.headers
+    this._stream.remoteAddress = this._connection.upgradeReq.connection.remoteAddress
+
+    this._connection.on('message', this.onMessage)
+
+    this._stream.on('error', function (msg) {
+      console.log('error', msg)
+      return self._connection.close(msg)
+    })
+
+    this._connection.on('close', function (reason) {
+      self._stream.push(null)
+      self._stream.emit('close')
+      self.destroy();
+      return self._connection.close( reason )
+    })
+
+    this._stream.on('end', function () {
+      return self._connection.close()
+    })
+
+    return this
   }
-// Ref to the prototype
   , proto = User.prototype
 
-module.exports = User;
+module.exports = User
 
-//region *** Events API ***
-// NOTE: All events delegated to connection object
-/**
- * Predefined events behavior
- * @type {Object}
- */
-proto.events = {
-  'open' : '_resolveOpenEvent'
-, 'disconnect' : 'destroy'
-}
+proto.onMessage = function (data) {
+  var jsonData = JSON.parse(data)
 
-/**
- * Rebind all connection Events
- * @returns {User}
- */
-proto._bindEvents = function (events) {
-  events = events || this.events
-  this.off() // Remove all exists events
-  _.each(events, function (callback, event) {
-    if (_.isFunction(this[callback]))
-      this.on(event, this[callback].bind(this))
-  }.bind(this))
-  return this
-}
+  if (jsonData.a === 'open')
+  { this.onOpenEvent(jsonData)
+    return;
+  }
 
-/**
- * Subscribe on client event
- * @param event
- * @param callback
- * @returns {User}
- */
-proto.on = function (event, callback) {
-  this._connection.on(event, callback)
-  return this
-}
-
-/**
- * Subscribe on client event
- * @param [event]
- * @param [callback]
- * @returns {User}
- */
-proto.off = function (event, callback) {
-  if (arguments.length === 2)
-    this._connection.removeListener(event, callback)
-  else
-    this._connection.removeAllListeners(event)
-  return this;
+  return this._stream.push(jsonData)
 }
 
 /**
@@ -78,8 +72,8 @@ proto.off = function (event, callback) {
  * @param data
  * @returns {User}
  */
-proto.emit = function (event, data) {
-  this._connection.emit(event, data)
+proto.emit = function (data) {
+  this._connection.send(JSON.stringify(data))
   return this
 }
 //endregion
@@ -124,7 +118,8 @@ proto.exportPrivateData = function () {
  */
 proto.openDocument = function (document) {
   this.document = Documents.factory(document).addCollaborator(this)
-  this.emit('open', {
+  this.emit({
+    a: 'open',
     user: this.exportPrivateData(),
     document: this.document.exportPublicData()
   })
@@ -144,13 +139,6 @@ proto.closeDocument = function () {
 //region *** Common API & Helpers ***
 
 /**
- * Destroy info about user
- */
-proto.destroy = function () {
-  this.closeDocument()
-}
-
-/**
  * Update user data/props
  * @param data
  * @returns {User}
@@ -167,10 +155,15 @@ proto.updateData = function (data) {
  * @returns {User}
  * @private
  */
-proto._resolveOpenEvent = function (data) {
+proto.onOpenEvent = function (data) {
   if (data.user)
     this.updateData(data.user)
   this.openDocument(data.document)
   return this
 }
-//endregion
+/**
+ * Destroy info about user
+ */
+proto.destroy = function () {
+  this.closeDocument()
+}

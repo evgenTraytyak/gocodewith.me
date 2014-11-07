@@ -6,8 +6,8 @@ Team1 = {
 
     this.socket = this.getSocket(options.socketUrl)
 
-    this.sjs = new window.sharejs.Connection(this.socket);
-    this.doc = this.sjs.get('users', 'seph');
+    this.sjs = new window.sharejs.Connection(this.socket)
+    this.doc = this.sjs.get('users', 'seph')
 
     this.bindSocketHandlers()
 
@@ -40,7 +40,7 @@ Team1 = {
     this.doc.subscribe()
 
     this.doc.whenReady(function () {
-      if (!self.doc.type) self.doc.create('text');
+      if (!self.doc.type) self.doc.create('text')
 
       if (self.doc.type && self.doc.type.name === 'text')
         self.doc.attachCodeMirror(self.Editor.codeEditor)
@@ -48,57 +48,56 @@ Team1 = {
 
     if (document.users)
       this.Roster.fillList(document.users)
+
     if (document.id)
       window.location.hash = '#' + document.id
   }
 
   , openDocument : function () {
-    this.send(JSON.stringify({
-      a: 'open',
-      user : this.__user,
-      document : {
-        id : window.location.hash.replace('#', '') || null
+    this.send(JSON.stringify(
+      { a: 'open'
+      , user: this.__user
+      , document:
+        { id: window.location.hash.replace('#', '') || null
+        }
       }
-    }))
+    ) )
+
     return this
   }
 
   , bindSocketHandlers : function () {
-    this.doc.setOnOpenMessageFn(this.onSocketOpen);
-    //this.sjs.on('open', this.onSocketOpen)
-    //
-    //this.socket.onmessage = this.onSocketJoin
-    //
-    //this.socket.onclose = this.onSocketLeave
+    this.doc.setOnOpenMessageFn(this.onSocketOpen)
+    this.doc.setOnJoinMessageFn(this.onSocketJoin)
+    this.doc.setOnCloseMessageFn(this.onSocketLeave)
   }
 
   , send: function (message, callback) {
     var self = this
 
     this.waitForConnection(function () {
-      self.socket.send(message);
+      self.socket.send(message)
 
       if (typeof callback !== 'undefined') {
-        callback();
+        callback()
       }
-    }, 1000);
+    }, 1000)
   }
 
   , waitForConnection: function (callback, interval) {
-    if (this.socket.readyState === 1) {
-      callback();
-    } else {
-      var that = this;
+    var that = this
 
-      setTimeout(function () {
-        that.waitForConnection(callback);
-      }, interval);
+    if (this.socket.readyState === 1)
+    { callback()
+    } else {
+      setTimeout(function ()
+        { that.waitForConnection(callback)
+        }
+        , interval);
     }
   }
 
   , onSocketJoin : function (data) {
-    console.log('onSocketJoin', data)
-
     this.Roster.add(data.user)
   }
 
@@ -107,9 +106,9 @@ Team1 = {
   }
 
   , onSocketOpen : function (data) {
-    console.log('onSocketOpen', data)
     if (data.user)
       _.extend(this.__user, data.user)
+
     this.buildDocumentInterface(data.document || {})
   }
 
