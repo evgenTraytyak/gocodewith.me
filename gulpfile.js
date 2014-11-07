@@ -39,6 +39,8 @@ gulp.task('index.html', function () {
         , 'libs/lodash/dist/lodash.min.js'
         , 'libs/socket.io-client/socket.io.js'
         , 'libs/codemirror/lib/codemirror.js'
+        , 'node_modules/share/webclient/share.uncompressed.js'
+        , 'libs/share-codemirror/share-codemirror.js'
         , 'blocks/page/page.js'
         , 'blocks/**/*.js'
         ]

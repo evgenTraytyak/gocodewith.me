@@ -17,6 +17,7 @@
     "document": true,
     "io": true,
     "window": true,
-    "CodeMirror": true
+    "CodeMirror": true,
+    "WebSocket": true
   }
 }
