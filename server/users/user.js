@@ -3,6 +3,14 @@
  */
 
 var _ = require('lodash-node')
+  , Duplex = require('stream').Duplex
+  , livedb = require('livedb')
+  , sharejs = require('share')
+  , backend = livedb.client(livedb.memory())
+  , share = sharejs.server.createClient(
+    { backend: backend
+    }
+  )
 
   , getUID = function () {
     return _.uniqueId('user-')
@@ -13,7 +21,8 @@ var _ = require('lodash-node')
     _.bindAll(this, 'onMessage')
 
     this._connection = options.connection
-    this._stream = options.stream
+    this._stream = new Duplex({ objectMode: true })
+
     this.id = getUID()
     this.document = null
     this.props =
@@ -49,7 +58,7 @@ var _ = require('lodash-node')
       return self._connection.close()
     })
 
-    return this
+    share.listen(this._stream)
   }
   , proto = User.prototype
 

@@ -7,13 +7,15 @@ Team1 = {
     this.socket = this.getSocket(options.socketUrl)
 
     this.sjs = new window.sharejs.Connection(this.socket)
-    this.doc = this.sjs.get('users', 'seph')
+    this.doc = this.sjs.get('users-' + this.getDocIdFromHash(), 'seph')
 
     this.bindSocketHandlers()
 
     this.auth().done(this.openDocument)
   }
-
+  , getDocIdFromHash: function () {
+    return window.location.hash.replace('#', '')
+  }
   /**
    * Simple auth.
    * @returns {jQuery.Deferred}
@@ -58,7 +60,7 @@ Team1 = {
       { a: 'open'
       , user: this.__user
       , document:
-        { id: window.location.hash.replace('#', '') || null
+        { id: this.getDocIdFromHash() || null
         }
       }
     ) )

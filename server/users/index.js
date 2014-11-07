@@ -9,10 +9,9 @@ var User = require('./user')
  * but in the future we can manage some roles
  * without changes for API
  */
-exports.factory = function (connection, stream) {
+exports.factory = function (connection) {
   return new User(
     { connection: connection
-    , stream: stream
     }
   )
 }
