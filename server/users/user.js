@@ -17,7 +17,8 @@ var _ = require('lodash-node')
   }
   , Documents = require('../documents')
   , User = function (options) {
-    var self = this;
+    var self = this
+
     _.bindAll(this, 'onMessage')
 
     this._connection = options.connection
@@ -38,7 +39,8 @@ var _ = require('lodash-node')
     this._stream._read = function () {}
 
     this._stream.headers = this._connection.upgradeReq.headers
-    this._stream.remoteAddress = this._connection.upgradeReq.connection.remoteAddress
+    this._stream.remoteAddress =
+      this._connection.upgradeReq.connection.remoteAddress
 
     this._connection.on('message', this.onMessage)
 
