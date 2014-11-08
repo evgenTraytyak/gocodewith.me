@@ -29,10 +29,10 @@ var _ = require('lodash-node')
  * @param [collaborators] {Array}
  * @returns {Document}
  */
-proto.notifyCollaborators = function (event, data, collaborators) {
+proto.notifyCollaborators = function (data, collaborators) {
   _.each(collaborators || this.collaborators, function (collaborator) {
     if (this.isPresent(collaborator))
-      collaborator.emit(event, data)
+      collaborator.emit(data)
   }, this)
   return this
 }
@@ -47,7 +47,8 @@ proto.notifyCollaborators = function (event, data, collaborators) {
  */
 proto.addCollaborator = function (collaborator) {
   if (!this.isPresent(collaborator)) {
-    this.notifyCollaborators('join', {
+    this.notifyCollaborators({
+      a: 'join',
       user : collaborator.exportPublicData()
     })
     this.collaborators.push(collaborator)
@@ -63,8 +64,9 @@ proto.addCollaborator = function (collaborator) {
 proto.removeCollaborator = function (collaborator) {
   if (this.isPresent(collaborator)) {
     _.pull(this.collaborators, collaborator)
-    this.notifyCollaborators('leave', {
-      user : collaborator.exportOnlyId()
+    this.notifyCollaborators({
+      a: 'leave',
+      user: collaborator.exportOnlyId()
     })
   }
   return this
