@@ -155,7 +155,9 @@ proto.closeDocument = function () {
 proto.updateData = function (data) {
   delete data.id
 
-  _.extend(data, this.props)
+  _.extend(this.props, data, function (a, b) {
+    return b ? b : a
+  })
 
   return this
 }
