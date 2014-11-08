@@ -10,24 +10,36 @@ describe("Page Integration Tests", function () {
   it("should add new user to list on join", onJoinNewUserTest)
 
 
+  function getTestDocObj() {
+    return {
+      subscribe: function () {}
+    , whenReady: function () {}
+    , setOnOpenMessageFn: function (handler) {
+      socketHandlers['open'] = handler
+    }
+    , setOnJoinMessageFn: function (handler) {
+      socketHandlers['join'] = handler
+    }
+    , setOnCloseMessageFn: function (handler) {
+      socketHandlers['leave'] = handler
+    }
+    }
+  }
+
   function before () {
     jasmine.getFixtures().fixturesPath = "base/"
     loadFixtures("index.html")
 
-    this.testSocket =
-    { on: function (event, handler) {
-      socketHandlers[event] = handler
-    }
-    , emit: function () {}
-    }
-
-    window.io =
-    { connect: function () {}
-    }
+    createTestSocket.call(this);
 
     this.promptSpy = spyOn(window, "prompt")
 
-    spyOn(window.io, "connect").and.returnValue(this.testSocket)
+    spyOn(window, "WebSocket").and.returnValue(this.testSocket)
+    spyOn(window.sharejs, "Connection").and.returnValue({
+      get: function () {
+        return getTestDocObj();
+      }
+    })
 
     this.usersListEl = $(".roster-list")
   }
@@ -40,20 +52,21 @@ describe("Page Integration Tests", function () {
   function sendSocketMessageTest () {
     var testTitle = "test dima"
 
-    spyOn(this.testSocket, "emit")
+    spyOn(this.testSocket, "send")
 
     this.promptSpy.and.returnValue(testTitle)
 
     Team1.start({socketUrl: "/testUrl"})
 
-    expect(this.testSocket.emit).toHaveBeenCalledWith('open',
-      { user:
+    expect(this.testSocket.send).toHaveBeenCalledWith(JSON.stringify(
+      { a: 'open'
+      , user:
         { title: testTitle
         }
         , document:
         { id: null
         }
-      }
+      } )
     )
   }
   function onOpenFillUsersListTest () {
@@ -107,5 +120,14 @@ describe("Page Integration Tests", function () {
     socketHandlers['leave'].call({}, {user: {id: 12}})
 
     expect(this.usersListEl).not.toContainElement("li#12")
+  }
+
+  function createTestSocket() {
+    this.testSocket =
+    {
+      readyState: 1
+    , send: function () {
+      }
+    }
   }
 })

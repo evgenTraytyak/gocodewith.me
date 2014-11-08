@@ -10,7 +10,8 @@ var User = require('./user')
  * without changes for API
  */
 exports.factory = function (connection) {
-  return new User({
-    connection: connection
-  })
+  return new User(
+    { connection: connection
+    }
+  )
 }
