@@ -37,8 +37,10 @@ var _ = require('lodash-node')
 
     this._stream._read = function () {}
 
-    this._stream.headers = this._connection.upgradeReq.headers
-    this._stream.remoteAddress = this._connection.upgradeReq.connection.remoteAddress
+    var upgradeReq = this._connection.upgradeReq
+
+    this._stream.headers = upgradeReq.headers
+    this._stream.remoteAddress = upgradeReq.connection.remoteAddress
 
     this._connection.on('message', this.onMessage)
 

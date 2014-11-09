@@ -1,9 +1,9 @@
 var Team1 = Team1 || {}
 
-Team1.Editor = function (info) {
-   _.bindAll(this, "onCursorActivity")
+Team1.Editor = function () {
+  _.bindAll(this, "onCursorActivity")
 
-  this.cursorHtml = "<div class='CodeMirror-cursor' style='height: 13px; left: 10px;' />"
+  this.cursorHtml = "<div class='CodeMirror-cursor cm_cursor'/>"
   this.cursorsContainerEl = $(".CodeMirror-cursors")
 
   this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0], {

@@ -11,3 +11,8 @@
   height: 100%;
   background: #333;
 }
+/*  cm - CodeMirror */
+.cm_cursor {
+  height: 13px;
+  left: 10px;
+}
