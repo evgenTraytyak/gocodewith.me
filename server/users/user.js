@@ -11,13 +11,15 @@ var _ = require('lodash-node')
     { backend: backend
     }
   )
+  , colors = [ 'red', 'yellow', 'green', 'blue', 'grey', 'gold', 'pink']
 
   , getUID = function () {
-    return _.uniqueId('user-')
+    return _.uniqueId()
   }
   , Documents = require('../documents')
   , User = function (options) {
-    var self = this;
+    var self = this
+
     _.bindAll(this, 'onMessage')
 
     this._connection = options.connection
@@ -38,7 +40,8 @@ var _ = require('lodash-node')
     this._stream._read = function () {}
 
     this._stream.headers = this._connection.upgradeReq.headers
-    this._stream.remoteAddress = this._connection.upgradeReq.connection.remoteAddress
+    this._stream.remoteAddress =
+      this._connection.upgradeReq.connection.remoteAddress
 
     this._connection.on('message', this.onMessage)
 
@@ -105,9 +108,11 @@ proto.exportOnlyId = function () {
  * @returns {Object|*}
  */
 proto.exportPublicData = function () {
-  return _.extend(this.exportOnlyId(), {
-    title: this.props.title
-  })
+  return _.extend(this.exportOnlyId(),
+    { title: this.props.title
+    , color: colors[this.id - 1] || this.getRandomColor()
+    }
+  )
 }
 
 /**
@@ -163,7 +168,7 @@ proto.updateData = function (data) {
 }
 
 /**
- * Helper for our "stupid" API
+ * Helper for our API
  * @param data
  * @returns {User}
  * @private
@@ -179,4 +184,16 @@ proto.onOpenEvent = function (data) {
  */
 proto.destroy = function () {
   this.closeDocument()
+}
+
+proto.getRandomColor = function () {
+  var letters = ('0123456789ABCDEF').split('')
+    , color = '#'
+    , i = 0;
+
+  for (i; i < 6; i++ ) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+
+  return color;
 }
