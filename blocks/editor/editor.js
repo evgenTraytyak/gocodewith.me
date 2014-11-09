@@ -6,7 +6,11 @@ Team1.Editor = function (info) {
   this.cursorHtml = "<div class='CodeMirror-cursor' style='height: 13px; left: 10px;' />"
   this.cursorsContainerEl = $(".CodeMirror-cursors")
 
-  this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0])
+  this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0], {
+    lineNumbers: true,               // показывать номера строк
+    matchBrackets: true,             // подсвечивать парные скобки
+    indentUnit: 4                    // размер табуляции
+  })
 
   this.addCursors(
     [
