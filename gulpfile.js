@@ -40,6 +40,7 @@ gulp.task('index.html', function () {
         , 'libs/codemirror/lib/codemirror.js'
         , 'node_modules/share/webclient/share.uncompressed.js'
         , 'libs/share-codemirror/share-codemirror.js'
+        , 'libs/codemirror/mode/javascript/javascript.js'
         , 'blocks/page/page.js'
         , 'blocks/**/*.js'
         ]
