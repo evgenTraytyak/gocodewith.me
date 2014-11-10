@@ -6,10 +6,10 @@ Team1.Editor = function () {
   this.cursorHtml = "<div class='CodeMirror-cursor cm_cursor'/>"
   this.cursorsContainerEl = $(".CodeMirror-cursors")
 
-  this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0], {
-    lineNumbers: true,               // показывать номера строк
-    matchBrackets: true,             // подсвечивать парные скобки
-    indentUnit: 4                    // размер табуляции
+  this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0],
+    { lineNumbers: true
+    , matchBrackets: true
+    , mode: "javascript"
   })
 
   this.addCursors(
@@ -32,6 +32,8 @@ Team1.Editor = function () {
     ])
 
   this.codeEditor.on("cursorActivity", this.onCursorActivity)
+
+  this.getThemesList();
 }
 
 Team1.Editor.prototype.onCursorActivity = function (data) {
@@ -74,6 +76,52 @@ Team1.Editor.prototype.getDefaultCharWidth = function () {
 
 Team1.Editor.prototype.DEFAULT_LEFT_MARGIN = 3
 
+Team1.Editor.prototype.getThemesList = function () {
+  var self = this
+
+  $.get( "/theme", function (data) {
+    self.themesList = JSON.parse(data)
+    console.log(self.themesList);
+  }).done(function () {
+    self.setThemesList()
+  })
+}
+
+Team1.Editor.prototype.setThemesList = function () {
+  var $themesList = $(".themelist")
+
+  this.themesList.forEach(function (theme) {
+    $themesList.append("<option>" + theme.slice(0, -4) + "</option>")
+  })
+
+  $("body").append("<style class='theme_style'>")
+
+  this.addHandlerToThemeOption();
+}
+
+Team1.Editor.prototype.addHandlerToThemeOption = function () {
+  var self = this
+    , theme
+    , $themesList = $(".themelist")
+
+  $themesList.on("change", function () {
+    theme = $(this).find("option:selected").text()
+
+    self.setTheme(theme);
+  })
+}
+
+Team1.Editor.prototype.setTheme = function (theme) {
+  var self = this
+
+  $.get( "/theme", { name: theme })
+    .done(function (data) {
+    $(".theme_style").text(JSON.parse(data))
+    self.codeEditor.setOption("theme", theme)
+  }).fail(function () {
+    console.log( "Error downloading theme" )
+  })
+}
 
 //updateCursors
 //removeCursor
