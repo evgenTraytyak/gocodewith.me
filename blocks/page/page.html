@@ -4,17 +4,23 @@
   <title>Team 1</title>
 </head>
 
-<header class="header">
-  <div class="header-logo">Team-1</div>
+<header class="header header--dark">
+  <div class="header__logo">
+    <b class="header__logo__name">WingPad</b>
+  </div>
+  <div class="header__control">
+    <select name="" class="themelist">
+    </select>
+  </div>
 </header>
 
 <div class="layout">
-  <section class="editor">
-    <textarea id="docEditor" width="400" height="200"></textarea>
-  </section>
   <aside class="roster">
     <ul class="roster-list"></ul>
   </aside>
+  <section class="editor">
+    <textarea  id="docEditor" width="400" height="200"></textarea>
+  </section>
 </div>
 
 <script type="template" id="user-tpl">
