@@ -1,10 +1,15 @@
 .roster {
   width: 300px;
   height: 100%;
+  box-sizing: border-box;
+  transition: all 0.1s;
 }
+
   .roster--dark {
     background-color: #293143;
+    border-right: 1px solid #212936;
   }
+
     .roster--dark .roster-item {
       color: #fff;
       }
@@ -13,6 +18,7 @@
     border-right: 1px solid #d3d3d3;
     background-color: #ECF0F1;
   }
+
     .roster--light .roster-item {
       color: #2B2F32;
       }
@@ -20,6 +26,7 @@
 .roster-list {
   padding: 20px 0 0 30px;
 }
+
 .roster-item {
   margin-bottom: 20px;
   font: 16px Verdana, sans-serif;
