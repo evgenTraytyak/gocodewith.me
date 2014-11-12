@@ -1,8 +1,10 @@
-var Team1 = Team1 || {};
+var Team1 = Team1 || {}
 
 Team1 = {
   start: function (options) {
-    _.bindAll(this);
+    _.bindAll(this)
+
+    new Switchery(document.querySelector('.js-switch'))
 
     this.socket = this.getSocket(options.socketUrl)
 
@@ -95,7 +97,7 @@ Team1 = {
       setTimeout(function ()
         { that.waitForConnection(callback)
         }
-        , interval);
+        , interval)
     }
   }
 

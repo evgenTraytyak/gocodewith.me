@@ -17,7 +17,7 @@ var _ = require('lodash-node')
   }
   , Documents = require('../documents')
   , User = function (options) {
-    var self = this;
+    var self = this
     _.bindAll(this, 'onMessage')
 
     this._connection = options.connection
@@ -52,7 +52,7 @@ var _ = require('lodash-node')
     this._connection.on('close', function (reason) {
       self._stream.push(null)
       self._stream.emit('close')
-      self.destroy();
+      self.destroy()
       return self._connection.close( reason )
     })
 
@@ -71,7 +71,7 @@ proto.onMessage = function (data) {
 
   if (jsonData.a === 'open')
   { this.onOpenEvent(jsonData)
-    return;
+    return
   }
 
   return this._stream.push(jsonData)

@@ -9,7 +9,9 @@ Team1.Editor = function () {
   this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0],
     { lineNumbers: true
     , matchBrackets: true
+    , foldGutter: true        //сворачивание кода
     , mode: "javascript"
+
   })
 
   this.addCursors(
@@ -33,7 +35,11 @@ Team1.Editor = function () {
 
   this.codeEditor.on("cursorActivity", this.onCursorActivity)
 
-  this.getThemesList();
+  this.getThemesList()
+
+  this.changeEditorMode()
+
+  this.getDefaultEditorMode()
 }
 
 Team1.Editor.prototype =
@@ -68,15 +74,13 @@ Team1.Editor.prototype =
 
 
   , getLeftCursorPosition: function (ch) {
-    return Math.round(this.getDefaultCharWidth() * ch) + this.DEFAULT_LEFT_MARGIN
+    var DEFAULT_LEFT_MARGIN = 3
+    return Math.round(this.getDefaultCharWidth() * ch) + DEFAULT_LEFT_MARGIN
   }
 
   , getDefaultCharWidth: function () {
-    return this.codeEditor.defaultCharWidth();
+    return this.codeEditor.defaultCharWidth()
   }
-
-
-  , DEFAULT_LEFT_MARGIN: 3
 
   , getThemesList: function () {
     var self = this
@@ -89,7 +93,7 @@ Team1.Editor.prototype =
   }
 
   , setThemesList: function () {
-    var $themesList = $(".themelist")
+    var $themesList = $(".control__themelist")
 
     this.themesList.forEach(function (theme) {
       $themesList.append("<option>" + theme.slice(0, -4) + "</option>")
@@ -97,18 +101,18 @@ Team1.Editor.prototype =
 
     $("body").append("<style class='theme_style'>")
 
-    this.addHandlerToThemeOption();
+    this.addHandlerToThemeOption()
   }
 
   , addHandlerToThemeOption: function () {
     var self = this
       , theme
-      , $themesList = $(".themelist")
+      , $themesList = $(".control__themelist")
 
     $themesList.on("change", function () {
       theme = $(this).find("option:selected").text()
 
-      self.setTheme(theme);
+      self.setTheme(theme)
     })
   }
 
@@ -123,6 +127,42 @@ Team1.Editor.prototype =
       console.log( "Error downloading theme" )
     })
   }
+
+  , changeEditorMode: function () {
+    var $header = $(".header")
+      , $roster = $(".roster")
+
+    $(".js-editor-mode-switch").on("change", function () {
+      if ($(this).is(":checked")) {
+        $header.removeClass("header--dark").addClass("header--light")
+        $roster.removeClass("roster--dark").addClass("roster--light")
+      } else {
+        $header.removeClass("header--light").addClass("header--dark")
+        $roster.removeClass("roster--light").addClass("roster--dark")
+      }
+    })
+  }
+
+  , getDefaultEditorMode: function () {
+    var editorMode = "light" //light or dark
+
+    this.setDefaultEditorMode(editorMode);
+  }
+
+  , setDefaultEditorMode: function (editorMode) {
+    var $header = $(".header")
+      , $roster = $(".roster")
+      , $switchMode = $(".js-editor-mode-switch")
+
+    $header.addClass("header--" + editorMode)
+    $roster.addClass("roster--" + editorMode)
+
+    if (editorMode == "light") {
+      // $switchMode.prop("checked", true) // don't work
+      $switchMode.click();
+    }
+  }
+
 }
 
 //updateCursors

@@ -11,7 +11,7 @@ exports.start = function (config) {
   if (config && !isStarted) {
     try {
       http.createServer(function (request, response) {
-        log.info(request.method + ' request', request.url);
+        log.http(request.method + ' request', request.url)
 
         var urlParsed = url.parse(request.url, true)
 
@@ -21,7 +21,7 @@ exports.start = function (config) {
           fs.readFile(themePath + '.css', 'utf8',  function (err, data) {
             if (err) throw err
 
-            response.write(JSON.stringify(data));
+            response.write(JSON.stringify(data))
             response.end()
           })
         }

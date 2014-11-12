@@ -17,3 +17,11 @@
   height: 13px;
   left: 10px;
 }
+
+.switchery {
+  height: 25px;
+  }
+  .switchery small {
+    width: 25px;
+    height: 25px;
+  }

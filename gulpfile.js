@@ -5,7 +5,7 @@ var gulp = require('gulp')
   , wrap = require('gulp-wrap')
   , watch = require('gulp-watch')
   , streamqueue = require('streamqueue')
-  , karma = require('karma').server;
+  , karma = require('karma').server
 
 gulp.task('index.html', function () {
   streamqueue(
@@ -22,8 +22,9 @@ gulp.task('index.html', function () {
       ))
     , gulp
         .src(
-          [ 'blocks/**/*.css'
-          , 'libs/codemirror/lib/codemirror.css'
+          [ 'libs/codemirror/lib/codemirror.css'
+          , 'libs/switchery/dist/switchery.min.css'
+          , 'blocks/**/*.css'
           ]
         )
         .pipe(concat('index.css'))
@@ -41,6 +42,7 @@ gulp.task('index.html', function () {
         , 'node_modules/share/webclient/share.uncompressed.js'
         , 'libs/share-codemirror/share-codemirror.js'
         , 'libs/codemirror/mode/javascript/javascript.js'
+        , 'libs/switchery/dist/switchery.min.js'
         , 'blocks/page/page.js'
         , 'blocks/**/*.js'
         ]
@@ -58,20 +60,20 @@ gulp.task('watch', function () {
         , 'blocks/**/*.js']
         , function () {
     gulp.start('index.html')
-  });
-});
+  })
+})
 
 gulp.task('test', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
-  }, done);
-});
+  }, done)
+})
 
 gulp.task('tdd', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js'
-  }, done);
-});
+  }, done)
+})
 
 gulp.task('default', ['index.html', 'watch'])
