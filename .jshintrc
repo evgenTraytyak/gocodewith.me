@@ -18,6 +18,7 @@
     "io": true,
     "window": true,
     "CodeMirror": true,
-    "WebSocket": true
+    "WebSocket": true,
+    "Switchery": true
   }
 }

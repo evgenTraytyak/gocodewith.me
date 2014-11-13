@@ -1,8 +1,10 @@
-var Team1 = Team1 || {};
+var Team1 = Team1 || {}
 
 Team1 = {
-  start : function (options) {
-    _.bindAll(this);
+  start: function (options) {
+    _.bindAll(this)
+
+    new Switchery(document.querySelector('.js-switch'))
 
     this.documentId = this.getDocId()
 
@@ -24,7 +26,7 @@ Team1 = {
    * Simple auth.
    * @returns {jQuery.Deferred}
    */
-  , auth : function () {
+  , auth: function () {
     var user = {
       title: window.prompt('Your name:')
     }
@@ -37,7 +39,7 @@ Team1 = {
   /**
    * Create interface for document
    */
-  , buildDocumentInterface : function (document) {
+  , buildDocumentInterface: function (document) {
     var self = this
 
     this.Roster = new Team1.Roster()
@@ -59,7 +61,7 @@ Team1 = {
       window.location.hash = '#' + document.id
   }
 
-  , openDocument : function () {
+  , openDocument: function () {
     this.send(JSON.stringify(
       { a: 'open'
       , user: this.__user
@@ -72,7 +74,7 @@ Team1 = {
     return this
   }
 
-  , bindSocketHandlers : function () {
+  , bindSocketHandlers: function () {
     this.doc.setOnOpenMessageFn(this.onSocketOpen)
     this.doc.setOnJoinMessageFn(this.onSocketJoin)
     this.doc.setOnCloseMessageFn(this.onSocketLeave)
@@ -99,28 +101,29 @@ Team1 = {
       setTimeout(function ()
         { that.waitForConnection(callback)
         }
-        , interval);
+        , interval)
     }
   }
 
-  , onSocketJoin : function (data) {
+  , onSocketJoin: function (data) {
     this.Roster.add(data.user)
   }
 
-  , onSocketLeave : function (data) {
+  , onSocketLeave: function (data) {
     this.Roster.remove(data.user.id)
   }
 
-  , onSocketOpen : function (data) {
+  , onSocketOpen: function (data) {
     if (data.user)
       _.extend(this.__user, data.user)
 
     this.buildDocumentInterface(data.document || {})
   }
 
-  , getSocket : function () {
+  , getSocket: function () {
     return new WebSocket('ws://' + 'localhost' + ':7900')
   }
+
 }
 
 //wrong place for it.

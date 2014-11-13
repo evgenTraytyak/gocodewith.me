@@ -1,7 +1,3 @@
-/**
- * Created by Mantsevich on 21.10.2014.
- */
-
 var User = require('./user')
 
 /**

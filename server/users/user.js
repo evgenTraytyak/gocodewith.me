@@ -1,7 +1,3 @@
-/**
- * Created by Mantsevich on 21.10.2014.
- */
-
 var _ = require('lodash-node')
   , Duplex = require('stream').Duplex
   , livedb = require('livedb')
@@ -52,7 +48,7 @@ var _ = require('lodash-node')
     this._connection.on('close', function (reason) {
       self._stream.push(null)
       self._stream.emit('close')
-      self.destroy();
+      self.destroy()
       return self._connection.close( reason )
     })
 
@@ -71,7 +67,7 @@ proto.onMessage = function (data) {
 
   if (jsonData.a === 'open')
   { this.onOpenEvent(jsonData)
-    return;
+    return
   }
 
   return this._stream.push(jsonData)
