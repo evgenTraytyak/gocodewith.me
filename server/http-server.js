@@ -1,6 +1,3 @@
-/**
- * Created by Mantsevich on 21.10.2014.
- */
 var http = require('http')
   , url = require('url')
   , fs = require('fs')

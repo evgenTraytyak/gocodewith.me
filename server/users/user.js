@@ -1,7 +1,3 @@
-/**
- * Created by Mantsevich on 21.10.2014.
- */
-
 var _ = require('lodash-node')
   , Duplex = require('stream').Duplex
   , livedb = require('livedb')
@@ -18,6 +14,7 @@ var _ = require('lodash-node')
   , Documents = require('../documents')
   , User = function (options) {
     var self = this
+
     _.bindAll(this, 'onMessage')
 
     this._connection = options.connection
@@ -37,10 +34,9 @@ var _ = require('lodash-node')
 
     this._stream._read = function () {}
 
-    var upgradeReq = this._connection.upgradeReq
-
-    this._stream.headers = upgradeReq.headers
-    this._stream.remoteAddress = upgradeReq.connection.remoteAddress
+    this._stream.headers = this._connection.upgradeReq.headers
+    this._stream.remoteAddress =
+      this._connection.upgradeReq.connection.remoteAddress
 
     this._connection.on('message', this.onMessage)
 
@@ -156,7 +152,11 @@ proto.closeDocument = function () {
  */
 proto.updateData = function (data) {
   delete data.id
-  _.extend(this.props, data)
+
+  _.extend(this.props, data, function (a, b) {
+    return b ? b : a
+  })
+
   return this
 }
 

@@ -6,6 +6,26 @@ var gulp = require('gulp')
   , watch = require('gulp-watch')
   , streamqueue = require('streamqueue')
   , karma = require('karma').server
+  , env = process.env.NODE_ENV || 'DEV'
+
+gulp.task('config', function () {
+
+  var srcConfig = ''
+
+  console.log('App is running in ' + env + ' environment')
+
+  if (env === 'PROD') {
+    srcConfig = './config/prod.json'
+  }
+  else {
+    srcConfig = './config/dev.json'
+  }
+
+  gulp
+    .src(srcConfig)
+    .pipe(concat('current.json'))
+    .pipe(gulp.dest('./config'))
+})
 
 gulp.task('index.html', function () {
   streamqueue(
@@ -76,4 +96,4 @@ gulp.task('tdd', function (done) {
   }, done)
 })
 
-gulp.task('default', ['index.html', 'watch'])
+gulp.task('default', ['config', 'index.html', 'watch'])

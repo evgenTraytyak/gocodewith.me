@@ -6,14 +6,18 @@ Team1 = {
 
     new Switchery(document.querySelector('.js-switch'))
 
-    this.socket = this.getSocket(options.socketUrl)
+    this.documentId = this.getDocId()
 
+    this.socket = this.getSocket(options.socketUrl)
     this.sjs = new window.sharejs.Connection(this.socket)
-    this.doc = this.sjs.get('users-' + this.getDocIdFromHash(), 'seph')
+    this.doc = this.sjs.get('users-' + this.documentId, 'seph')
 
     this.bindSocketHandlers()
 
     this.auth().done(this.openDocument)
+  }
+  , getDocId: function () {
+    return this.getDocIdFromHash() || _.random(10000000000)
   }
   , getDocIdFromHash: function () {
     return window.location.hash.replace('#', '')
@@ -62,7 +66,7 @@ Team1 = {
       { a: 'open'
       , user: this.__user
       , document:
-        { id: this.getDocIdFromHash() || null
+        { id: this.documentId
         }
       }
     ) )
