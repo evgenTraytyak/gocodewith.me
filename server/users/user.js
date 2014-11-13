@@ -117,7 +117,7 @@ proto.exportOnlyId = function () {
 proto.exportPublicData = function () {
   return _.extend(this.exportOnlyId(),
     { title: this.props.title
-    , color: this.color || this.getRandomColor()
+    , color: this.color
     }
   )
 }
