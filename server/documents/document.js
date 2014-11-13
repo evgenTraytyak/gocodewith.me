@@ -13,6 +13,7 @@ var _ = require('lodash-node')
       this.id = props.id || getUID()
       if (Documents[this.id] instanceof Document) return Documents[this.id]
       this.collaborators = []
+      this.availableColors = [ 'red', 'green', 'blue', 'grey', 'gold', 'pink', 'yellow' ]
       this.props = _.extend({}, props)
       delete this.props.id
       Documents[this.id] = this
@@ -24,7 +25,6 @@ var _ = require('lodash-node')
 //region *** Events API ***
 /**
  * Fire event on collaborators
- * @param event {String}
  * @param data {Object}
  * @param [collaborators] {Array}
  * @returns {Document}
@@ -47,6 +47,8 @@ proto.notifyCollaborators = function (data, collaborators) {
  */
 proto.addCollaborator = function (collaborator) {
   if (!this.isPresent(collaborator)) {
+    collaborator.setColor(this.getAvailableColor())
+
     this.notifyCollaborators({
       a: 'join',
       user : collaborator.exportPublicData()
@@ -54,6 +56,23 @@ proto.addCollaborator = function (collaborator) {
     this.collaborators.push(collaborator)
   }
   return this
+}
+
+proto.getAvailableColor = function () {
+  var color = this.availableColors[0] || this.getRandomColor()
+
+  _.pull(this.availableColors, color)
+
+  return color
+}
+
+proto.restoreColor = function (color) {
+  var colorsArr = []
+
+  colorsArr.push(color)
+  _.union(colorsArr, this.availableColors)
+
+  this.availableColors = colorsArr
 }
 
 /**
@@ -68,6 +87,7 @@ proto.removeCollaborator = function (collaborator) {
       a: 'leave',
       user: collaborator.exportOnlyId()
     })
+    this.restoreColor(collaborator.getColor())
   }
   return this
 }
@@ -104,5 +124,17 @@ proto.exportPublicData = function () {
       return collaborator.exportPublicData()
     })
   })
+}
+
+proto.getRandomColor = function () {
+  var letters = ('0123456789ABCDEF').split('')
+    , color = '#'
+    , i = 0;
+
+  for (i; i < 6; i++ ) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+
+  return color;
 }
 //endregion

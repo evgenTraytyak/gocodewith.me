@@ -11,7 +11,6 @@ var _ = require('lodash-node')
     { backend: backend
     }
   )
-  , colors = [ 'red', 'yellow', 'green', 'blue', 'grey', 'gold', 'pink']
 
   , getUID = function () {
     return _.uniqueId()
@@ -78,6 +77,14 @@ proto.onMessage = function (data) {
   return this._stream.push(jsonData)
 }
 
+proto.getColor = function () {
+  return this.color
+}
+
+proto.setColor = function (color) {
+  this.color = color
+}
+
 /**
  * Fire event on client (Unsafe!) TODO: Discuss with Team
  * @param event
@@ -110,7 +117,7 @@ proto.exportOnlyId = function () {
 proto.exportPublicData = function () {
   return _.extend(this.exportOnlyId(),
     { title: this.props.title
-    , color: colors[this.id - 1] || this.getRandomColor()
+    , color: this.color || this.getRandomColor()
     }
   )
 }
@@ -184,16 +191,4 @@ proto.onOpenEvent = function (data) {
  */
 proto.destroy = function () {
   this.closeDocument()
-}
-
-proto.getRandomColor = function () {
-  var letters = ('0123456789ABCDEF').split('')
-    , color = '#'
-    , i = 0;
-
-  for (i; i < 6; i++ ) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-
-  return color;
 }
