@@ -13,7 +13,8 @@ var _ = require('lodash-node')
       this.id = props.id || getUID()
       if (Documents[this.id] instanceof Document) return Documents[this.id]
       this.collaborators = []
-      this.availableColors = [ 'red', 'green', 'blue', 'grey', 'gold', 'pink', 'yellow' ]
+      this.availableColors = ['#36D7B7', '#19B5FE', '#BF55EC', '#F62459',
+        '#FFA400', '#044F67', '#CA6924', '#ABB7B7', '#26C281', '#5D8CAE']
       this.props = _.extend({}, props)
       delete this.props.id
       Documents[this.id] = this
