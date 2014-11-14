@@ -7,13 +7,17 @@ background-color : yellow;
 .cm-background-red {
 background-color : red;
 }
-.cm-cursor:after {
+.cm-cursor:before {
 content: "";
 border-left: 2px solid;
 }
-.cm-cursor-red:after {
+.cm-cursor-last:after {
+content: "";
+border-left: 2px solid;
+}
+.cm-cursor-red:before, .cm-cursor-last-red:after {
 border-color: red;
 }
-.cm-cursor-green:after {
+.cm-cursor-green:before, .cm-cursor-last-green:after {
 border-color: green;
 }

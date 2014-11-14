@@ -14,6 +14,8 @@ Team1.Editor = function (info) {
   )
 
   this.codeEditor.on("cursorActivity", this.onCursorActivity)
+  this.cursors = []
+  this.selections = []
 }
 
 Team1.Editor.prototype.onCursorActivity = function () {
@@ -35,11 +37,32 @@ Team1.Editor.prototype.addCursor = function (cursorInfo) {
     line: cursorInfo.position.line
   }
 
-  this.codeEditor.markText(cursorInfo.position, to, opt)
+  var cursor = this.codeEditor.markText(cursorInfo.position, to, opt)
+  if(cursor.lines.length)
+    this.cursors.push({id:cursorInfo.id, cursor: cursor})
+  else
+    setTimeout(this.addCursorOnLineEnd(cursorInfo),500)
 }
 
 Team1.Editor.prototype.getCursorClass = function (id, color) {
   return "cm-cursor cm-cursor-" + color + " cursor-id-" + id
+}
+
+Team1.Editor.prototype.addCursorOnLineEnd = function (cursorInfo) {
+  var opt = {
+    className: this.getCursorClassAfter(cursorInfo.id, cursorInfo.color)
+  }
+  , to = {
+    ch: cursorInfo.position.ch - 1,
+    line: cursorInfo.position.line
+  }
+
+  var cursor = this.codeEditor.markText(to, cursorInfo.position, opt)
+  this.cursors.push({id:cursorInfo.id, cursor: cursor})
+}
+
+Team1.Editor.prototype.getCursorClassAfter = function (id, color) {
+  return "cm-cursor-last cm-cursor-last-" + color + " cursor-id-" + id
 }
 
 Team1.Editor.prototype.updateCursor = function (cursorInfo) {
@@ -48,7 +71,12 @@ Team1.Editor.prototype.updateCursor = function (cursorInfo) {
 }
 
 Team1.Editor.prototype.removeCursor = function (id) {
-  $(".cursor-id-" + id).contents().unwrap()
+  for (var i = this.cursors.length - 1; i >= 0; i--) {
+    if(this.cursors[i].id === id) {
+      this.cursors[i].cursor.clear()
+      this.cursors.splice(i,1)
+    }
+  }
 }
 
 Team1.Editor.prototype.addSelection = function (selectionInfo) {
@@ -56,7 +84,8 @@ Team1.Editor.prototype.addSelection = function (selectionInfo) {
     className: this.getSelectionClass(selectionInfo.id, selectionInfo.color)
   }
 
-  this.codeEditor.markText(selectionInfo.from, selectionInfo.to, opt)
+  var sel = this.codeEditor.markText(selectionInfo.from, selectionInfo.to, opt)
+  this.selections.push({id:selectionInfo.id, sel: sel})
 }
 
 Team1.Editor.prototype.getSelectionClass = function (id, color) {
@@ -69,5 +98,10 @@ Team1.Editor.prototype.updateSelection = function (selectionInfo) {
 }
 
 Team1.Editor.prototype.removeSelection = function (id) {
-  $(".selection-id-" + id).contents().unwrap()
+  for (var i = this.selections.length - 1; i >= 0; i--) {
+    if(this.selections[i].id === id) {
+      this.selections[i].sel.clear()
+      this.selections.splice(i,1)
+    }
+  }
 }
