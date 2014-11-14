@@ -3,6 +3,7 @@ var http = require('http')
   , fs = require('fs')
   , log = require('npmlog')
   , isStarted = !1
+  , path = require('path')
 
 exports.start = function (config) {
   if (config && !isStarted) {
@@ -30,6 +31,20 @@ exports.start = function (config) {
             response.end()
           })
         }
+        else if (request.method == 'POST') {
+          var body = ''
+          request.on('data', function (data) {
+              body += data
+          });
+          request.on('end', function () {
+            var jsonBody = JSON.parse(body)
+            fs.writeFileSync( __dirname + path.sep + 'savedDocuments' 
+              + path.sep + jsonBody.docName, jsonBody.docContent )
+          });
+
+          
+          response.end()
+        } 
         else {
           //reading index file
           fs.readFile(config.index, function (err, page) {

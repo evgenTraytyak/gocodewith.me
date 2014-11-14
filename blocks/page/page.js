@@ -124,6 +124,24 @@ Team1 = {
     return new WebSocket('ws://' + 'localhost' + ':7900')
   }
 
+  , saveDocument: function () {
+    var docContentObj = {
+      docName: this.documentId + '.js'      //добавить определение расширения файла
+      , docContent: this.Editor.codeEditor.getValue()
+    }
+
+    $.ajax({ type: "POST"
+            , url: window.location.pathname
+            , data: JSON.stringify(docContentObj)
+            , success: function(data) {
+                console.log('success')
+            }
+            , fail: function() {
+                console.log('error')
+            }
+        })
+  }
+
 }
 
 //wrong place for it.
@@ -132,3 +150,15 @@ $(document).ready(function () {
     socketUrl: 'http://127.0.0.1:7900'
   })
 })
+
+window.onbeforeunload = function () {
+  if (Team1.Roster.getUsersCount() == 1) {
+      Team1.saveDocument()
+  }
+}
+
+window.onunload = function () {
+  if (Team1.Roster.getUsersCount() == 1) {
+      Team1.saveDocument()
+  }
+}
