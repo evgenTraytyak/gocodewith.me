@@ -7,3 +7,4 @@ node_modules
 libs
 index.html
 npm-debug.log
+server/savedDocuments
