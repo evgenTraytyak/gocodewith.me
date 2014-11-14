@@ -38,8 +38,7 @@ exports.start = function (config) {
           });
           request.on('end', function () {
             var jsonBody = JSON.parse(body)
-            fs.writeFileSync( __dirname + path.sep + 'savedDocuments' 
-              + path.sep + jsonBody.docName, jsonBody.docContent )
+            saveDocument(jsonBody)
           });
 
           
@@ -68,4 +67,10 @@ exports.start = function (config) {
       log.error('HTTP server', 'Server can\'t start. ' + e)
     }
   }
+}
+
+
+function saveDocument(jsonDoc) {
+  fs.writeFileSync( __dirname + path.sep + 'savedDocuments' 
+              + path.sep + jsonDoc.docName, jsonDoc.docContent )
 }
