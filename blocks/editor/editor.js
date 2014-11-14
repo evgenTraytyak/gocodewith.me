@@ -41,7 +41,7 @@ Team1.Editor.prototype.addCursor = function (cursorInfo) {
   if (cursor.lines.length)
     this.cursors.push({id:cursorInfo.id, cursor: cursor})
   else
-    setTimeout(this.addCursorOnLineEnd(cursorInfo),500)
+    this.addCursorOnLineEnd(cursorInfo)
 }
 
 Team1.Editor.prototype.getCursorClass = function (id, color) {

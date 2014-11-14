@@ -111,6 +111,7 @@ Team1 = {
 
   , onSocketLeave : function (data) {
     this.Roster.remove(data.user.id)
+    this.Editor.removeCursor(data.user.id)
   }
 
   , onSocketOpen : function (data) {
