@@ -1,9 +1,9 @@
 var Team1 = Team1 || {}
 
-Team1.Editor = function (info) {
+Team1.Editor = function () {
   _.bindAll(this, "onCursorActivity")
 
-  this.cursorHtml = "<div class='CodeMirror-cursor' style='height: 13px; left: 10px;' />"
+  this.cursorHtml = "<div class='CodeMirror-cursor cm_cursor'/>"
   this.cursorsContainerEl = $(".CodeMirror-cursors")
 
   this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0]
@@ -20,7 +20,7 @@ Team1.Editor = function (info) {
 
 Team1.Editor.prototype.onCursorActivity = function () {
   var cursor = this.codeEditor.getCursor()
-  var meta =  { a: 'meta'
+  var meta =  { a: "meta"
               , document:
                 { id: Team1.documentId
                 }
@@ -38,7 +38,7 @@ Team1.Editor.prototype.addCursor = function (cursorInfo) {
   }
 
   var cursor = this.codeEditor.markText(cursorInfo.position, to, opt)
-  if(cursor.lines.length)
+  if (cursor.lines.length)
     this.cursors.push({id:cursorInfo.id, cursor: cursor})
   else
     setTimeout(this.addCursorOnLineEnd(cursorInfo),500)
@@ -72,7 +72,7 @@ Team1.Editor.prototype.updateCursor = function (cursorInfo) {
 
 Team1.Editor.prototype.removeCursor = function (id) {
   for (var i = this.cursors.length - 1; i >= 0; i--) {
-    if(this.cursors[i].id === id) {
+    if (this.cursors[i].id === id) {
       this.cursors[i].cursor.clear()
       this.cursors.splice(i,1)
     }
@@ -99,7 +99,7 @@ Team1.Editor.prototype.updateSelection = function (selectionInfo) {
 
 Team1.Editor.prototype.removeSelection = function (id) {
   for (var i = this.selections.length - 1; i >= 0; i--) {
-    if(this.selections[i].id === id) {
+    if (this.selections[i].id === id) {
       this.selections[i].sel.clear()
       this.selections.splice(i,1)
     }

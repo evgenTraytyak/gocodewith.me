@@ -7,6 +7,10 @@ background-color : yellow;
 .cm-background-red {
 background-color : red;
 }
+.cm_cursor {
+height: 13px;
+left: 10px;
+}
 .cm-cursor:before {
 content: "";
 border-left: 2px solid;
