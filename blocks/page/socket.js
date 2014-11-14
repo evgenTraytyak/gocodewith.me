@@ -67,7 +67,7 @@ window.sharejs.Doc.prototype._onMessage = function (msg) {
       break;
 
     case 'meta':
-      if (console) console.warn('Unhandled meta op:', msg);
+      this.onMetaMessageFn(msg);
       break;
 
     case 'open':
@@ -91,6 +91,7 @@ window.sharejs.Doc.prototype._onMessage = function (msg) {
 window.sharejs.Doc.prototype.onOpenMessageFn = function () {};
 window.sharejs.Doc.prototype.onJoinMessageFn = function () {};
 window.sharejs.Doc.prototype.onCloseMessageFn = function () {};
+window.sharejs.Doc.prototype.onMetaMessageFn = function () {};
 
 window.sharejs.Doc.prototype.setOnOpenMessageFn = function (fn) {
   window.sharejs.Doc.prototype.onOpenMessageFn = fn;
@@ -102,4 +103,8 @@ window.sharejs.Doc.prototype.setOnJoinMessageFn = function (fn) {
 
 window.sharejs.Doc.prototype.setOnCloseMessageFn = function (fn) {
   window.sharejs.Doc.prototype.onCloseMessageFn = fn;
+};
+
+window.sharejs.Doc.prototype.setOnMetaMessageFn = function (fn) {
+  window.sharejs.Doc.prototype.onMetaMessageFn = fn;
 };

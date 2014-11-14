@@ -1,3 +1,7 @@
+/**
+ * Created by Mantsevich on 22.10.2014.
+ */
+
 var _ = require('lodash-node')
   // Generator uniq id for documents
   , getUID = function () {
@@ -34,6 +38,18 @@ proto.notifyCollaborators = function (data, collaborators) {
 }
 //endregion
 
+proto.metaCollaborators = function (source, data) {
+  _.each(this.collaborators, function (collaborator) {
+    if (source.id !== collaborator.id) {
+      collaborator.emit({
+        a: 'meta',
+        id: data.id,
+        meta: data.meta
+      })
+    }
+  }, this)
+  return this
+}
 
 //region *** Manage collaborators ***
 /**

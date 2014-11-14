@@ -1,0 +1,19 @@
+.CodeMirror {
+height: 100%;
+}
+.cm-background-yellow {
+background-color : yellow;
+}
+.cm-background-red {
+background-color : red;
+}
+.cm-cursor:after {
+content: "";
+border-left: 2px solid;
+}
+.cm-cursor-red:after {
+border-color: red;
+}
+.cm-cursor-green:after {
+border-color: green;
+}
