@@ -6,6 +6,9 @@ var gulp = require('gulp')
   , watch = require('gulp-watch')
   , streamqueue = require('streamqueue')
   , karma = require('karma').server
+  , uglify = require('gulp-uglify')
+  , minifyCSS = require('gulp-minify-css')
+  , minifyHTML = require('gulp-minify-html')
   , env = process.env.NODE_ENV || 'DEV'
 
 gulp.task('config', function () {
@@ -25,6 +28,77 @@ gulp.task('config', function () {
     .src(srcConfig)
     .pipe(concat('current.json'))
     .pipe(gulp.dest('./config'))
+})
+
+gulp.task('compress', function() {
+  //css
+  gulp.src(['blocks/**/*.css', 'libs/codemirror/lib/codemirror.css'])
+    .pipe(minifyCSS({keepBreaks:false}))
+    .pipe(gulp.dest('./dist/css'))
+    
+  //js
+  gulp.src(
+    ['blocks/**/*.js'
+    , 'libs/codemirror/lib/codemirror.js'
+    , 'libs/share-codemirror/share-codemirror.js'
+    , 'libs/codemirror/mode/javascript/javascript.js'
+    ]
+  )
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/js'))
+
+  //html
+  var opts = {comments:true,spare:true};
+  gulp.src('blocks/**/*.html')
+    .pipe(minifyHTML(opts))
+    .pipe(gulp.dest('./dist/html'))
+})
+
+gulp.task('index.min.html', function () {
+  streamqueue(
+    { objectMode: true }
+    , gulp.src('dist/html/page/page.html')
+    , gulp
+      .src('dist/html/**/*.html')
+      .pipe(gulpIgnore.exclude('**/page.html'))
+      .pipe(wrap('<script '
+          + 'type="template" '
+          + 'id="<%= file.path.replace(/^.*\\/([^/]+)$/, \'$1\') %>">'
+          + '<%= file.contents %>'
+          + '</script>'
+      ))
+    , gulp
+        .src(
+          [ 'dist/css/codemirror.css'
+          , 'libs/switchery/dist/switchery.min.css'
+          , 'dist/css/**/*.css'
+          ]
+        )
+        .pipe(concat('index.css'))
+        .pipe(autoprefixer(
+          { browsers: ['last 3 versions']
+          , cascade: true
+          }
+        ))
+        .pipe(wrap('<style><%= contents %></style>'))
+    , gulp
+      .src(
+        [ 'libs/jquery/dist/jquery.min.js'
+        , 'libs/lodash/dist/lodash.min.js'
+        , 'dist/js/codemirror.js'
+        , 'node_modules/share/webclient/share.js'
+        , 'dist/js/share-codemirror.js'
+        , 'dist/js/javascript.js'
+        , 'libs/switchery/dist/switchery.min.js'
+        , 'dist/js/page/page.js'
+        , 'dist/js/**/*.js'
+        ]
+      )
+      .pipe(concat('index.js'))
+      .pipe(wrap('<script><%= contents %></script>'))
+  )
+    .pipe(concat('index.html'))
+    .pipe(gulp.dest('./'))
 })
 
 gulp.task('index.html', function () {
@@ -96,5 +170,11 @@ gulp.task('tdd', function (done) {
   }, done)
 })
 
+<<<<<<< HEAD
 gulp.task('default', ['config', 'index.html', 'watch'])
 gulp.task('make', ['config', 'index.html'])
+=======
+gulp.task('default', ['config', 'compress', 'index.min.html'])
+gulp.task('watch', ['config', 'compress', 'index.min.html', 'watch'])
+gulp.task('nominify', ['config', 'index.html'])
+>>>>>>> 93bc9be... Add minification
