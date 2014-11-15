@@ -168,7 +168,9 @@ Team1 = {
             , success: function(doc) {
                 console.log('success')
                 console.log(doc.value);
-                Team1.Editor.codeEditor.getDoc().setValue(doc.value)
+                if (doc != null) {
+                  Team1.Editor.codeEditor.getDoc().setValue(doc.value)
+                }
             }
             , fail: function() {
                 console.log('error')
