@@ -45,6 +45,7 @@ proto.metaCollaborators = function (source, data) {
       collaborator.emit({
         a: 'meta',
         id: data.id,
+        color: data.color,
         meta: data.meta
       })
     }

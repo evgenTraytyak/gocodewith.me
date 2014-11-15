@@ -30,6 +30,7 @@ Team1.Editor.prototype.onCursorActivity = function () {
       id: Team1.documentId
     }
     , id: Team1.__user.id
+    , color: Team1.__user.color
     , meta: cursor
   }
   Team1.send(JSON.stringify(meta))
@@ -73,6 +74,7 @@ Team1.Editor.prototype.getCursorClassAfter = function (id, color) {
 Team1.Editor.prototype.updateCursor = function (cursorInfo) {
   this.removeCursor(cursorInfo.id)
   this.addCursor(cursorInfo)
+  $(".cursor-id-"+cursorInfo.id+"").css("border-color",cursorInfo.color)
 }
 
 Team1.Editor.prototype.removeCursor = function (id) {

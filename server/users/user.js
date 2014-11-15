@@ -192,7 +192,7 @@ proto.onOpenEvent = function (data) {
 }
 
 proto.onMetaEvent = function (data) {
-  Documents.factory(data.document).metaCollaborators(this, data)
+  this.document.metaCollaborators(this, data)
   return this
 }
 

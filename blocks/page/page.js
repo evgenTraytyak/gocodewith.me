@@ -127,7 +127,7 @@ Team1 = {
     this.Editor.updateCursor(
       { id: data.id
       , position : data.meta
-      , color : 'red'
+      , color : data.color
       }
     )
   }

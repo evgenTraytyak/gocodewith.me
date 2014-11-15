@@ -11,11 +11,11 @@
   height: 13px;
   left: 10px;
 }
-.cm-cursor:before {
+.cm-cursor {
   content: "";
   border-left: 2px solid;
 }
-.cm-cursor-last:after {
+.cm-cursor-last {
   content: "";
   border-left: 2px solid;
 }
