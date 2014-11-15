@@ -130,8 +130,12 @@ Team1 = {
 
   , saveDocument: function () {
     var docContentObj = {
+<<<<<<< HEAD
       operation: 'save'
       , docName: this.documentId
+=======
+      docName: this.documentId + '.txt'      //добавить определение расширения файла
+>>>>>>> 4fa663545018c8b4aebb116ac60d043123fe3385
       , docContent: this.Editor.codeEditor.getValue()
     }
 

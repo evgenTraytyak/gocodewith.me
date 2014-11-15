@@ -65,9 +65,6 @@ exports.start = function (config) {
             }
             
           });
-
-          
-          //response.end()
         } 
         else {
           //reading index file
@@ -96,7 +93,12 @@ exports.start = function (config) {
 
 
 function saveDocument(jsonDoc) {
-  fs.writeFileSync( __dirname + path.sep + 'savedDocuments' 
+
+  if (!fs.existsSync(__dirname + path.sep + 'savedDocuments')) {
+    fs.mkdirSync(__dirname + path.sep + 'savedDocuments')
+  }
+
+  fs.writeFileSync( __dirname + path.sep + 'savedDocuments'
               + path.sep + jsonDoc.docName, jsonDoc.docContent )
 }
 
