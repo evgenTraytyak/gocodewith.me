@@ -57,8 +57,12 @@ Team1 = {
     if (document.users)
       this.Roster.fillList(document.users)
 
-    if (document.id)
+    if (document.id) {
       window.location.hash = '#' + document.id
+      if (Team1.Roster.getUsersCount() == 1) {
+        this.loadDocument(document.id)
+      }
+    }
   }
 
   , openDocument: function () {
@@ -126,7 +130,8 @@ Team1 = {
 
   , saveDocument: function () {
     var docContentObj = {
-      docName: this.documentId + '.js'      //добавить определение расширения файла
+      operation: 'save'
+      , docName: this.documentId
       , docContent: this.Editor.codeEditor.getValue()
     }
 
@@ -135,6 +140,27 @@ Team1 = {
             , data: JSON.stringify(docContentObj)
             , success: function(data) {
                 console.log('success')
+            }
+            , fail: function() {
+                console.log('error')
+            }
+        })
+  }
+
+  , loadDocument: function (docId) {
+    var docContentObj = {
+      operation: 'get'
+      , docName: this.documentId
+    }
+
+    $.ajax({ type: "POST"
+            , url: window.location.pathname
+            , dataType: 'json'
+            , data: JSON.stringify(docContentObj)
+            , success: function(doc) {
+                console.log('success')
+                console.log(doc.value);
+                Team1.Editor.codeEditor.getDoc().setValue(doc.value)
             }
             , fail: function() {
                 console.log('error')

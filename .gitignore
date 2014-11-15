@@ -8,3 +8,4 @@ libs
 index.html
 npm-debug.log
 server/savedDocuments
+dist
