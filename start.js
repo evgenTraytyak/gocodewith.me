@@ -13,7 +13,7 @@ exec('npm install', function(err) {
 
     console.log('Bower components were installed ...')
     console.log('Run gulp ...')
-    exec('npm run make', function(err) {
+    exec('npm run gulp', function(err) {
 
       if (err !== null) console.error('Exec error \'Gulp\': ' + err)
 

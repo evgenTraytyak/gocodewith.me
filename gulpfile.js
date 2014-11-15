@@ -164,8 +164,7 @@ gulp.task('tdd', function (done) {
 })
 
 
-gulp.task('default', runSequence( 'config', 'index.min.html')
-);
+gulp.task('default', runSequence( 'config', 'index.min.html'))
 
 
 gulp.task('watch', ['config', 'compress', 'index.min.html', 'watch'])
