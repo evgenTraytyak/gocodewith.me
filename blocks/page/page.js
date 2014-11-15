@@ -58,8 +58,12 @@ Team1 = {
     if (document.users)
       this.Roster.fillList(document.users)
 
-    if (document.id)
+    if (document.id) {
       window.location.hash = '#' + document.id
+      if (Team1.Roster.getUsersCount() == 1) {
+        this.loadDocument(document.id)
+      }
+    }
   }
 
   , openDocument: function () {
@@ -132,6 +136,46 @@ Team1 = {
     )
   }
 
+  , saveDocument: function () {
+    var docContentObj = {
+      operation: 'save'
+      , docName: this.documentId
+      , docContent: this.Editor.codeEditor.getValue()
+    }
+
+    $.ajax({ type: "POST"
+            , url: window.location.pathname
+            , data: JSON.stringify(docContentObj)
+            , success: function(data) {
+                console.log('success')
+            }
+            , fail: function() {
+                console.log('error')
+            }
+        })
+  }
+
+  , loadDocument: function (docId) {
+    var docContentObj = {
+      operation: 'get'
+      , docName: this.documentId
+    }
+
+    $.ajax({ type: "POST"
+            , url: window.location.pathname
+            , dataType: 'json'
+            , data: JSON.stringify(docContentObj)
+            , success: function(doc) {
+                console.log('success')
+                console.log(doc.value);
+                Team1.Editor.codeEditor.getDoc().setValue(doc.value)
+            }
+            , fail: function() {
+                console.log('error')
+            }
+        })
+  }
+
   , getSocket : function () {
     return new WebSocket('ws://' + Host)
   }
@@ -142,3 +186,15 @@ $(document).ready(function () {
     socketUrl: 'http://' + Host
   })
 })
+
+window.onbeforeunload = function () {
+  if (Team1.Roster.getUsersCount() == 1) {
+      Team1.saveDocument()
+  }
+}
+
+window.onunload = function () {
+  if (Team1.Roster.getUsersCount() == 1) {
+      Team1.saveDocument()
+  }
+}

@@ -3,6 +3,7 @@ var http = require('http')
   , fs = require('fs')
   , log = require('npmlog')
   , isStarted = !1
+  , path = require('path')
 
 exports.start = function (config) {
   if (config && !isStarted) {
@@ -30,6 +31,41 @@ exports.start = function (config) {
             response.end()
           })
         }
+        else if (request.method == 'POST') {
+          var body = ''
+          request.on('data', function (data) {
+              body += data
+          });
+          request.on('end', function () {
+            var jsonBody = JSON.parse(body)
+            if (jsonBody.operation == 'save') {
+              saveDocument(jsonBody)
+            }
+            else if (jsonBody.operation == 'get') {
+              //console.log('getDocument ' + jsonBody.docName)
+              var docContent = getDocument(jsonBody.docName)
+              //console.log(docContent)
+              var docObj = {
+                value: docContent
+              }
+
+              var docJSON = JSON.stringify(docObj)
+              
+              if (docJSON != null) {
+                //response.writeHead(200, { 'Content-Type': 'application/json' })
+                console.log(docJSON)
+                //response.write(docJSON)
+                response.end(docJSON)
+              }
+              else {
+                console.log('nothing');
+                response.end()
+              }
+              
+            }
+            
+          });
+        } 
         else {
           //reading index file
           fs.readFile(config.index, function (err, page) {
@@ -53,4 +89,28 @@ exports.start = function (config) {
       log.error('HTTP server', 'Server can\'t start. ' + e)
     }
   }
+}
+
+
+function saveDocument(jsonDoc) {
+
+  if (!fs.existsSync(__dirname + path.sep + 'savedDocuments')) {
+    fs.mkdirSync(__dirname + path.sep + 'savedDocuments')
+  }
+
+  fs.writeFileSync( __dirname + path.sep + 'savedDocuments'
+              + path.sep + jsonDoc.docName, jsonDoc.docContent )
+}
+
+
+function getDocument(docId) {
+  var pathToDoc = __dirname + path.sep + 'savedDocuments' + path.sep + docId
+
+  if (fs.existsSync(pathToDoc)) {
+    return fs.readFileSync(pathToDoc, "utf8")
+  }
+  else {
+    return null
+  }
+
 }

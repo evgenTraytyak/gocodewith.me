@@ -26,7 +26,7 @@
 
 /* temporarily */
 .header__logo__name:after {
-  content: '0.0.2';
+  content: '0.1.0';
   position: absolute;
   top: -5px;
   right: -40px;
