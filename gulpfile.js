@@ -31,33 +31,25 @@ gulp.task('config', function () {
     .pipe(gulp.dest('./config'))
 })
 
-gulp.task('compress', function() {
-  //css
-  gulp.src(['blocks/**/*.css', 'libs/codemirror/lib/codemirror.css'])
-    .pipe(minifyCSS({keepBreaks:false}))
-    .pipe(gulp.dest('./dist/css'))
-
-  //js
-  gulp.src(
-    [ 'blocks/**/*.js'
-    , 'libs/codemirror/lib/codemirror.js'
-    , 'libs/share-codemirror/share-codemirror.js'
-    , 'libs/codemirror/mode/javascript/javascript.js'
-    ]
-  )
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/js'))
-
-  //html
-  var opts = {comments:true,spare:true};
-  gulp.src('blocks/**/*.html')
-    .pipe(minifyHTML(opts))
-    .pipe(gulp.dest('./dist/html'))
-})
-
 gulp.task('index.min.html', function () {
+  var opts = {comments:true,spare:true};
   streamqueue(
     { objectMode: true }
+    , gulp.src('blocks/**/*.html')
+      .pipe(minifyHTML(opts))
+      .pipe(gulp.dest('./dist/html'))
+    , gulp.src(['blocks/**/*.css', 'libs/codemirror/lib/codemirror.css'])
+      .pipe(minifyCSS({keepBreaks:false}))
+      .pipe(gulp.dest('./dist/css'))
+    , gulp.src(
+      [ 'blocks/**/*.js'
+      , 'libs/codemirror/lib/codemirror.js'
+      , 'libs/share-codemirror/share-codemirror.js'
+      , 'libs/codemirror/mode/javascript/javascript.js'
+      ]
+    )
+      .pipe(uglify())
+      .pipe(gulp.dest('dist/js'))
     , gulp.src('dist/html/page/page.html')
     , gulp
       .src('dist/html/**/*.html')
@@ -172,9 +164,7 @@ gulp.task('tdd', function (done) {
 })
 
 
-gulp.task('default', runSequence( 'config'
-                                , 'compress'
-                                , 'index.min.html')
+gulp.task('default', runSequence( 'config', 'index.min.html')
 );
 
 
