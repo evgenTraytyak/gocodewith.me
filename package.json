@@ -11,7 +11,7 @@
     "lint": "node_modules/.bin/jshint .",
     "codestyle": "node_modules/.bin/jscs .",
     "test": "node_modules/.bin/karma start karma.conf.js",
-    "make": "./node_modules/.bin/gulp"
+    "gulp": "./node_modules/.bin/gulp"
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,6 @@
     "run-sequence": "^1.0.1"
   },
   "devDependencies": {
-    "gulp-minify-css": "^0.3.11",
     "jscs": "~1.7.3",
     "jshint": "~2.5.8",
     "karma": "~0.12.0",

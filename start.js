@@ -1,4 +1,5 @@
 var exec = require('child_process').exec
+  , serverJSPath = require.resolve('./server')
 
 console.log('Installing node_modules ...')
 exec('npm install', function(err) {
@@ -13,13 +14,13 @@ exec('npm install', function(err) {
 
     console.log('Bower components were installed ...')
     console.log('Run gulp ...')
-    exec('npm run make', function(err) {
+    exec('npm run gulp', function(err) {
 
       if (err !== null) console.error('Exec error \'Gulp\': ' + err)
 
       console.log('Gulp was made')
-      console.log('Started server')
-      exec('node server.js')
+      console.log('Started server ', serverJSPath)
+      exec('node ' + serverJSPath)
     });
   })
 })
