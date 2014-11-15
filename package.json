@@ -2,7 +2,7 @@
   "name": "WingPad",
   "version": "0.0.1",
   "description": "application for a multi-user online document editing",
-  "main": "server.js",
+  "main": "start.js",
   "precommit": [
     "lint",
     "codestyle"
