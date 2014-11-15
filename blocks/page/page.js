@@ -126,7 +126,7 @@ Team1 = {
 
   , saveDocument: function () {
     var docContentObj = {
-      docName: this.documentId + '.js'      //добавить определение расширения файла
+      docName: this.documentId + '.txt'      //добавить определение расширения файла
       , docContent: this.Editor.codeEditor.getValue()
     }
 
