@@ -1,4 +1,5 @@
 var Team1 = Team1 || {}
+var Host = window.location.hostname + ':7900'
 
 Team1 = {
   start: function (options) {
@@ -121,14 +122,13 @@ Team1 = {
   }
 
   , getSocket: function () {
-    return new WebSocket('ws://' + 'localhost' + ':7900')
+    return new WebSocket('ws://' + Host)
   }
 
 }
 
-//wrong place for it.
 $(document).ready(function () {
   Team1.start({
-    socketUrl: 'http://127.0.0.1:7900'
+    socketUrl: 'http://' + Host
   })
 })
