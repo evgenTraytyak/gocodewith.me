@@ -23,6 +23,9 @@ describe("Page Integration Tests", function () {
     , setOnCloseMessageFn: function (handler) {
       socketHandlers['leave'] = handler
     }
+    , setOnMetaMessageFn: function (handler) {
+      socketHandlers['leave'] = handler
+    }
     }
   }
 
@@ -53,6 +56,7 @@ describe("Page Integration Tests", function () {
     var testTitle = "test dima"
 
     spyOn(this.testSocket, "send")
+    spyOn(_, "random").and.returnValue(100)
 
     this.promptSpy.and.returnValue(testTitle)
 
@@ -64,7 +68,7 @@ describe("Page Integration Tests", function () {
         { title: testTitle
         }
         , document:
-        { id: null
+        { id: 100
         }
       } )
     )
@@ -79,14 +83,17 @@ describe("Page Integration Tests", function () {
           [ {
             id: 1
           , title: "test1"
+          , color: "black"
           }
           , {
             id: 2
           , title: "test1"
+          , color: "black"
           }
           , {
             id: 3
           , title: "test1"
+          , color: "black"
           }
           ]
         }
@@ -105,6 +112,7 @@ describe("Page Integration Tests", function () {
       , { user:
           { id: 1
           , title: "test1"
+          , color: "black"
           }
         }
       )

@@ -4,14 +4,17 @@ describe("Roster Tests", function () {
     { user:
       { id: 100
       , title: "testTitle"
+      , color: "black"
       }
       , usersList:
       [ { id: 101
         , title: "one"
+        , color: "black"
         }
         , {
           id: 102
         , title: "two"
+        , color: "black"
         }
       ]
     }
