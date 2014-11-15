@@ -19,7 +19,9 @@ exec('npm install', function(err) {
 
       console.log('Gulp was made')
       console.log('Started server')
-      exec('node server.js')
+      exec('node server.js', function(err) {
+        if (err !== null) console.error('Exec error \'node server.js\': ' + err)
+      })
     });
   })
 })
