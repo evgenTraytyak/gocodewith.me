@@ -7,3 +7,6 @@ node_modules
 libs
 index.html
 npm-debug.log
+
+#deployment
+.deploy

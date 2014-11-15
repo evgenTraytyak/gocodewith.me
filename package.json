@@ -1,5 +1,5 @@
 {
-  "name": "Later",
+  "name": "WingPad",
   "version": "0.0.1",
   "description": "application for a multi-user online document editing",
   "main": "server.js",
@@ -40,6 +40,7 @@
     "ws": "0.4.32"
   },
   "devDependencies": {
+    "gulp-minify-css": "^0.3.11",
     "jscs": "~1.7.3",
     "jshint": "~2.5.8",
     "karma": "~0.12.0",
