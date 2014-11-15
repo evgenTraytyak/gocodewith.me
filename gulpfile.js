@@ -35,7 +35,7 @@ gulp.task('compress', function() {
   gulp.src(['blocks/**/*.css', 'libs/codemirror/lib/codemirror.css'])
     .pipe(minifyCSS({keepBreaks:false}))
     .pipe(gulp.dest('./dist/css'))
-    
+
   //js
   gulp.src(
     ['blocks/**/*.js'
@@ -170,11 +170,6 @@ gulp.task('tdd', function (done) {
   }, done)
 })
 
-<<<<<<< HEAD
-gulp.task('default', ['config', 'index.html', 'watch'])
-gulp.task('make', ['config', 'index.html'])
-=======
 gulp.task('default', ['config', 'compress', 'index.min.html'])
 gulp.task('watch', ['config', 'compress', 'index.min.html', 'watch'])
 gulp.task('nominify', ['config', 'index.html'])
->>>>>>> 93bc9be... Add minification
