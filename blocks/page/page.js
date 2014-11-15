@@ -79,6 +79,7 @@ Team1 = {
     this.doc.setOnOpenMessageFn(this.onSocketOpen)
     this.doc.setOnJoinMessageFn(this.onSocketJoin)
     this.doc.setOnCloseMessageFn(this.onSocketLeave)
+    this.doc.setOnMetaMessageFn(this.onSocketMeta)
   }
 
   , send: function (message, callback) {
@@ -112,6 +113,7 @@ Team1 = {
 
   , onSocketLeave: function (data) {
     this.Roster.remove(data.user.id)
+    this.Editor.removeCursor(data.user.id)
   }
 
   , onSocketOpen: function (data) {
@@ -121,10 +123,18 @@ Team1 = {
     this.buildDocumentInterface(data.document || {})
   }
 
-  , getSocket: function () {
-    return new WebSocket('ws://' + Host)
+  , onSocketMeta : function (data) {
+    this.Editor.updateCursor(
+      { id: data.id
+      , position : data.meta
+      , color : 'red'
+      }
+    )
   }
 
+  , getSocket : function () {
+    return new WebSocket('ws://' + Host)
+  }
 }
 
 $(document).ready(function () {

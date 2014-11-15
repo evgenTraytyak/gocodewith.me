@@ -1,27 +1,13 @@
 .layout {
-  margin-top: -70px;
-  padding-top: 70px;
+  margin-top: -40px;
+  padding-top: 40px;
   display: flex;
   flex-direction: row;
   height: 100%;
   box-sizing: border-box;
 }
 .editor {
-  width: calc(100% - 300px);
+  width: 70%;
   height: 100%;
   background: #333;
-  overflow: auto;
 }
-/*  cm - CodeMirror */
-.cm_cursor {
-  height: 13px;
-  left: 10px;
-}
-
-.switchery {
-  height: 25px;
-  }
-  .switchery small {
-    width: 25px;
-    height: 25px;
-  }

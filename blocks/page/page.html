@@ -13,22 +13,22 @@
       <select class="control__themelist"></select>
     </div>
     <div class="control__editor-mode">
-      
+      <img src='data:image/svg+xml;utf8, <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 32 32" width="24px" height="24px" style="enable-background:new 0 0 32 32;" xml:space="preserve" fill="#AFBEC5"> <g id="Moon"> <g> <path style="fill-rule:evenodd;clip-rule:evenodd;" d="M31.626,19.381c-0.183-0.149-0.407-0.224-0.633-0.224 c-0.168,0-0.337,0.042-0.49,0.127c-1.882,1.05-4.05,1.65-6.359,1.65c-7.224,0-13.078-5.854-13.078-13.078 c0-2.309,0.6-4.478,1.65-6.36c0.2-0.359,0.162-0.804-0.097-1.123C12.426,0.133,12.137,0,11.838,0 c-0.099,0-0.199,0.015-0.296,0.045C4.868,2.101,0,8.311,0,15.653C0,24.667,7.334,32,16.348,32c7.341,0,13.552-4.868,15.607-11.541 C32.076,20.066,31.946,19.639,31.626,19.381z M16.348,29C8.988,29,3,23.013,3,15.653C3,11.348,5.028,7.451,8.324,4.99 C8.153,5.933,8.066,6.893,8.066,7.856c0,8.865,7.212,16.078,16.078,16.078c0.964,0,1.923-0.087,2.866-0.258 C24.549,26.973,20.653,29,16.348,29z"/></g></g></svg>' alt="">
 
       <input type="checkbox" class="js-switch js-editor-mode-switch" />
 
-      
+      <img src='data:image/svg+xml;utf8, <svg version="1.1" id="Layer_3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px" height="24px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve" fill="#AFBEC5"> <path d="M457.637,284.17l50.285-39.842l-54.174-34.372l32.666-55.217l-62.895-12.674l10.71-63.256l-63.259,10.707L358.3,26.624 l-61.208,33.75L255.48,4.768L218.322,57.07l-53.432-35.512l-15.948,62.145l-62.61-14.005l7.383,63.731l-63.469,9.363l29.73,56.853 L4.078,231.132l48.131,42.422l-40.902,49.427l60.137,22.356L50.971,406.14l64.154-0.68l2.678,64.101l59.648-23.626l25.471,58.884 l47.221-43.433l44.881,45.845l28.521-57.471l58.328,26.717l6.031-63.875l64.027,4.039l-17.259-61.793l61.224-19.176L457.637,284.17z M99.472,256c0-86.31,70.219-156.528,156.528-156.528S412.527,169.69,412.527,256S342.31,412.528,256,412.528 S99.472,342.31,99.472,256z"/></svg>' alt="">
     </div>
   </div>
 </header>
 
 <div class="layout">
+  <section class="editor">
+    <textarea id="docEditor"></textarea>
+  </section>
   <aside class="roster">
     <ul class="roster-list"></ul>
   </aside>
-  <section class="editor">
-    <textarea  id="docEditor" width="400" height="200"></textarea>
-  </section>
 </div>
 
 <script type="template" id="user-tpl">

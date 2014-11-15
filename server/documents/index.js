@@ -1,3 +1,7 @@
+/**
+ * Created by Mantsevich on 23.10.2014.
+ */
+
 var Document = require('./document')
 
 /**
