@@ -1,27 +1,27 @@
 .CodeMirror {
-height: 100%;
+  height: 100%;
 }
 .cm-background-yellow {
-background-color : yellow;
+  background-color : yellow;
 }
 .cm-background-red {
-background-color : red;
+  background-color : red;
 }
 .cm_cursor {
-height: 13px;
-left: 10px;
+  height: 13px;
+  left: 10px;
 }
 .cm-cursor:before {
-content: "";
-border-left: 2px solid;
+  content: "";
+  border-left: 2px solid;
 }
 .cm-cursor-last:after {
-content: "";
-border-left: 2px solid;
+  content: "";
+  border-left: 2px solid;
 }
 .cm-cursor-red:before, .cm-cursor-last-red:after {
-border-color: red;
+  border-color: red;
 }
 .cm-cursor-green:before, .cm-cursor-last-green:after {
-border-color: green;
+  border-color: green;
 }
