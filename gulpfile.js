@@ -38,7 +38,7 @@ gulp.task('compress', function() {
 
   //js
   gulp.src(
-    ['blocks/**/*.js'
+    [ 'blocks/**/*.js'
     , 'libs/codemirror/lib/codemirror.js'
     , 'libs/share-codemirror/share-codemirror.js'
     , 'libs/codemirror/mode/javascript/javascript.js'
