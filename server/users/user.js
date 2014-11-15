@@ -9,7 +9,7 @@ var _ = require('lodash-node')
   )
 
   , getUID = function () {
-    return _.uniqueId('user-')
+    return _.uniqueId()
   }
   , Documents = require('../documents')
   , User = function (options) {
@@ -73,6 +73,14 @@ proto.onMessage = function (data) {
   return this._stream.push(jsonData)
 }
 
+proto.getColor = function () {
+  return this.color
+}
+
+proto.setColor = function (color) {
+  this.color = color
+}
+
 /**
  * Fire event on client (Unsafe!) TODO: Discuss with Team
  * @param event
@@ -103,9 +111,11 @@ proto.exportOnlyId = function () {
  * @returns {Object|*}
  */
 proto.exportPublicData = function () {
-  return _.extend(this.exportOnlyId(), {
-    title: this.props.title
-  })
+  return _.extend(this.exportOnlyId(),
+    { title: this.props.title
+    , color: this.color
+    }
+  )
 }
 
 /**
@@ -161,7 +171,7 @@ proto.updateData = function (data) {
 }
 
 /**
- * Helper for our "stupid" API
+ * Helper for our API
  * @param data
  * @returns {User}
  * @private
