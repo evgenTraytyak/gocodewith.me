@@ -5,6 +5,7 @@
 # Ignore node package
 node_modules
 libs
+dist
 index.html
 npm-debug.log
 

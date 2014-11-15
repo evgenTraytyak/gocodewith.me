@@ -9,7 +9,11 @@ exec('npm install', function() {
 
     console.log('Bower components were installed ...')
     console.log('Run gulp ...')
+<<<<<<< HEAD
     exec('npm make run', function() {
+=======
+    exec('gulp', function() {
+>>>>>>> origin/deploy
 
       console.log('Gulp was made')
       console.log('Started server')
