@@ -97,3 +97,4 @@ gulp.task('tdd', function (done) {
 })
 
 gulp.task('default', ['config', 'index.html', 'watch'])
+gulp.task('make', ['config', 'index.html'])
