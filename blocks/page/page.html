@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <head>
-  <title>Team 1</title>
+  <title>WingPad</title>
 </head>
 
 <header class="header">
@@ -27,10 +27,10 @@
     <ul class="roster-list"></ul>
   </aside>
   <section class="editor">
-    <textarea  id="docEditor" width="400" height="200"></textarea>
+    <textarea id="docEditor"></textarea>
   </section>
 </div>
 
 <script type="template" id="user-tpl">
-  <li id="<%= id %>" class="roster-item"><%= title %></li>
+  <li id="<%= id %>" class="roster-item" style="color: <%= color %>"><%= title %></li>
 </script>

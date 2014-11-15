@@ -1,0 +1,5 @@
+{
+    "prod" : {
+        "url" : "http://admin:admin@team-1.shpilevsky.com:15478/"
+    }
+}

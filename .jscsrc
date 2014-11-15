@@ -1,5 +1,5 @@
 {
-  "excludeFiles": ["node_modules/**", "libs/**", "tests/**", "karma.conf.js"],
+  "excludeFiles": ["node_modules/**", "libs/**", "tests/**", "karma.conf.js", "dist/**"],
   "maximumLineLength": 80,
   "validateIndentation": 2,
   "requireSpaceAfterKeywords": true,

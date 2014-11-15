@@ -1,3 +1,7 @@
+/**
+ * Created by Mantsevich on 21.10.2014.
+ */
+
 var _ = require('lodash-node')
   , Duplex = require('stream').Duplex
   , livedb = require('livedb')
@@ -9,7 +13,7 @@ var _ = require('lodash-node')
   )
 
   , getUID = function () {
-    return _.uniqueId('user-')
+    return _.uniqueId()
   }
   , Documents = require('../documents')
   , User = function (options) {
@@ -48,7 +52,7 @@ var _ = require('lodash-node')
     this._connection.on('close', function (reason) {
       self._stream.push(null)
       self._stream.emit('close')
-      self.destroy()
+      self.destroy();
       return self._connection.close( reason )
     })
 
@@ -67,10 +71,22 @@ proto.onMessage = function (data) {
 
   if (jsonData.a === 'open')
   { this.onOpenEvent(jsonData)
-    return
+    return;
+  }
+  if (jsonData.a === 'meta')
+  { this.onMetaEvent(jsonData)
+    return;
   }
 
   return this._stream.push(jsonData)
+}
+
+proto.getColor = function () {
+  return this.color
+}
+
+proto.setColor = function (color) {
+  this.color = color
 }
 
 /**
@@ -103,9 +119,11 @@ proto.exportOnlyId = function () {
  * @returns {Object|*}
  */
 proto.exportPublicData = function () {
-  return _.extend(this.exportOnlyId(), {
-    title: this.props.title
-  })
+  return _.extend(this.exportOnlyId(),
+    { title: this.props.title
+    , color: this.color
+    }
+  )
 }
 
 /**
@@ -161,7 +179,7 @@ proto.updateData = function (data) {
 }
 
 /**
- * Helper for our "stupid" API
+ * Helper for our API
  * @param data
  * @returns {User}
  * @private
@@ -172,6 +190,12 @@ proto.onOpenEvent = function (data) {
   this.openDocument(data.document)
   return this
 }
+
+proto.onMetaEvent = function (data) {
+  this.document.metaCollaborators(this, data)
+  return this
+}
+
 /**
  * Destroy info about user
  */

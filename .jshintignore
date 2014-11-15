@@ -2,3 +2,4 @@ node_modules
 libs
 tests
 blocks/page/socket.js
+dist

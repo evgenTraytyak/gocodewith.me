@@ -1,4 +1,5 @@
 var Team1 = Team1 || {}
+var Host = window.location.hostname + ':7900'
 
 Team1 = {
   start: function (options) {
@@ -82,6 +83,7 @@ Team1 = {
     this.doc.setOnOpenMessageFn(this.onSocketOpen)
     this.doc.setOnJoinMessageFn(this.onSocketJoin)
     this.doc.setOnCloseMessageFn(this.onSocketLeave)
+    this.doc.setOnMetaMessageFn(this.onSocketMeta)
   }
 
   , send: function (message, callback) {
@@ -115,6 +117,7 @@ Team1 = {
 
   , onSocketLeave: function (data) {
     this.Roster.remove(data.user.id)
+    this.Editor.removeCursor(data.user.id)
   }
 
   , onSocketOpen: function (data) {
@@ -124,18 +127,19 @@ Team1 = {
     this.buildDocumentInterface(data.document || {})
   }
 
-  , getSocket: function () {
-    return new WebSocket('ws://' + 'localhost' + ':7900')
+  , onSocketMeta : function (data) {
+    this.Editor.updateCursor(
+      { id: data.id
+      , position : data.meta
+      , color : data.color
+      }
+    )
   }
 
   , saveDocument: function () {
     var docContentObj = {
-<<<<<<< HEAD
       operation: 'save'
       , docName: this.documentId
-=======
-      docName: this.documentId + '.txt'      //добавить определение расширения файла
->>>>>>> 4fa663545018c8b4aebb116ac60d043123fe3385
       , docContent: this.Editor.codeEditor.getValue()
     }
 
@@ -172,12 +176,14 @@ Team1 = {
         })
   }
 
+  , getSocket : function () {
+    return new WebSocket('ws://' + Host)
+  }
 }
 
-//wrong place for it.
 $(document).ready(function () {
   Team1.start({
-    socketUrl: 'http://127.0.0.1:7900'
+    socketUrl: 'http://' + Host
   })
 })
 
