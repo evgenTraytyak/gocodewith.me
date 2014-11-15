@@ -9,6 +9,7 @@ var gulp = require('gulp')
   , uglify = require('gulp-uglify')
   , minifyCSS = require('gulp-minify-css')
   , minifyHTML = require('gulp-minify-html')
+  , runSequence = require('run-sequence')
   , env = process.env.NODE_ENV || 'DEV'
 
 gulp.task('config', function () {
@@ -170,6 +171,12 @@ gulp.task('tdd', function (done) {
   }, done)
 })
 
-gulp.task('default', ['config', 'compress', 'index.min.html'])
+
+gulp.task('default', runSequence( 'config'
+                                , 'compress'
+                                , 'index.min.html')
+);
+
+
 gulp.task('watch', ['config', 'compress', 'index.min.html', 'watch'])
 gulp.task('nominify', ['config', 'index.html'])
