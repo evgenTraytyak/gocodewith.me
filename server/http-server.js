@@ -1,13 +1,45 @@
-var http = require('http')
+var express = require('express')
+  , app = express()
+  , http = require('http')
+  , http = require('http')
   , url = require('url')
   , fs = require('fs')
   , log = require('npmlog')
+  , dbConfig = require('./db')
+  , mongoose = require('mongoose')
   , isStarted = !1
   , path = require('path')
+
+var routes = require('./routes/index')
+
+function saveDocument(jsonDoc) {
+
+  if (!fs.existsSync(__dirname + path.sep + 'savedDocuments')) {
+    fs.mkdirSync(__dirname + path.sep + 'savedDocuments')
+  }
+
+  fs.writeFileSync( __dirname + path.sep + 'savedDocuments'
+              + path.sep + jsonDoc.docName, jsonDoc.docContent )
+}
+
+
+function getDocument(docId) {
+  var pathToDoc = __dirname + path.sep + 'savedDocuments' + path.sep + docId
+
+  if (fs.existsSync(pathToDoc)) {
+    return fs.readFileSync(pathToDoc, 'utf8')
+  }
+  else {
+    return null
+  }
+
+}
 
 exports.start = function (config) {
   if (config && !isStarted) {
     try {
+      mongoose.connect(dbConfig.url)
+
       http.createServer(function (request, response) {
         log.http(request.method + ' request', request.url)
 
@@ -50,9 +82,8 @@ exports.start = function (config) {
               }
 
               var docJSON = JSON.stringify(docObj)
-              
-              if (docJSON != null) {
-                //response.writeHead(200, { 'Content-Type': 'application/json' })
+
+              if (docJSON !== null) {
                 console.log(docJSON)
                 //response.write(docJSON)
                 response.end(docJSON)
@@ -61,11 +92,11 @@ exports.start = function (config) {
                 console.log('nothing');
                 response.end()
               }
-              
+
             }
-            
+
           });
-        } 
+        }
         else {
           //reading index file
           fs.readFile(config.index, function (err, page) {
@@ -92,25 +123,3 @@ exports.start = function (config) {
 }
 
 
-function saveDocument(jsonDoc) {
-
-  if (!fs.existsSync(__dirname + path.sep + 'savedDocuments')) {
-    fs.mkdirSync(__dirname + path.sep + 'savedDocuments')
-  }
-
-  fs.writeFileSync( __dirname + path.sep + 'savedDocuments'
-              + path.sep + jsonDoc.docName, jsonDoc.docContent )
-}
-
-
-function getDocument(docId) {
-  var pathToDoc = __dirname + path.sep + 'savedDocuments' + path.sep + docId
-
-  if (fs.existsSync(pathToDoc)) {
-    return fs.readFileSync(pathToDoc, "utf8")
-  }
-  else {
-    return null
-  }
-
-}
