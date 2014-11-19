@@ -1,0 +1,35 @@
+.signup__form .signup__form__input, .signup__form .signup__form__button {
+  margin: 15px 0;
+  padding: 12px 20px;
+  font-size: 16px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  outline: none;
+  -webkit-appearance: none;
+  font-family: "Lato", "Helvetica Neue", Helvetica, Arial; }
+
+html, body {
+  height: 100%; }
+
+.signup {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #293143; }
+
+.signup__form {
+  width: 500px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+  .signup__form .signup__form__input {
+    width: 100%;
+    border: 1px solid #ECF0F1; }
+  .signup__form .signup__form__button {
+    width: 200px;
+    border: 0;
+    background-color: #E34234;
+    color: white;
+    cursor: pointer; }
