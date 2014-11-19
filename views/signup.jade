@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title=title
+    link(rel='stylesheet', href='build/reset.css')
+    link(rel='stylesheet', href='build/signup.css')
+  body
+    div.signup
+      form(class='signup__form', action='/signup', method='POST')
+        input(type='email', name='email', class='signup__form__input', placeholder='Email', required)
+        input(type='password',name='password', class='signup__form__input', placeholder='Password', required)
+        input(type='password',name='confirmPassword', class='signup__form__input', placeholder='Confirm password', required)
+        input(type='text', name='firstName', class='signup__form__input', placeholder='First Name', required)
+        input(type='text', name='lastName', class='signup__form__input', placeholder='Last Name', required)
+        button(class='signup__form__button', type='submit') Register

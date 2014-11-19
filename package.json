@@ -4,7 +4,8 @@
   "description": "application for a multi-user online document editing",
   "main": "start.js",
   "scripts": {
-    "gulp": "./node_modules/.bin/gulp"
+    "gulp": "./node_modules/.bin/gulp",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -17,25 +18,26 @@
   },
   "homepage": "https://github.com/yandex-shri-minsk-2014/team-1",
   "dependencies": {
+    "express": "^4.10.2",
     "gulp": "^3.8.8",
     "gulp-autoprefixer": "^1.0.1",
     "gulp-concat": "^2.4.1",
     "gulp-ignore": "^1.2.1",
+    "gulp-minify-css": "^0.3.11",
+    "gulp-minify-html": "^0.1.6",
+    "gulp-uglify": "^1.0.1",
     "gulp-watch": "^1.1.0",
     "gulp-wrap": "^0.3.0",
+    "jade": "^1.7.0",
+    "livedb": "^0.4.8",
     "lodash-node": "^2.4.1",
     "npmlog": "^0.1.1",
     "ot": "0.0.14",
+    "run-sequence": "^1.0.1",
+    "share": "^0.7.3",
     "socket.io": "^1.1.0",
     "streamqueue": "^0.1.1",
-    "livedb": "^0.4.8",
-    "share": "^0.7.3",
-    "ws": "0.4.32",
-    "gulp-uglify": "^1.0.1",
-    "gulp-minify-css": "^0.3.11",
-    "gulp-minify-html": "^0.1.6",
-    "run-sequence": "^1.0.1",
-    "express": "^4.10.2"
+    "ws": "0.4.32"
   },
   "devDependencies": {
     "jscs": "~1.7.3",
