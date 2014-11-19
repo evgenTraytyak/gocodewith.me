@@ -143,16 +143,17 @@ Team1 = {
       , docContent: this.Editor.codeEditor.getValue()
     }
 
-    $.ajax({ type: "POST"
-            , url: window.location.pathname
-            , data: JSON.stringify(docContentObj)
-            , success: function(data) {
-                console.log('success')
-            }
-            , fail: function() {
-                console.log('error')
-            }
-        })
+    $.ajax(
+      { type: 'POST'
+      , url: window.location.pathname
+      , data: JSON.stringify(docContentObj)
+      , success: function(data) {
+          console.log('success')
+      }
+      , fail: function() {
+          console.log('error')
+        }
+      })
   }
 
   , loadDocument: function (docId) {
@@ -161,21 +162,22 @@ Team1 = {
       , docName: this.documentId
     }
 
-    $.ajax({ type: "POST"
-            , url: window.location.pathname
-            , dataType: 'json'
-            , data: JSON.stringify(docContentObj)
-            , success: function(doc) {
-                console.log('success')
-                console.log(doc.value);
-                if (doc != null) {
-                  Team1.Editor.codeEditor.getDoc().setValue(doc.value)
-                }
-            }
-            , fail: function() {
-                console.log('error')
-            }
-        })
+    $.ajax(
+      { type: 'POST'
+      , url: window.location.pathname
+      , dataType: 'json'
+      , data: JSON.stringify(docContentObj)
+      , success: function(doc) {
+          console.log('success')
+          console.log(doc.value);
+          if (doc !== null) {
+            Team1.Editor.codeEditor.getDoc().setValue(doc.value)
+          }
+      }
+      , fail: function() {
+          console.log('error')
+        }
+      })
   }
 
   , getSocket : function () {
