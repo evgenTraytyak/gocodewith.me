@@ -11,6 +11,8 @@ var gulp = require('gulp')
   , minifyHTML = require('gulp-minify-html')
   , runSequence = require('run-sequence')
   , env = process.env.NODE_ENV || 'DEV'
+  , sass = require('gulp-sass')
+
 
 gulp.task('config', function () {
 
@@ -141,15 +143,6 @@ gulp.task('index.html', function () {
     .pipe(gulp.dest('./'))
 })
 
-gulp.task('watch', function () {
-  watch([ 'blocks/**/*.html'
-        , 'blocks/**/*.css'
-        , 'blocks/**/*.js']
-        , function () {
-    gulp.start('index.html')
-  })
-})
-
 gulp.task('test', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
@@ -163,9 +156,15 @@ gulp.task('tdd', function (done) {
   }, done)
 })
 
+//gulp.task('default', runSequence( 'config', 'index.html'))
 
-gulp.task('default', runSequence( 'config', 'index.html'))
+gulp.task('default', function () {
+  gulp.src('./public/source/*.scss')
+    .pipe(watch('./public/source/*.scss', function (files) {
+      return files.pipe(sass())
+        .pipe(autoprefixer('last 3 version', '> 5%', { cascade: true }))
+        .pipe(gulp.dest('./public/build/'))
+    }))
+})
 
-
-gulp.task('watch', ['config', 'compress', 'index.min.html', 'watch'])
 gulp.task('nominify', ['config', 'index.html'])
