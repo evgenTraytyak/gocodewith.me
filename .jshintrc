@@ -6,7 +6,6 @@
   "latedef": true,
   "quotmark": true,
   "undef": true,
-  "unused": true,
   "trailing": true,
   "asi": true,
   "maxlen": 80,
