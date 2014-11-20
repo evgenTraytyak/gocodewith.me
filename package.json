@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/yandex-shri-minsk-2014/team-1",
   "dependencies": {
+    "body-parser": "^1.9.2",
     "express": "^4.10.2",
+    "express-session": "^1.9.1",
     "gulp": "^3.8.8",
     "gulp-autoprefixer": "^1.0.1",
     "gulp-concat": "^2.4.1",
@@ -33,6 +35,7 @@
     "lodash-node": "^2.4.1",
     "npmlog": "^0.1.1",
     "ot": "0.0.14",
+    "passport": "^0.2.1",
     "run-sequence": "^1.0.1",
     "share": "^0.7.3",
     "socket.io": "^1.1.0",
