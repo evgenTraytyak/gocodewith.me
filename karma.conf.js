@@ -7,7 +7,7 @@ module.exports = function(config) {
       'libs/lodash/dist/lodash.min.js',
       'libs/socket.io-client/socket.io.js',
       'blocks/page/page.js',
-      'blocks/roster/roster.js',
+      'blocks/users/users.js',
       'tests/**/*spec.js',
       'blocks/**/*.html',
       'index.html'

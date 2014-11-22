@@ -1,6 +1,3 @@
-/**
- * Created by Mantsevich on 21.10.2014.
- */
 var log = require('npmlog')
   , Users = require('./users')
   , logPrefix = 'Socket Server'

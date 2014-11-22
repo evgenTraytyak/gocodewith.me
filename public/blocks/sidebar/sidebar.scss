@@ -1,0 +1,33 @@
+.sidebar {
+  width: 300px;
+  height: 100%;
+  box-sizing: border-box;
+  transition: all 0.1s;
+  }
+
+  .sidebar__users {
+    padding: 20px 0 0 30px;
+    }
+
+    .sidebar__users__item {
+      margin-bottom: 20px;
+      font: 16px Verdana, sans-serif;
+      }
+
+.sidebar--dark {
+  background-color: #293143;
+  border-right: 1px solid #212936;
+
+  .sidebar__users__item {
+    color: #fff;
+    }
+  }
+
+.sidebar--light {
+  border-right: 1px solid #d3d3d3;
+  background-color: #ECF0F1;
+
+  .sidebar__users__item {
+    color: #2B2F32;
+    }
+  }

@@ -1,7 +1,7 @@
-var Team1 = Team1 || {}
+var App = App || {}
 var Host = window.location.hostname + ':7900'
 
-Team1 = {
+App = {
   start: function (options) {
     _.bindAll(this)
 
@@ -43,8 +43,8 @@ Team1 = {
   , buildDocumentInterface: function (document) {
     var self = this
 
-    this.Roster = new Team1.Roster()
-    this.Editor = new Team1.Editor()
+    this.Users = new App.Users()
+    this.Editor = new App.Editor()
 
     this.doc.subscribe()
 
@@ -56,11 +56,11 @@ Team1 = {
     })
 
     if (document.users)
-      this.Roster.fillList(document.users)
+      this.Users.fillList(document.users)
 
     if (document.id) {
       window.location.hash = '#' + document.id
-      if (Team1.Roster.getUsersCount() == 1) {
+      if (App.Users.getUsersCount() == 1) {
         this.loadDocument(document.id)
       }
     }
@@ -69,10 +69,10 @@ Team1 = {
   , openDocument: function () {
     this.send(JSON.stringify(
       { a: 'open'
-      , user: this.__user
-      , document:
-        { id: this.documentId
-        }
+        , user: this.__user
+        , document:
+      { id: this.documentId
+      }
       }
     ) )
 
@@ -112,11 +112,11 @@ Team1 = {
   }
 
   , onSocketJoin: function (data) {
-    this.Roster.add(data.user)
+    this.Users.add(data.user)
   }
 
   , onSocketLeave: function (data) {
-    this.Roster.remove(data.user.id)
+    this.Users.remove(data.user.id)
     this.Editor.removeCursor(data.user.id)
   }
 
@@ -130,8 +130,8 @@ Team1 = {
   , onSocketMeta : function (data) {
     this.Editor.updateCursor(
       { id: data.id
-      , position : data.meta
-      , color : data.color
+        , position : data.meta
+        , color : data.color
       }
     )
   }
@@ -143,17 +143,16 @@ Team1 = {
       , docContent: this.Editor.codeEditor.getValue()
     }
 
-    $.ajax(
-      { type: 'POST'
+    $.ajax({ type: "POST"
       , url: window.location.pathname
       , data: JSON.stringify(docContentObj)
       , success: function(data) {
-          console.log('success')
+        console.log('success')
       }
       , fail: function() {
-          console.log('error')
-        }
-      })
+        console.log('error')
+      }
+    })
   }
 
   , loadDocument: function (docId) {
@@ -162,22 +161,21 @@ Team1 = {
       , docName: this.documentId
     }
 
-    $.ajax(
-      { type: 'POST'
+    $.ajax({ type: "POST"
       , url: window.location.pathname
       , dataType: 'json'
       , data: JSON.stringify(docContentObj)
-      , success: function(doc) {
-          console.log('success')
-          console.log(doc.value);
-          if (doc !== null) {
-            Team1.Editor.codeEditor.getDoc().setValue(doc.value)
-          }
+      , success: function (doc) {
+        console.log('success')
+        console.log(doc.value);
+        if (doc !== null) {
+          App.Editor.codeEditor.getDoc().setValue(doc.value)
+        }
       }
       , fail: function() {
-          console.log('error')
-        }
-      })
+        console.log('error')
+      }
+    })
   }
 
   , getSocket : function () {
@@ -186,19 +184,19 @@ Team1 = {
 }
 
 $(document).ready(function () {
-  Team1.start({
+  App.start({
     socketUrl: 'http://' + Host
   })
 })
 
 window.onbeforeunload = function () {
-  if (Team1.Roster.getUsersCount() == 1) {
-      Team1.saveDocument()
+  if (App.Users.getUsersCount() == 1) {
+    App.saveDocument()
   }
 }
 
 window.onunload = function () {
-  if (Team1.Roster.getUsersCount() == 1) {
-      Team1.saveDocument()
+  if (App.Users.getUsersCount() == 1) {
+    App.saveDocument()
   }
 }

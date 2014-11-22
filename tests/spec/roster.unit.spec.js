@@ -1,4 +1,4 @@
-describe("Roster Tests", function () {
+describe("Users Tests", function () {
   beforeEach(function () {
     this.testData =
     { user:
@@ -23,30 +23,30 @@ describe("Roster Tests", function () {
 
     loadFixtures("page.html")
 
-    this.testObj = new Team1.Roster()
+    this.testObj = new App.Users()
   })
 
   it("should provide an ability to add new user", function () {
     this.testObj.add(this.testData.user)
 
-    expect($(".roster-list").find("li")).toHaveText(this.testData.user.title)
-    expect($(".roster-list")).toContainElement("#"+ this.testData.user.id +".roster-item")
+    expect($(".sidebar__users").find("li")).toHaveText(this.testData.user.title)
+    expect($(".sidebar__users")).toContainElement("#"+ this.testData.user.id +".sidebar__users__item")
   })
 
   it("should provide a way to rebuild a list with new users", function () {
     this.testObj.fillList(this.testData.usersList)
 
-    expect($(".roster-list")).toContainElement($("#"+ this.testData.usersList[0].id))
-    expect($(".roster-list")).toContainElement($("#"+ this.testData.usersList[1].id))
+    expect($(".sidebar__users")).toContainElement($("#"+ this.testData.usersList[0].id))
+    expect($(".sidebar__users")).toContainElement($("#"+ this.testData.usersList[1].id))
   })
 
   it("should provide a way to delete user via id", function () {
     var testId = 100;
 
-    $(".roster-list").append("<li id='"+testId+"'>test</li>")
+    $(".sidebar__users").append("<li id='"+testId+"'>test</li>")
 
     this.testObj.remove(100)
 
-    expect($(".roster-list")).not.toContainElement($("#"+ testId))
+    expect($(".sidebar__users")).not.toContainElement($("#"+ testId))
   })
 })

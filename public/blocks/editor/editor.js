@@ -1,6 +1,6 @@
-var Team1 = Team1 || {}
+var App = App || {}
 
-Team1.Editor = function () {
+App.Editor = function () {
   _.bindAll(this, "onCursorActivity")
 
   this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0],
@@ -22,21 +22,21 @@ Team1.Editor = function () {
   this.selections = []
 }
 
-Team1.Editor.prototype.onCursorActivity = function () {
+App.Editor.prototype.onCursorActivity = function () {
   var cursor = this.codeEditor.getCursor()
   var meta = {
     a: "meta"
     , document: {
-      id: Team1.documentId
+      id: App.documentId
     }
-    , id: Team1.__user.id
-    , color: Team1.__user.color
+    , id: App.__user.id
+    , color: App.__user.color
     , meta: cursor
   }
-  Team1.send(JSON.stringify(meta))
+  App.send(JSON.stringify(meta))
 }
 
-Team1.Editor.prototype.addCursor = function (cursorInfo) {
+App.Editor.prototype.addCursor = function (cursorInfo) {
   var opt = {className: this.getCursorClass(cursorInfo.id, cursorInfo.color)}
     , to = {
       ch: cursorInfo.position.ch + 1,
@@ -50,11 +50,11 @@ Team1.Editor.prototype.addCursor = function (cursorInfo) {
     this.addCursorOnLineEnd(cursorInfo)
 }
 
-Team1.Editor.prototype.getCursorClass = function (id, color) {
+App.Editor.prototype.getCursorClass = function (id, color) {
   return "cm-cursor cm-cursor-" + color + " cursor-id-" + id
 }
 
-Team1.Editor.prototype.addCursorOnLineEnd = function (cursorInfo) {
+App.Editor.prototype.addCursorOnLineEnd = function (cursorInfo) {
   var opt = {
       className: this.getCursorClassAfter(cursorInfo.id, cursorInfo.color)
     }
@@ -67,17 +67,17 @@ Team1.Editor.prototype.addCursorOnLineEnd = function (cursorInfo) {
   this.cursors.push({id: cursorInfo.id, cursor: cursor})
 }
 
-Team1.Editor.prototype.getCursorClassAfter = function (id, color) {
+App.Editor.prototype.getCursorClassAfter = function (id, color) {
   return "cm-cursor-last cm-cursor-last-" + color + " cursor-id-" + id
 }
 
-Team1.Editor.prototype.updateCursor = function (cursorInfo) {
+App.Editor.prototype.updateCursor = function (cursorInfo) {
   this.removeCursor(cursorInfo.id)
   this.addCursor(cursorInfo)
   $(".cursor-id-"+cursorInfo.id+"").css("border-color",cursorInfo.color)
 }
 
-Team1.Editor.prototype.removeCursor = function (id) {
+App.Editor.prototype.removeCursor = function (id) {
   for (var i = this.cursors.length - 1; i >= 0; i--) {
     if (this.cursors[i].id === id) {
       this.cursors[i].cursor.clear()
@@ -86,7 +86,7 @@ Team1.Editor.prototype.removeCursor = function (id) {
   }
 }
 
-Team1.Editor.prototype.addSelection = function (selectionInfo) {
+App.Editor.prototype.addSelection = function (selectionInfo) {
   var opt = {
     className: this.getSelectionClass(selectionInfo.id, selectionInfo.color)
   }
@@ -95,16 +95,16 @@ Team1.Editor.prototype.addSelection = function (selectionInfo) {
   this.selections.push({id: selectionInfo.id, sel: sel})
 }
 
-Team1.Editor.prototype.getSelectionClass = function (id, color) {
+App.Editor.prototype.getSelectionClass = function (id, color) {
   return "cm-background-" + color + " selection-id-" + id
 }
 
-Team1.Editor.prototype.updateSelection = function (selectionInfo) {
+App.Editor.prototype.updateSelection = function (selectionInfo) {
   this.removeSelection(selectionInfo.id)
   this.addSelection(selectionInfo)
 }
 
-Team1.Editor.prototype.removeSelection = function (id) {
+App.Editor.prototype.removeSelection = function (id) {
   for (var i = this.selections.length - 1; i >= 0; i--) {
     if (this.selections[i].id === id) {
       this.selections[i].sel.clear()
@@ -113,7 +113,7 @@ Team1.Editor.prototype.removeSelection = function (id) {
   }
 }
 
-Team1.Editor.prototype.getThemesList = function () {
+App.Editor.prototype.getThemesList = function () {
   var self = this
 
   $.get("/theme", function (data) {
@@ -123,7 +123,7 @@ Team1.Editor.prototype.getThemesList = function () {
   })
 }
 
-Team1.Editor.prototype.setThemesList = function () {
+App.Editor.prototype.setThemesList = function () {
   var $themesList = $(".control__themelist")
 
   this.themesList.forEach(function (theme) {
@@ -135,7 +135,7 @@ Team1.Editor.prototype.setThemesList = function () {
   this.addHandlerToThemeOption()
 }
 
-Team1.Editor.prototype.addHandlerToThemeOption = function () {
+App.Editor.prototype.addHandlerToThemeOption = function () {
   var self = this
     , theme
     , $themesList = $(".control__themelist")
@@ -147,7 +147,7 @@ Team1.Editor.prototype.addHandlerToThemeOption = function () {
   })
 }
 
-Team1.Editor.prototype.setTheme = function (theme) {
+App.Editor.prototype.setTheme = function (theme) {
   var self = this
 
   $.get("/theme", {name: theme})
@@ -159,33 +159,33 @@ Team1.Editor.prototype.setTheme = function (theme) {
     })
 }
 
-Team1.Editor.prototype.changeEditorMode = function () {
+App.Editor.prototype.changeEditorMode = function () {
   var $header = $(".header")
-    , $roster = $(".roster")
+    , $sidebar = $(".sidebar")
 
   $(".js-editor-mode-switch").on("change", function () {
     if ($(this).is(":checked")) {
       $header.removeClass("header--dark").addClass("header--light")
-      $roster.removeClass("roster--dark").addClass("roster--light")
+      $sidebar.removeClass("sidebar--dark").addClass("sidebar--light")
     } else {
       $header.removeClass("header--light").addClass("header--dark")
-      $roster.removeClass("roster--light").addClass("roster--dark")
+      $sidebar.removeClass("sidebar--light").addClass("sidebar--dark")
     }
   })
 }
 
-Team1.Editor.prototype.getDefaultEditorMode = function () {
+App.Editor.prototype.getDefaultEditorMode = function () {
   var editorMode = "light" //light or dark
 
   this.setDefaultEditorMode(editorMode);
 }
-Team1.Editor.prototype.setDefaultEditorMode = function (editorMode) {
+App.Editor.prototype.setDefaultEditorMode = function (editorMode) {
   var $header = $(".header")
-    , $roster = $(".roster")
+    , $sidebar = $(".sidebar")
     , $switchMode = $(".js-editor-mode-switch")
 
   $header.addClass("header--" + editorMode)
-  $roster.addClass("roster--" + editorMode)
+  $sidebar.addClass("sidebar--" + editorMode)
 
   if (editorMode == "light") {
     // $switchMode.prop("checked", true) // don't work

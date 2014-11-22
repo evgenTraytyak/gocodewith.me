@@ -5,23 +5,26 @@
   flex-direction: row;
   height: 100%;
   box-sizing: border-box;
-}
+  }
+
 .editor {
   width: calc(100% - 300px);
   height: 100%;
   background: #333;
   overflow: auto;
-}
+  }
+
 /*  cm - CodeMirror */
 .cm_cursor {
   height: 13px;
   left: 10px;
-}
+  }
 
 .switchery {
   height: 25px;
-}
+  }
+
 .switchery small {
   width: 25px;
   height: 25px;
-}
+  }

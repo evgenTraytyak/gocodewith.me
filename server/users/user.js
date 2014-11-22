@@ -1,7 +1,3 @@
-/**
- * Created by Mantsevich on 21.10.2014.
- */
-
 var _ = require('lodash-node')
   , Duplex = require('stream').Duplex
   , livedb = require('livedb')

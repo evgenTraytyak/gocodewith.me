@@ -48,7 +48,7 @@ describe("Page Integration Tests", function () {
   }
 
   function showPromptTest() {
-    Team1.start({socketUrl: "/testUrl"})
+    App.start({socketUrl: "/testUrl"})
 
     expect(window.prompt).toHaveBeenCalledWith("Your name:")
   }
@@ -60,7 +60,7 @@ describe("Page Integration Tests", function () {
 
     this.promptSpy.and.returnValue(testTitle)
 
-    Team1.start({socketUrl: "/testUrl"})
+    App.start({socketUrl: "/testUrl"})
 
     expect(this.testSocket.send).toHaveBeenCalledWith(JSON.stringify(
       { a: 'open'
@@ -74,7 +74,7 @@ describe("Page Integration Tests", function () {
     )
   }
   function onOpenFillUsersListTest () {
-    Team1.start({socketUrl: "/test"})
+    App.start({socketUrl: "/test"})
 
     socketHandlers['open'].call({}
       , {
@@ -105,7 +105,7 @@ describe("Page Integration Tests", function () {
     expect(this.usersListEl).toContainElement("li#3.roster-item")
   }
   function onJoinNewUserTest() {
-    Team1.start({socketUrl: "/test"})
+    App.start({socketUrl: "/test"})
 
     socketHandlers['open'].call({}, {})
     socketHandlers['join'].call({}

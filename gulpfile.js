@@ -143,6 +143,8 @@ gulp.task('index.html', function () {
     .pipe(gulp.dest('./'))
 })
 
+
+
 gulp.task('test', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
@@ -156,9 +158,34 @@ gulp.task('tdd', function (done) {
   }, done)
 })
 
+gulp.task('scripts', function () {
+  gulp.src(
+    [ 'libs/jquery/dist/jquery.min.js'
+    , 'libs/lodash/dist/lodash.min.js'
+    , 'libs/codemirror/lib/codemirror.js'
+    , 'node_modules/share/webclient/share.js'
+    , 'libs/share-codemirror/share-codemirror.js'
+    , 'libs/codemirror/mode/javascript/javascript.js' // default language - javascript (temporarily)
+    , 'libs/switchery/dist/switchery.min.js'
+    , 'public/blocks/page/page.js'
+    , 'public/blocks/page/socket.js'
+    , 'public/blocks/editor/editor.js'
+    , 'public/blocks/users/user.js'
+    ]).pipe(concat('application.js'))
+      .pipe(gulp.dest('public/build/'))
+})
+
+gulp.task('stylesheets', function () {
+  gulp.src(
+    [ 'libs/codemirror/lib/codemirror.css'
+    , 'libs/switchery/dist/switchery.min.css'
+    , './public/build/index.css'
+    ]).pipe(concat('application.css'))
+      .pipe(gulp.dest('public/build/'))
+})
 //gulp.task('default', runSequence( 'config', 'index.html'))
 
-gulp.task('default', function () {
+gulp.task('sass', function () {
   gulp.src('./public/source/*.scss')
     .pipe(watch('./public/source/*.scss', function (files) {
       return files.pipe(sass())
