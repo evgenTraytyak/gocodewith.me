@@ -160,17 +160,17 @@ gulp.task('tdd', function (done) {
 
 gulp.task('scripts', function () {
   gulp.src(
-    [ 'libs/jquery/dist/jquery.min.js'
-    , 'libs/lodash/dist/lodash.min.js'
+    [ 'libs/jquery/dist/jquery.js'
+    , 'libs/lodash/dist/lodash.js'
     , 'libs/codemirror/lib/codemirror.js'
-    , 'node_modules/share/webclient/share.js'
+    , 'node_modules/share/webclient/share.uncompressed.js'
     , 'libs/share-codemirror/share-codemirror.js'
     , 'libs/codemirror/mode/javascript/javascript.js' // default language - javascript (temporarily)
-    , 'libs/switchery/dist/switchery.min.js'
+    , 'libs/switchery/dist/switchery.js'
     , 'public/blocks/page/page.js'
-    , 'public/blocks/page/socket.js'
     , 'public/blocks/editor/editor.js'
-    , 'public/blocks/users/user.js'
+    , 'public/blocks/page/socket.js'
+    , 'public/blocks/sidebar/user.js'
     ]).pipe(concat('application.js'))
       .pipe(gulp.dest('public/build/'))
 })

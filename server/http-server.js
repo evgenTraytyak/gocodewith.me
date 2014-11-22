@@ -46,8 +46,6 @@ var routes = require('../routes/index')(passport)
 app.use('/', routes)
 
 
-
-
 module.exports = {
   start: function (server) {
     app.listen(server.port, function (err) {
