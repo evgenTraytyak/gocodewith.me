@@ -1,0 +1,28 @@
+doctype html
+link(rel='stylesheet', href='./build/application.css')
+script(type='text/javascript' src='./build/application.js')
+header.header
+  .header__logo
+    b.header__logo__name WingPad
+  .header__control
+    .control__theme
+      select.custom-select.control__theme-list
+    .control__editor-mode
+      img(src='blocks/header/moon.svg')
+      input.js-switch.js-editor-mode-switch(type='checkbox')
+      img(src='blocks/header/sun.svg')
+    .control__font-size
+      select.custom-select.control__font-size-list.js-font-size
+        option(value='12px') 12px
+        option(value='13px') 13px
+        option(value='14px') 14px
+        option(value='15px') 15px
+        option(value='16px') 16px
+.layout
+  aside.sidebar
+    ul.sidebar__users
+      li.sidebar__users__item #{user.username}
+  section.editor
+    textarea#docEditor
+script#user-tpl(type='template')
+  <li id="<%= id %>" class="sidebar__users__item" style="color: <%= color %>"><%= title %></li>
