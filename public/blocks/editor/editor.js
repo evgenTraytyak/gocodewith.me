@@ -17,12 +17,17 @@ App.Editor = function () {
 
   this.getDefaultEditorMode()
 
+  this.setFontSize()
+
   this.codeEditor.on("cursorActivity", this.onCursorActivity)
   this.cursors = []
   this.selections = []
+
 }
 
-App.Editor.prototype.onCursorActivity = function () {
+var EditorProto = App.Editor.prototype = {}
+
+EditorProto.onCursorActivity = function () {
   var cursor = this.codeEditor.getCursor()
   var meta = {
     a: "meta"
@@ -36,7 +41,7 @@ App.Editor.prototype.onCursorActivity = function () {
   App.send(JSON.stringify(meta))
 }
 
-App.Editor.prototype.addCursor = function (cursorInfo) {
+EditorProto.addCursor = function (cursorInfo) {
   var opt = {className: this.getCursorClass(cursorInfo.id, cursorInfo.color)}
     , to = {
       ch: cursorInfo.position.ch + 1,
@@ -50,11 +55,11 @@ App.Editor.prototype.addCursor = function (cursorInfo) {
     this.addCursorOnLineEnd(cursorInfo)
 }
 
-App.Editor.prototype.getCursorClass = function (id, color) {
+EditorProto.getCursorClass = function (id, color) {
   return "cm-cursor cm-cursor-" + color + " cursor-id-" + id
 }
 
-App.Editor.prototype.addCursorOnLineEnd = function (cursorInfo) {
+EditorProto.addCursorOnLineEnd = function (cursorInfo) {
   var opt = {
       className: this.getCursorClassAfter(cursorInfo.id, cursorInfo.color)
     }
@@ -67,17 +72,17 @@ App.Editor.prototype.addCursorOnLineEnd = function (cursorInfo) {
   this.cursors.push({id: cursorInfo.id, cursor: cursor})
 }
 
-App.Editor.prototype.getCursorClassAfter = function (id, color) {
+EditorProto.getCursorClassAfter = function (id, color) {
   return "cm-cursor-last cm-cursor-last-" + color + " cursor-id-" + id
 }
 
-App.Editor.prototype.updateCursor = function (cursorInfo) {
+EditorProto.updateCursor = function (cursorInfo) {
   this.removeCursor(cursorInfo.id)
   this.addCursor(cursorInfo)
   $(".cursor-id-"+cursorInfo.id+"").css("border-color",cursorInfo.color)
 }
 
-App.Editor.prototype.removeCursor = function (id) {
+EditorProto.removeCursor = function (id) {
   for (var i = this.cursors.length - 1; i >= 0; i--) {
     if (this.cursors[i].id === id) {
       this.cursors[i].cursor.clear()
@@ -86,7 +91,7 @@ App.Editor.prototype.removeCursor = function (id) {
   }
 }
 
-App.Editor.prototype.addSelection = function (selectionInfo) {
+EditorProto.addSelection = function (selectionInfo) {
   var opt = {
     className: this.getSelectionClass(selectionInfo.id, selectionInfo.color)
   }
@@ -95,16 +100,16 @@ App.Editor.prototype.addSelection = function (selectionInfo) {
   this.selections.push({id: selectionInfo.id, sel: sel})
 }
 
-App.Editor.prototype.getSelectionClass = function (id, color) {
+EditorProto.getSelectionClass = function (id, color) {
   return "cm-background-" + color + " selection-id-" + id
 }
 
-App.Editor.prototype.updateSelection = function (selectionInfo) {
+EditorProto.updateSelection = function (selectionInfo) {
   this.removeSelection(selectionInfo.id)
   this.addSelection(selectionInfo)
 }
 
-App.Editor.prototype.removeSelection = function (id) {
+EditorProto.removeSelection = function (id) {
   for (var i = this.selections.length - 1; i >= 0; i--) {
     if (this.selections[i].id === id) {
       this.selections[i].sel.clear()
@@ -113,53 +118,53 @@ App.Editor.prototype.removeSelection = function (id) {
   }
 }
 
-App.Editor.prototype.getThemesList = function () {
+EditorProto.getThemesList = function () {
   var self = this
 
-  $.get("/theme", function (data) {
+  $.get("/themes", function (data) {
     self.themesList = JSON.parse(data)
-  }).done(function () {
+  }).success(function () {
     self.setThemesList()
   })
 }
 
-App.Editor.prototype.setThemesList = function () {
-  var $themesList = $(".control__themelist")
+EditorProto.setThemesList = function () {
+  var $themesList = $(".control__theme-list")
+    , themesList = this.themesList
 
-  this.themesList.forEach(function (theme) {
-    $themesList.append("<option>" + theme.slice(0, -4) + "</option>")
-  })
+  for (var name in themesList) {
+    $themesList.append("<option value='" + themesList[name].url   + "'>" + name + "</option>")
+  }
 
   $("body").append("<style class='theme_style'>")
 
   this.addHandlerToThemeOption()
 }
 
-App.Editor.prototype.addHandlerToThemeOption = function () {
+EditorProto.addHandlerToThemeOption = function () {
   var self = this
     , theme
-    , $themesList = $(".control__themelist")
+    , $themesList = $(".control__theme-list")
 
   $themesList.on("change", function () {
-    theme = $(this).find("option:selected").text()
-
+    theme = $(this).find("option:selected").val()
     self.setTheme(theme)
   })
 }
 
-App.Editor.prototype.setTheme = function (theme) {
+EditorProto.setTheme = function (theme) {
   var self = this
 
-  $.get("/theme", {name: theme})
-    .done(function (data) {
-      $(".theme_style").text(JSON.parse(data))
-      self.codeEditor.setOption("theme", theme)
+  $.get("/theme", { name: theme })
+    .success(function (data) {
+      $(".theme_style").text(data)
+      self.codeEditor.setOption("theme", theme.slice(0, -4))
     }).fail(function () {
       console.log("Error downloading theme")
     })
 }
 
-App.Editor.prototype.changeEditorMode = function () {
+EditorProto.changeEditorMode = function () {
   var $header = $(".header")
     , $sidebar = $(".sidebar")
 
@@ -174,12 +179,13 @@ App.Editor.prototype.changeEditorMode = function () {
   })
 }
 
-App.Editor.prototype.getDefaultEditorMode = function () {
+EditorProto.getDefaultEditorMode = function () {
   var editorMode = "light" //light or dark
 
   this.setDefaultEditorMode(editorMode);
 }
-App.Editor.prototype.setDefaultEditorMode = function (editorMode) {
+
+EditorProto.setDefaultEditorMode = function (editorMode) {
   var $header = $(".header")
     , $sidebar = $(".sidebar")
     , $switchMode = $(".js-editor-mode-switch")
@@ -191,4 +197,10 @@ App.Editor.prototype.setDefaultEditorMode = function (editorMode) {
     // $switchMode.prop("checked", true) // don't work
     $switchMode.click();
   }
+}
+
+EditorProto.setFontSize = function () {
+  $(".js-font-size").on("change", function () {
+    $(".CodeMirror").css("font-size", $(this).val())
+  })
 }

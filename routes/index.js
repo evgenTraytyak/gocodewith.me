@@ -1,4 +1,6 @@
 var router = require('express').Router()
+  , fs = require('fs')
+  , path = require('path')
 
 var isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated()) {
@@ -24,6 +26,21 @@ module.exports = function (passport) {
 
   router.get('/signup', function (req, res) {
     res.render('signup')
+  })
+
+  router.get('/themes', function (req, res) {
+    var filePath = path.resolve(__dirname, '..', 'public/themes/', 'themes.json')
+    fs.readFile(filePath, 'utf8', function (err, file) {
+      res.send(file)
+    });
+  })
+
+  router.get('/theme', function (req, res) {
+    var filePath = path.resolve(__dirname, '..', 'public/themes/', req.query.name)
+    fs.readFile(filePath, 'utf8', function (err, file) {
+      console.log(JSON.stringify(file))
+      res.send(file)
+    });
   })
 
   router.post('/signup', passport.authenticate('signup',

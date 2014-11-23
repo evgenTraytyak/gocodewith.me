@@ -45,38 +45,36 @@
   flex-direction: row;
   align-items: center;
   box-sizing: border-box;
-  }
 
-.control__theme {
-  height: 26px;
-  min-width: 120px;
-  margin: 0 10px;
-  border: 1px solid #6C7A89;
-  border-radius: 3px;
-  background-image: url("data:image/png;base64,R0lGODlhDwAUAIABAAAAAP///yH5BAEAAAEALAAAAAAPABQAAAIXjI+py+0Po5wH2HsXzmw//lHiSJZmUAAAOw==");
-  background-repeat: no-repeat;
-  background-position: 90% 50%;
-  transition: all 0.1s;
-
-  select {
-    width: 130%;
-    padding: 5px 8px;
-    border: none;
-    box-shadow: none;
-    background: transparent;
-    background-image: none;
+  .custom-select {
+    display: inline-block;
+    height: 26px;
+    padding: 4px;
+    line-height: 26px;
+    border: 1px solid #6C7A89;
     color: #6C7A89;
     font-size: 12px;
-    -webkit-appearance: none;
+    transition: all 0.1s;
 
     &:focus {
       outline: none;
       }
     }
+  }
+
+.control__theme {
 
   }
 
-  .control__themelist {
+  .control__theme-list {
+
+    }
+
+.control__font-size {
+
+  }
+
+  .control__font-size-list {
 
     }
 
@@ -98,7 +96,7 @@
     background-color: #212936;
     }
 
-  .control__theme {
+  .custom-select {
     background-color: #293143;
     }
   }
@@ -111,7 +109,7 @@
     background-color: #ABB7B7;
     }
 
-  .control__theme {
+  .custom-select {
     background-color: #ECF0F1;
     }
   }
