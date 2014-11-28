@@ -65,7 +65,6 @@ gulp.task('index.min.html', function () {
     , gulp
         .src(
           [ 'dist/css/codemirror.css'
-          , 'libs/switchery/dist/switchery.min.css'
           , 'dist/css/**/*.css'
           ]
         )
@@ -84,7 +83,6 @@ gulp.task('index.min.html', function () {
         , 'node_modules/share/webclient/share.js'
         , 'dist/js/share-codemirror.js'
         , 'dist/js/javascript.js'
-        , 'libs/switchery/dist/switchery.min.js'
         , 'dist/js/page/page.js'
         , 'dist/js/**/*.js'
         ]
@@ -112,7 +110,6 @@ gulp.task('index.html', function () {
     , gulp
         .src(
           [ 'libs/codemirror/lib/codemirror.css'
-          , 'libs/switchery/dist/switchery.min.css'
           , 'blocks/**/*.css'
           ]
         )
@@ -131,7 +128,6 @@ gulp.task('index.html', function () {
         , 'node_modules/share/webclient/share.uncompressed.js'
         , 'libs/share-codemirror/share-codemirror.js'
         , 'libs/codemirror/mode/javascript/javascript.js'
-        , 'libs/switchery/dist/switchery.min.js'
         , 'blocks/page/page.js'
         , 'blocks/**/*.js'
         ]
@@ -166,7 +162,6 @@ gulp.task('scripts', function () {
     , 'node_modules/share/webclient/share.uncompressed.js'
     , 'libs/share-codemirror/share-codemirror.js'
     , 'libs/codemirror/mode/javascript/javascript.js' // default language - javascript (temporarily)
-    , 'libs/switchery/dist/switchery.js'
     , 'public/blocks/page/page.js'
     , 'public/blocks/editor/editor.js'
     , 'public/blocks/page/socket.js'
@@ -178,7 +173,6 @@ gulp.task('scripts', function () {
 gulp.task('stylesheets', function () {
   gulp.src(
     [ 'libs/codemirror/lib/codemirror.css'
-    , 'libs/switchery/dist/switchery.min.css'
     , './public/build/index.css'
     ]).pipe(concat('application.css'))
       .pipe(gulp.dest('public/build/'))
@@ -194,4 +188,5 @@ gulp.task('sass', function () {
     }))
 })
 
+gulp.task('default', ['config', 'scripts', 'sass', 'stylesheets'])
 gulp.task('nominify', ['config', 'index.html'])

@@ -5,8 +5,6 @@ App = {
   start: function (options) {
     _.bindAll(this)
 
-    new Switchery(document.querySelector('.js-switch'))
-
     this.documentId = this.getDocId()
 
     this.socket = this.getSocket(options.socketUrl)
