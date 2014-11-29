@@ -15,8 +15,17 @@ app.use(httpLogger('dev'))
 // Connect to DB
 var mongoose = require('mongoose')
   , dbConfig = require('./db')
+  , db = mongoose.connection
 
 mongoose.connect(dbConfig.url)
+
+db.on('error', function (err) {
+  console.error('Database connection error:'.red, err.message);
+})
+
+db.once('open', function callback () {
+  console.log('App successfully connected to DB'.green, dbConfig.url.yellow.bold);
+})
 
 // View engine setup
 app.set('views', path.resolve(__dirname, '..', 'views'))
