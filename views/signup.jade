@@ -4,6 +4,9 @@ html
     title=title
     link(rel='stylesheet', href='build/auth.css')
   body
+    if message==''
+      .message
+        .message__text #{message}
     div.auth
       form(class='auth__form', action='/signup', method='POST')
         input(type='text', name='username', class='auth__form__input', placeholder='Username', required)

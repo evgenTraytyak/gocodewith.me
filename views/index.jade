@@ -1,10 +1,18 @@
 doctype html
 link(rel='stylesheet', href='./build/application.css')
 script(type='text/javascript' src='./build/application.js')
-header.header
+if message
+  .message
+    .message__text #{message}
+header.header.header--dark
   .header__logo
     b.header__logo__name WingPad
   .header__control
+    ul.control__menu
+      li.control__menu__item File
+      li.control__menu__item Edit
+      li.control__menu__item View
+      li.control__menu__item Help
     .control__theme
       select.custom-select.control__theme-list
     .control__editor-mode
@@ -19,7 +27,7 @@ header.header
         option(value='15px') 15px
         option(value='16px') 16px
 .layout
-  aside.sidebar
+  aside.sidebar.sidebar--dark
     ul.sidebar__users
       li.sidebar__users__item #{user.username}
   section.editor

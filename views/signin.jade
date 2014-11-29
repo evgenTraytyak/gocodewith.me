@@ -4,11 +4,14 @@ html
     title=title
     link(rel='stylesheet', href='build/auth.css')
   body
-    header.header.header--dark
-      .header__logo
-        b.header__logo__name WingPad
-    div.auth
+    .auth
+      if message
+        .message
+          .message__text #{message}
+      .auth__header
+        .auth__logo__name WingPad
       form(class='auth__form', action='/signin', method='POST')
         input(type='text', name='username', class='auth__form__input', placeholder='Username', required)
         input(type='password',name='password', class='auth__form__input', placeholder='Password', required)
+        a(href='/')
         button(class='auth__form__button', type='submit') Sign in
