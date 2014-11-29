@@ -7,6 +7,7 @@ var express = require('express')
   , httpLogger = require('morgan')
   , log = require('npmlog')
   , fs = require('fs')
+  , colors = require('colors')
 
 // Morgan logger
 app.use(httpLogger('dev'))
@@ -41,6 +42,10 @@ app.use(passport.session())
 var initPassport = require('../passport/init')
 initPassport(passport);
 
+// Flash middleware
+var flash = require('connect-flash');
+app.use(flash());
+
 // Add routing
 var routes = require('../routes/index')(passport)
 app.use('/', routes)
@@ -49,6 +54,8 @@ app.use('/', routes)
 module.exports = {
   start: function (server) {
     app.listen(server.port, function (err) {
+      if (err) return console.error(err)
+      console.log('Http server running on port:'.green, colors.yellow.bold(server.port))
     })
   }
 }
