@@ -1,25 +1,25 @@
 var LocalStrategy = require('passport-local').Strategy
   , User = require('../models/user')
   , bcrypt = require('bcrypt')
+  , colors = require('colors')
 
 module.exports = function (passport) {
 
   passport.use('signup', new LocalStrategy({
-        passReqToCallback : true
+        passReqToCallback: true
       },
       function (req, username, password, done) {
 
         var findOrCreateUser = function () {
-
           User.findOne({ 'username': username }, function (err, user) {
 
             if (err) {
-              console.log('Error in SignUp: ' + err);
-              return done(err);
+              console.log('Error in SignUp:'.red.bold, err)
+              return done(err)
             }
 
             if (user) {
-              console.log('User already exists with username: ' + username);
+              console.log('User already exists with username:'.red, username.yellow.bold)
               return done(null, false, req.flash('message','User Already Exists'))
             } else {
 
@@ -31,11 +31,11 @@ module.exports = function (passport) {
 
               newUser.save(function (err) {
                 if (err) {
-                  console.log('Error in Saving user: ' + err);
+                  console.log('Error in Saving user:'.red.bold, err)
                   throw err;
                 }
-                console.log('User Registration successful');
-                return done(null, newUser);
+                console.log('User'.green, username.yellow ,'successfully registered'.green)
+                return done(null, newUser)
               })
             }
           })

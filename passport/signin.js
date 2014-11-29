@@ -1,6 +1,8 @@
 var LocalStrategy = require('passport-local').Strategy
   , User = require('../models/user')
   , bcrypt = require('bcrypt')
+  , colors = require('colors')
+
 
 module.exports = function (passport) {
 
@@ -11,17 +13,17 @@ module.exports = function (passport) {
 
         User.findOne({ 'username' :  username },
           function (err, user) {
-
             if (err)
-              return done(err);
+              return done(err)
 
             if (!user) {
-              console.log('User Not Found with username ' + username);
+              console.log('User Not Found with username'.red,  username.yellow.bold)
+              return done(null, false, req.flash('message', 'User Not Found :('))
             }
 
             if (!isValidPassword(user, password)) {
-              console.log('Invalid Password');
-              return done(null, false, req.flash('message', 'Invalid Password'));
+              console.log('Invalid Password'.red)
+              return done(null, false, req.flash('message', 'Invalid Password'))
             }
 
             return done(null, user);
