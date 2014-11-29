@@ -1,6 +1,5 @@
-var log = require('npmlog')
+var colors = require('colors')
   , Users = require('./users')
-  , logPrefix = 'Socket Server'
   , WebSocketServer = require('ws').Server
 
 
@@ -10,8 +9,9 @@ exports.start = function (config) {
       var wss = new WebSocketServer(config)
 
       wss.on('connection', Users.factory)
+
     } catch (err) {
-      log.error(logPrefix, 'Server can\'t start. ' + err)
+      console.log('WebSocket Server can\'t start'.red.bold, err)
     }
   }
 }

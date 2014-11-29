@@ -33,114 +33,6 @@ gulp.task('config', function () {
     .pipe(gulp.dest('./config'))
 })
 
-gulp.task('index.min.html', function () {
-  var opts = {comments:true,spare:true};
-  streamqueue(
-    { objectMode: true }
-    , gulp.src('blocks/**/*.html')
-      .pipe(minifyHTML(opts))
-      .pipe(gulp.dest('./dist/html'))
-    , gulp.src(['blocks/**/*.css', 'libs/codemirror/lib/codemirror.css'])
-      .pipe(minifyCSS({keepBreaks:false}))
-      .pipe(gulp.dest('./dist/css'))
-    , gulp.src(
-      [ 'blocks/**/*.js'
-      , 'libs/codemirror/lib/codemirror.js'
-      , 'libs/share-codemirror/share-codemirror.js'
-      , 'libs/codemirror/mode/javascript/javascript.js'
-      ]
-    )
-      .pipe(uglify())
-      .pipe(gulp.dest('dist/js'))
-    , gulp.src('dist/html/page/page.html')
-    , gulp
-      .src('dist/html/**/*.html')
-      .pipe(gulpIgnore.exclude('**/page.html'))
-      .pipe(wrap('<script '
-          + 'type="template" '
-          + 'id="<%= file.path.replace(/^.*\\/([^/]+)$/, \'$1\') %>">'
-          + '<%= file.contents %>'
-          + '</script>'
-      ))
-    , gulp
-        .src(
-          [ 'dist/css/codemirror.css'
-          , 'dist/css/**/*.css'
-          ]
-        )
-        .pipe(concat('index.css'))
-        .pipe(autoprefixer(
-          { browsers: ['last 3 versions']
-          , cascade: true
-          }
-        ))
-        .pipe(wrap('<style><%= contents %></style>'))
-    , gulp
-      .src(
-        [ 'libs/jquery/dist/jquery.min.js'
-        , 'libs/lodash/dist/lodash.min.js'
-        , 'dist/js/codemirror.js'
-        , 'node_modules/share/webclient/share.js'
-        , 'dist/js/share-codemirror.js'
-        , 'dist/js/javascript.js'
-        , 'dist/js/page/page.js'
-        , 'dist/js/**/*.js'
-        ]
-      )
-      .pipe(concat('index.js'))
-      .pipe(wrap('<script><%= contents %></script>'))
-  )
-    .pipe(concat('index.html'))
-    .pipe(gulp.dest('./'))
-})
-
-gulp.task('index.html', function () {
-  streamqueue(
-    { objectMode: true }
-    , gulp.src('blocks/page/page.html')
-    , gulp
-      .src('blocks/**/*.html')
-      .pipe(gulpIgnore.exclude('**/page.html'))
-      .pipe(wrap('<script '
-          + 'type="template" '
-          + 'id="<%= file.path.replace(/^.*\\/([^/]+)$/, \'$1\') %>">'
-          + '<%= file.contents %>'
-          + '</script>'
-      ))
-    , gulp
-        .src(
-          [ 'libs/codemirror/lib/codemirror.css'
-          , 'blocks/**/*.css'
-          ]
-        )
-        .pipe(concat('index.css'))
-        .pipe(autoprefixer(
-          { browsers: ['last 3 versions']
-          , cascade: true
-          }
-        ))
-        .pipe(wrap('<style><%= contents %></style>'))
-    , gulp
-      .src(
-        [ 'libs/jquery/dist/jquery.min.js'
-        , 'libs/lodash/dist/lodash.min.js'
-        , 'libs/codemirror/lib/codemirror.js'
-        , 'node_modules/share/webclient/share.uncompressed.js'
-        , 'libs/share-codemirror/share-codemirror.js'
-        , 'libs/codemirror/mode/javascript/javascript.js'
-        , 'blocks/page/page.js'
-        , 'blocks/**/*.js'
-        ]
-      )
-      .pipe(concat('index.js'))
-      .pipe(wrap('<script><%= contents %></script>'))
-  )
-    .pipe(concat('index.html'))
-    .pipe(gulp.dest('./'))
-})
-
-
-
 gulp.task('test', function (done) {
   karma.start({
     configFile: __dirname + '/karma.conf.js',
@@ -177,16 +69,25 @@ gulp.task('stylesheets', function () {
     ]).pipe(concat('application.css'))
       .pipe(gulp.dest('public/build/'))
 })
-//gulp.task('default', runSequence( 'config', 'index.html'))
+
+var scss_dev_dir = './public/source/'
+var scss_build_dir = './public/build/'
 
 gulp.task('sass', function () {
-  gulp.src('./public/source/*.scss')
-    .pipe(watch('./public/source/*.scss', function (files) {
-      return files.pipe(sass())
-        .pipe(autoprefixer('last 3 version', '> 5%', { cascade: true }))
-        .pipe(gulp.dest('./public/build/'))
-    }))
+  gulp.src(scss_dev_dir + '*.scss')
+    .pipe(sass())
+    .pipe(autoprefixer('last 3 version', '> 5%', { cascade: true }))
+    .pipe(gulp.dest(scss_build_dir))
 })
 
-gulp.task('default', ['config', 'scripts', 'sass', 'stylesheets'])
+gulp.task('watch', function () {
+  gulp.watch(scss_dev_dir + '*.scss', function (files) {
+    gulp.run('sass')
+  })
+})
+
+
+
+gulp.task('default', ['config', 'scripts', 'sass', 'stylesheets', 'watch'])
+
 gulp.task('nominify', ['config', 'index.html'])

@@ -69,6 +69,22 @@ module.exports = function (passport) {
   router.get('/room/:name', function (req, res) {
     findRoom(req, res)
   })
+
+  router.use(function(req, res, next){
+    res.status(404)
+    console.log('Not found URL: %s'.red, req.url)
+    res.send({ error: 'Not found' })
+    return
+  })
+
+  router.use(function(err, req, res, next){
+    res.status(err.status || 500)
+    console.log('Internal error(%d): %s'.red, res.statusCode, err.message)
+    res.send({ error: err.message })
+    return
+  })
+
+
   return router
 }
 
@@ -99,7 +115,7 @@ var findRoom = function (req, res) {
     } else {
       res.send(room.name)
 
-      var callback = addUserToRoom;
+      var callback = addUserToRoom
       userExistInRoom(req, room, callback)
     }
   })
