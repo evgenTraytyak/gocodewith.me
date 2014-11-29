@@ -25,6 +25,5 @@
     "codemirror": "~4.7.0",
     "ot": "~0.0.14",
     "share-codemirror": "~0.0.5",
-    "switchery": "~0.6.3"
   }
 }
