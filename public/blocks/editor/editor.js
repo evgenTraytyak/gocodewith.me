@@ -180,7 +180,7 @@ EditorProto.changeEditorMode = function () {
 }
 
 EditorProto.getDefaultEditorMode = function () {
-  var editorMode = "light" //light or dark
+  var editorMode = "dark" //light or dark
 
   this.setDefaultEditorMode(editorMode);
 }

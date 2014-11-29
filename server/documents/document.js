@@ -1,7 +1,3 @@
-/**
- * Created by Mantsevich on 22.10.2014.
- */
-
 var _ = require('lodash-node')
   // Generator uniq id for documents
   , getUID = function () {

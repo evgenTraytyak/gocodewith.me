@@ -4,6 +4,7 @@
   flex-direction: row;
   justify-content: flex-start;
   box-sizing: border-box;
+  font-family: $font-main;
   transition: all 0.1s;
   }
 
@@ -20,8 +21,7 @@
 .header__logo__name {
   position: relative;
   font-size: 24px;
-  font-family: 'Lato', 'PS Sans', sans-serif;
-  color: #FFFFFF;
+  color: $color-white;
 
   /* temporarily */
   &:after {
@@ -32,11 +32,23 @@
     padding: 5px;
     font-size: 12px;
     line-height: 12px;
-    background-color: #DC3023;
-    color: #FFFFFF;
+    background-color: $color-red;
+    color: $color-white;
     border-radius: 5px;
     }
   }
+
+.control__menu {
+  margin: 10px;
+  padding: 10px;
+  }
+
+  .control__menu__item {
+    display: inline-block;
+    margin-right: 20px;
+    color: #ECF0F1;
+    cursor: pointer;
+    }
 
 .header__control {
   height: 70px;
