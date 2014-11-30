@@ -48,7 +48,6 @@ gulp.task('scripts', function () {
     , 'libs/codemirror/lib/codemirror.js'
     , 'node_modules/share/webclient/share.uncompressed.js'
     , 'libs/share-codemirror/share-codemirror.js'
-    , 'libs/codemirror/mode/javascript/javascript.js' // default language - javascript (temporarily)
     , 'public/blocks/page/page.js'
     , 'public/blocks/editor/editor.js'
     , 'public/blocks/page/socket.js'
