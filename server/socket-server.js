@@ -1,5 +1,4 @@
-var colors = require('colors')
-  , Users = require('./users')
+var Users = require('./users')
   , WebSocketServer = require('ws').Server
 
 

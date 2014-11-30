@@ -1,13 +1,10 @@
 var express = require('express')
   , app = express()
-  , path = require('path')
   , bodyParser = require('body-parser')
   , cookieParser = require('cookie-parser')
   , url = require('url')
   , httpLogger = require('morgan')
   , log = require('npmlog')
-  , fs = require('fs')
-  , colors = require('colors')
 
 // Morgan logger
 app.use(httpLogger('dev'))

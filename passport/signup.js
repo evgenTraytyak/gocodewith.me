@@ -1,7 +1,5 @@
 var LocalStrategy = require('passport-local').Strategy
-  , User = require('../models/user')
   , bcrypt = require('bcrypt')
-  , colors = require('colors')
 
 module.exports = function (passport) {
 
