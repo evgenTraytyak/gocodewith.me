@@ -1,17 +1,12 @@
 var gulp = require('gulp')
-  , gulpIgnore = require('gulp-ignore')
   , concat = require('gulp-concat')
   , autoprefixer = require('gulp-autoprefixer')
-  , wrap = require('gulp-wrap')
   , watch = require('gulp-watch')
-  , streamqueue = require('streamqueue')
   , karma = require('karma').server
   , uglify = require('gulp-uglify')
   , minifyCSS = require('gulp-minify-css')
-  , minifyHTML = require('gulp-minify-html')
-  , runSequence = require('run-sequence')
-  , env = process.env.NODE_ENV || 'DEV'
   , sass = require('gulp-sass')
+  , env = process.env.NODE_ENV || 'DEV'
 
 
 gulp.task('config', function () {
@@ -86,8 +81,4 @@ gulp.task('watch', function () {
   gulp.watch(js_dev_dir + '*.js', ['scripts'])
 })
 
-
-
 gulp.task('default', ['config', 'scripts', 'sass', 'stylesheets', 'watch'])
-
-gulp.task('nominify', ['config', 'index.html'])
