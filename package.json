@@ -42,6 +42,7 @@
     "npmlog": "^0.1.1",
     "ot": "0.0.14",
     "passport": "^0.2.1",
+    "passport-github": "^0.1.5",
     "passport-local": "^1.0.0",
     "run-sequence": "^1.0.1",
     "share": "^0.7.3",

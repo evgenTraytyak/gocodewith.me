@@ -3,9 +3,10 @@ var mongoose = require('mongoose'),
 
 var UsersSchema = new Schema(
   { id: String
+  , githubId: { type: String, unique: true }
   , username: { type: String, trim: true, required: true, unique: true }
   , email: { type: String, trim: true, required: true, unique: true }
-  , password: { type: String, required: true }
+  , password: { type: String }
   , settingEditor:
     { lightMode: { type: Boolean, default: false }
     , theme: { type: String, default: 'ocean dark' }

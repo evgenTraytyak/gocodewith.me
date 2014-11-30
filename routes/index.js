@@ -26,6 +26,20 @@ module.exports = function (passport) {
     res.render('signup', { message: req.flash('message') })
   })
 
+  router.get('/auth/github', passport.authenticate('github'),
+    function (req, res) {
+
+    }
+  )
+
+  router.get('/auth/github/callback', passport.authenticate('github',
+    { failureRedirect: '/signin'
+    }),
+    function (req, res) {
+     res.redirect('/')
+    }
+  )
+
   router.get('/themes', function (req, res) {
     var filePath = path.join(dir_root, 'public/themes/', 'themes.json')
     fs.readFile(filePath, 'utf8', function (err, file) {
@@ -95,7 +109,7 @@ module.exports = function (passport) {
 }
 
 var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated() || req.url == '/signin' || req.url == '/signup') {
+  if (req.isAuthenticated() || req.url == '/signin' || req.url == '/signup' || /^\/auth/.test(req.url)) {
     return next()
   }
   res.redirect('/signin')
