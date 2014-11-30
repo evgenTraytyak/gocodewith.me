@@ -71,7 +71,8 @@ gulp.task('stylesheets', function () {
 })
 
 var scss_dev_dir = './public/source/'
-var scss_build_dir = './public/build/'
+  , scss_build_dir = './public/build/'
+  , js_dev_dir = './public/blocks/**/'
 
 gulp.task('sass', function () {
   gulp.src(scss_dev_dir + '*.scss')
@@ -81,9 +82,8 @@ gulp.task('sass', function () {
 })
 
 gulp.task('watch', function () {
-  gulp.watch(scss_dev_dir + '*.scss', function (files) {
-    gulp.run('sass')
-  })
+  gulp.watch(scss_dev_dir + '*.scss', ['sass'])
+  gulp.watch(js_dev_dir + '*.js', ['scripts'])
 })
 
 
