@@ -1,8 +1,10 @@
 var _ = require('lodash-node')
   , Duplex = require('stream').Duplex
   , livedb = require('livedb')
+  , livedbmongo = require('livedb-mongo')
+  , mongo = livedbmongo('mongodb://localhost/wingpad?auto_reconnect', {safe:true})
   , sharejs = require('share')
-  , backend = livedb.client(livedb.memory())
+  , backend = livedb.client(mongo)
   , share = sharejs.server.createClient(
     { backend: backend
     }

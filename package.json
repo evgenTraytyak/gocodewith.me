@@ -5,7 +5,8 @@
   "main": "start.js",
   "scripts": {
     "gulp": "./node_modules/.bin/gulp",
-    "start": "./node_modules/supervisor/lib/cli-wrapper.js -i public server.js"
+    "start": "./node_modules/supervisor/lib/cli-wrapper.js -i public server.js",
+    "posinstall": "bower install"
   },
   "repository": {
     "type": "git",
@@ -34,6 +35,7 @@
     "gulp-watch": "^1.1.0",
     "jade": "^1.7.0",
     "livedb": "^0.4.8",
+    "livedb-mongo": "^0.4.1",
     "lodash-node": "^2.4.1",
     "mongoose": "3.8.19",
     "morgan": "^1.5.0",
