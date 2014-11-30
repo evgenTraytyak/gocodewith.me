@@ -13,26 +13,12 @@ App = {
 
     this.bindSocketHandlers()
 
-    this.auth().done(this.openDocument)
+    this.__user = $('#user_meta').data('user-name')
+
+    this.openDocument();
   }
   , getDocId: function () {
-    return this.getDocIdFromHash() || _.random(10000000000)
-  }
-  , getDocIdFromHash: function () {
-    return window.location.hash.replace('#', '')
-  }
-  /**
-   * Simple auth.
-   * @returns {jQuery.Deferred}
-   */
-  , auth: function () {
-    var user = {
-      title: window.prompt('Your name:')
-    }
-
-    this.__user = user
-
-    return $.Deferred().resolve(user).promise()
+    return window.location.pathname.replace(/^\/room\/(.+)$/g, '$1')
   }
 
   /**
@@ -57,7 +43,6 @@ App = {
       this.Users.fillList(document.users)
 
     if (document.id) {
-      window.location.hash = '#' + document.id
       if (App.Users.getUsersCount() == 1) {
         this.loadDocument(document.id)
       }
@@ -67,10 +52,10 @@ App = {
   , openDocument: function () {
     this.send(JSON.stringify(
       { a: 'open'
-        , user: this.__user
-        , document:
-      { id: this.documentId
-      }
+      , user: this.__user
+      , document:
+        { id: this.documentId
+        }
       }
     ) )
 
@@ -88,6 +73,7 @@ App = {
     var self = this
 
     this.waitForConnection(function () {
+      console.log(message)
       self.socket.send(message)
 
       if (typeof callback !== 'undefined') {

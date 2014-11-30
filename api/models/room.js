@@ -8,4 +8,6 @@ var RoomsSchema = new Schema(
   , user_ids: [{ type: Schema.ObjectId, ref: 'User'}]
 })
 
-module.exports = mongoose.model('Room', RoomsSchema)
+Room = mongoose.model('Room', RoomsSchema)
+
+module.exports = Room;

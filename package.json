@@ -35,7 +35,7 @@
     "jade": "^1.7.0",
     "livedb": "^0.4.8",
     "lodash-node": "^2.4.1",
-    "mongoose": "^3.8.19",
+    "mongoose": "3.8.19",
     "morgan": "^1.5.0",
     "npmlog": "^0.1.1",
     "ot": "0.0.14",

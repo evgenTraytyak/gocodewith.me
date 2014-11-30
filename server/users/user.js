@@ -167,9 +167,7 @@ proto.closeDocument = function () {
 proto.updateData = function (data) {
   delete data.id
 
-  _.extend(this.props, data, function (a, b) {
-    return b ? b : a
-  })
+  this.props.title = data
 
   return this
 }
@@ -181,8 +179,9 @@ proto.updateData = function (data) {
  * @private
  */
 proto.onOpenEvent = function (data) {
-  if (data.user)
+  if (data.user) {
     this.updateData(data.user)
+  }
   this.openDocument(data.document)
   return this
 }
