@@ -26,9 +26,9 @@ html
             option(value='15px') 15px
             option(value='16px') 16px
         .control__languages
-          select.custom-select
-            each language, language_name in languages
-              option(value="language_name")= language_name
+          select.custom-select.js-editor-change-language
+            -for(var name in languages)
+              option(value="#{languages[name].mode}")= name
     .layout
       aside.sidebar.sidebar--dark
         ul.sidebar__users
@@ -36,3 +36,4 @@ html
         textarea#docEditor
     script#user-tpl(type='template')
       <li id="<%= id %>" class="sidebar__users__item" style="color: <%= color %>"><%= title %></li>
+    script(class='js-current-syntax')

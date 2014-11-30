@@ -47,6 +47,17 @@ module.exports = function (passport) {
     })
   })
 
+  router.get('/language', function (req, res) {
+    var syntaxMode = req.query.name
+      , filePath = path.join(dir_root, 'public/codelanguages', syntaxMode, syntaxMode + '.js')
+
+    fs.readFile(filePath, 'utf8', function (err, file) {
+      if (err) console.error(err)
+
+      res.send(file)
+    })
+  })
+
   router.post('/signup', passport.authenticate('signup',
     { successRedirect: '/'
     , failureRedirect: '/signup'
@@ -56,6 +67,7 @@ module.exports = function (passport) {
   router.post('/room/create', RoomsController.create)
 
   router.get('/room/:name', RoomsController.show)
+
   router.post('/room', function(req, res) {
     res.redirect('/room/' + req.body.name)
   })

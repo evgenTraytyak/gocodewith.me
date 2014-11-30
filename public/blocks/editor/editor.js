@@ -1,27 +1,32 @@
 var App = App || {}
 
 App.Editor = function () {
-  _.bindAll(this, "onCursorActivity")
+  var self = this
 
-  this.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0],
+  _.bindAll(self, "onCursorActivity")
+
+  self.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0],
     {
       lineNumbers: true
       , matchBrackets: true
       , foldGutter: true        //сворачивание кода
-      , mode: "javascript"
     })
 
-  this.getThemesList()
+  self.getThemesList()
 
-  this.changeEditorMode()
+  self.changeEditorMode()
 
-  this.getDefaultEditorMode()
+  self.getDefaultEditorMode()
 
-  this.setFontSize()
+  self.setFontSize()
 
-  this.codeEditor.on("cursorActivity", this.onCursorActivity)
-  this.cursors = []
-  this.selections = []
+  self.codeEditor.on("cursorActivity", self.onCursorActivity)
+  self.cursors = []
+  self.selections = []
+
+  $(document).on('change', '.js-editor-change-language', function () {
+    self.setSyntax(this)
+  })
 
 }
 
@@ -203,4 +208,35 @@ EditorProto.setFontSize = function () {
   $(".js-font-size").on("change", function () {
     $(".CodeMirror").css("font-size", $(this).val())
   })
+}
+
+EditorProto.setSyntax = function (select) {
+  var selectedMode = select.value
+
+  this._initSyntax(selectedMode)
+}
+
+
+EditorProto._initSyntax = function (mode) {
+  var self = this
+
+  loadJs('/language/?name=' + mode, function() {
+    self.codeEditor.setOption("mode", mode)
+  })
+
+  function loadJs(src, callback) {
+    var scriptTag = document.createElement('script')
+
+    scriptTag.src = src
+    scriptTag.async = true
+    scriptTag.onreadystatechange = scriptTag.onload = function () {
+      var state = scriptTag.readyState
+
+      if (!callback.done && (!state || /loaded|complete/.test(state))) {
+        callback.done = true
+        callback()
+      }
+    }
+    document.getElementsByTagName('head')[0].appendChild(scriptTag)
+  }
 }
