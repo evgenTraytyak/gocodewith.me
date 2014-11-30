@@ -5,7 +5,7 @@
   "main": "start.js",
   "scripts": {
     "gulp": "./node_modules/.bin/gulp",
-    "start": "node server.js"
+    "start": "./node_modules/supervisor/lib/cli-wrapper.js -i public server.js"
   },
   "repository": {
     "type": "git",
@@ -57,6 +57,7 @@
     "karma-firefox-launcher": "~0.1",
     "karma-jasmine": "~0.2.0",
     "karma-jasmine-jquery": "~0.1.1",
-    "node-deploy-client": "^0.2.1"
+    "node-deploy-client": "^0.2.1",
+    "supervisor": "^0.6.0"
   }
 }

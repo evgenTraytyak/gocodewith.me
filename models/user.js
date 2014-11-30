@@ -7,7 +7,7 @@ var UsersSchema = new Schema(
   , email: { type: String, trim: true, required: true, unique: true }
   , password: { type: String, required: true }
   , settingEditor:
-  { lightMode: { type: Boolean, default: false }
+    { lightMode: { type: Boolean, default: false }
     , theme: { type: String, default: 'ocean dark' }
     , modeEditing: { type: String, default: 'sublime' }
     , ternEngine: { type: Boolean, default: false }
