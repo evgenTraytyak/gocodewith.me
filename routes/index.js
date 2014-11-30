@@ -8,9 +8,8 @@ module.exports = function (passport) {
   router.use(isAuthenticated)
 
   router.get('/', function (req, res) {
-    res.render('index',
+    res.render('start',
       { user: req.user
-      , room: req.room
       , message: req.flash('message')
       })
   })
@@ -42,6 +41,13 @@ module.exports = function (passport) {
     var filePath = path.resolve(__dirname, '..', 'public/themes/', req.query.name)
     fs.readFile(filePath, 'utf8', function (err, file) {
       res.send(file)
+    })
+  })
+
+  router.get('/languages', function (req, res) {
+    var filePath = path.resolve(__dirname, '..', 'public/codelanguages/', 'languages.json')
+    fs.readFile(filePath, 'utf8', function (err, file) {
+      res.json(file)
     })
   })
 
@@ -79,7 +85,7 @@ module.exports = function (passport) {
 
   router.use(function(err, req, res, next){
     res.status(err.status || 500)
-    console.log('Internal error(%d): %s'.red, res.statusCode, err.message)
+    console.log('Internal error (%d): %s'.red, res.statusCode, err.message)
     res.send({ error: err.message })
     return
   })
@@ -113,13 +119,39 @@ var findRoom = function (req, res) {
     if (!room) {
       res.status(404).send('Room not found')
     } else {
-      res.send(room.name)
+      var filePath = path.resolve(__dirname, '..', 'public/codelanguages/', 'languages.json')
+      var languages = fs.readFileSync(filePath, 'utf8')
+
+      languages = JSON.parse(languages)
+
+      getUsersInRoom(req, room, function(users) {
+        res.render('index',
+        { user: req.user
+        , users: users
+        , languages: languages
+        , message: req.flash('message')
+        })
+      })
 
       var callback = addUserToRoom
       userExistInRoom(req, room, callback)
     }
   })
 }
+
+var getUsersInRoom = function (req, room, callback) {
+  Room.findOne({name: room.name}).populate('user_ids').exec(function (err, foundRoom) {
+    var users_username = []
+
+    foundRoom.user_ids.forEach(function (user, index) {
+      users_username.push(user.username)
+    })
+    console.log(users_username)
+
+    callback(users_username);
+  })
+}
+
 
 var userExistInRoom = function (req, room, callback) {
   Room.findOne({name: room.name}).populate('user_ids').exec(function (err, foundRoom) {
