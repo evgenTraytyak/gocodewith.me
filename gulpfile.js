@@ -1,9 +1,9 @@
 var gulp = require('gulp')
+  , plugins = require('gulp-load-plugins')()
+  , env = process.env.NODE_ENV || 'development'
+
   , uglify = require('gulp-uglify')
   , minifyCSS = require('gulp-minify-css')
-  , sass = require('gulp-sass')
-  , plugins = require('gulp-load-plugins')()
-  , env = process.env.NODE_ENV || 'DEV'
 
 var dir = {}
   dir._ = './public/'
@@ -14,7 +14,9 @@ var dir = {}
   dir.build = {}
     dir.build._ = dir._ + 'build/'
 
+
 // Frontend builder
+
 gulp.task('config', function () {
   var srcConfig = ''
 
@@ -29,7 +31,6 @@ gulp.task('config', function () {
     .src(srcConfig)
     .pipe( plugins.concat('current.json') )
     .pipe( gulp.dest('./config') )
-
 })
 
 gulp.task('scripts', function () {
@@ -75,3 +76,4 @@ gulp.task('watch', function() {
 gulp.task('build', ['config', 'scripts', 'sass', 'stylesheets'])
 
 gulp.task('default', ['build', 'watch'])
+

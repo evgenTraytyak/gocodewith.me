@@ -4,9 +4,10 @@
   "description": "application for a multi-user online document editing",
   "main": "start.js",
   "scripts": {
+    "postinstall": "bower install && ./node_modules/.bin/gulp build",
+    "start": "./node_modules/supervisor/lib/cli-wrapper.js -i public -n exit --debug server.js",
     "gulp": "./node_modules/.bin/gulp",
-    "start": "./node_modules/supervisor/lib/cli-wrapper.js -i public server.js",
-    "posinstall": "bower install"
+    "app": "node ./server.js"
   },
   "repository": {
     "type": "git",
@@ -60,3 +61,4 @@
     "supervisor": "^0.6.0"
   }
 }
+
