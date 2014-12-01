@@ -9,6 +9,9 @@
     "gulp": "./node_modules/.bin/gulp",
     "app": "node ./server.js"
   },
+  "engines": {
+    "node": "0.10.31"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/yandex-shri-minsk-2014/team-1.git"
