@@ -4,7 +4,7 @@
   "description": "application for a multi-user online document editing",
   "main": "start.js",
   "scripts": {
-    "postinstall": "bower install && ./node_modules/.bin/gulp build",
+    "postinstall": "./node_modules/.bin/bower install && ./node_modules/.bin/gulp build",
     "start": "./node_modules/supervisor/lib/cli-wrapper.js -i public -n exit --debug server.js",
     "gulp": "./node_modules/.bin/gulp",
     "app": "node ./server.js"
@@ -25,6 +25,7 @@
   "dependencies": {
     "bcrypt": "^0.8.0",
     "body-parser": "^1.9.2",
+    "bower": "^1.3.12",
     "colors": "^1.0.3",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.3.3",
@@ -64,4 +65,3 @@
     "supervisor": "^0.6.0"
   }
 }
-
