@@ -5,5 +5,8 @@
   },
   "socket_server": {
     "port": 7900
+  },
+  "mongodb": {
+    "url": "mongodb://localhost/gocodewithme"
   }
 }

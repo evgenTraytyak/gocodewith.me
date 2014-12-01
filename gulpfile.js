@@ -62,7 +62,7 @@ gulp.task('stylesheets', function() {
   gulp
     .src(
       [ 'libs/codemirror/lib/codemirror.css'
-      , './public/build/index.css'
+      , 'public/build/index.css'
       ])
     .pipe( plugins.concat('application.css') )
     .pipe( gulp.dest(dir.build._) )

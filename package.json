@@ -1,8 +1,8 @@
 {
-  "name": "WingPad",
-  "version": "0.0.1",
-  "description": "application for a multi-user online document editing",
-  "main": "start.js",
+  "name": "Gocodewith.me",
+  "version": "0.0.3",
+  "description": "This is collaborative online code editor with supporting 60 programming languages, variety of themes and fonts.",
+  "main": "server.js",
   "scripts": {
     "postinstall": "./node_modules/.bin/bower install && ./node_modules/.bin/gulp build",
     "start": "./node_modules/supervisor/lib/cli-wrapper.js -i public -n exit --debug server.js",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yandex-shri-minsk-2014/team-1.git"
+    "url": "https://github.com/evgenTraytyak/gocodewith.me"
   },
-  "author": "Yandex SHRI Team 1",
+  "author": "evgenTraytyak && School development interfaces Yandex (Team 1)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/yandex-shri-minsk-2014/team-1/issues"
+    "url": "https://github.com/evgenTraytyak/gocodewith.me/issues"
   },
-  "homepage": "https://github.com/yandex-shri-minsk-2014/team-1",
+  "homepage": "https://github.com/evgenTraytyak/gocodewith.me",
   "dependencies": {
     "bcrypt": "^0.8.0",
     "body-parser": "^1.9.2",

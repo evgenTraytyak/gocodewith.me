@@ -4,6 +4,8 @@ var Users = require('./users')
 
 exports.start = function (config) {
   if (config) {
+    config.port = process.env.PORT_WS || config.port
+
     try {
       var wss = new WebSocketServer(config)
 

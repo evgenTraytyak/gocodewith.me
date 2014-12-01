@@ -73,7 +73,6 @@ App = {
     var self = this
 
     this.waitForConnection(function () {
-      console.log(message)
       self.socket.send(message)
 
       if (typeof callback !== 'undefined') {

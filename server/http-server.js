@@ -11,10 +11,10 @@ app.use(httpLogger('dev'))
 
 // Connect to DB
 var mongoose = require('mongoose')
-  , dbConfig = require('./db')
+  , dbConfig = require('../config/index.js').mongodb
   , db = mongoose.connection
 
-mongoose.connect(dbConfig.url)
+mongoose.connect(process.env.MONGO_URI || dbConfig.url)
 
 db.on('error', function (err) {
   console.error('Database connection error:'.red, err.message);
@@ -59,7 +59,7 @@ app.use('/', routes)
 
 module.exports = {
   start: function (server) {
-    app.listen(server.port, function (err) {
+    app.listen(process.env.PORT || server.port, function (err) {
       if (err) return console.error(err)
       console.log('Http server running on port:'.green, colors.yellow.bold(server.port))
     })
