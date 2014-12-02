@@ -1,53 +1,58 @@
 RoomsController = {
-  show: function(req, res) {
+  show: function (req, res) {
     var callbacks = {
-      success: function(room) {
+      success: function (room) {
         RoomsController._showItem(req, res, room)
       },
-      empty: function() {
-        res.status(404).send()
+      empty: function (name) {
+        req.flash('message', 'Room ' + name +' doesn\'t exist')
+        res.status(404).redirect('/')
       },
-      error: function() {
-        res.status(500).send()
+      error: function () {
+        res.status(500).redirect('/')
       }
     }
 
-    RoomsController._isExistByName(req.params.name, callbacks)
+    RoomsController._isExistByName(req.params.name, 'show', callbacks)
   },
 
-  create: function(req, res) {
+  create: function (req, res) {
     var callbacks = {
-      success: function(room) {
+      success: function (room) {
         res.redirect('/room/' + room.name)
       },
-      empty: function() {
+      empty: function () {
         var callbacks = {
-          error: function() {
+          error: function () {
 
           },
-          success: function(room) {
+          success: function (room) {
             res.redirect('/room/' + room.name)
           }
         }
 
         RoomsController._createItem(req, callbacks)
       },
-      error: function() {
+      error: function () {
         res.status(500).send()
+      },
+      exist: function (name) {
+        req.flash('message', 'Room ' + name +' already exist')
+        res.status(404).redirect('/')
       }
     }
 
-    RoomsController._isExistByName(req.body.name, callbacks)
+    RoomsController._isExistByName(req.body.name, 'create', callbacks)
   },
 
-  _createItem: function(req, callbacks) {
+  _createItem: function (req, callbacks) {
     var room = new Room({
       name: req.body.name,
       creator_id: req.user,
       user_ids: [req.user._id]
     })
 
-    room.save(function(err, room) {
+    room.save(function (err, room) {
       if (err) {
         if (callbacks.error) callbacks.error()
       }
@@ -57,14 +62,14 @@ RoomsController = {
     })
   },
 
-  _showItem: function(req, res, room) {
+  _showItem: function (req, res, room) {
     var languagesPath = path.join(dir_root, 'public/codelanguages/', 'languages.json')
       , languages = JSON.parse(fs.readFileSync(languagesPath, 'utf8'))
 
       , fontsPath = path.join(dir_root, 'public/fonts/', 'fonts.json')
       , fonts = JSON.parse(fs.readFileSync(fontsPath, 'utf8'))
 
-    getUsersInRoom(req, room, function(users) {
+    getUsersInRoom(req, room, function (users) {
       res.render('index',
       { user: req.user
       , users: users
@@ -78,16 +83,20 @@ RoomsController = {
     userExistInRoom(req, room, callback)
   },
 
-  _isExistByName: function(name, callback) {
-    Room.findOne({'name': name}).exec(function(err, room) {
+  _isExistByName: function (name, action, callback) {
+    Room.findOne({'name': name}).exec(function (err, room) {
       if (err) {
         if (callback.error) callback.error()
       }
       else if (!room) {
-        if (callback.empty) callback.empty()
+        if (callback.empty) callback.empty(name)
       }
       else {
-        if (callback.success) callback.success(room)
+        if (action == 'show') {
+          callback.success(room)
+        } else if (action == 'create') {
+          callback.exist(name)
+        }
       }
     })
   }
