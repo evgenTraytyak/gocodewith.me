@@ -1,0 +1,10 @@
+{
+  "AnonymousPro": { "ext": ".ttf", "value": "anonymous-pro" },
+  "DejaVuSansMono": { "ext": ".ttf", "value": "dejavu-sans-mono"},
+  "EnvyCode": { "ext": ".ttf", "value": "envy-code"},
+  "Monaco": { "ext": ".ttf", "value": "monaco"},
+  "Menlo": { "ext": ".ttf", "value": "menlo"},
+  "PragmataPro": { "ext": ".ttf", "value": "pragmata-pro"},
+  "SourceCodePro": { "ext": ".ttf", "value": "source-code-pro"},
+  "UbuntuMono": { "ext": ".ttf", "value": "ubuntu-mono"}
+}
