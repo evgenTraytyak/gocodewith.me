@@ -58,15 +58,17 @@ RoomsController = {
   },
 
   _showItem: function(req, res, room) {
-    var filePath = path.join(dir_root, 'public/codelanguages/', 'languages.json')
-    var languages = fs.readFileSync(filePath, 'utf8')
+    var languagesPath = path.join(dir_root, 'public/codelanguages/', 'languages.json')
+      , languages = JSON.parse(fs.readFileSync(languagesPath, 'utf8'))
 
-    languages = JSON.parse(languages)
+      , fontsPath = path.join(dir_root, 'public/fonts/', 'fonts.json')
+      , fonts = JSON.parse(fs.readFileSync(fontsPath, 'utf8'))
 
     getUsersInRoom(req, room, function(users) {
       res.render('index',
       { user: req.user
       , users: users
+      , fonts: fonts
       , languages: languages
       , message: req.flash('message')
       })
