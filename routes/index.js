@@ -86,6 +86,28 @@ module.exports = function (passport) {
     res.redirect('/room/' + req.body.name)
   })
 
+  router.get('/fonts', function (req, res) {
+    var filePath = path.join(dir_root, 'public/fonts', 'fonts.json')
+    fs.readFile(filePath, 'utf8', function (err, file) {
+      res.json(file)
+    })
+  })
+
+  router.get('/font', function (req, res) {
+    var filePath = path.join(dir_root, 'public/fonts', req.query.name + '.ttf')
+      , sendingPath = path.join('/fonts', req.query.name + '.ttf')
+
+    fs.readFile(filePath, 'utf8', function (err, file) {
+      res.send(sendingPath)
+    })
+  })
+
+
+  router.post('/user/font', UsersController.saveFont)
+  router.post('/user/font-size', UsersController.saveFontSize)
+  router.post('/user/theme', UsersController.saveTheme)
+
+
   // router.get(/^\/room\/\?name=()/, function(req, res) {
 
   // })

@@ -28,6 +28,12 @@ App.Editor = function () {
     self.setSyntax(this)
   })
 
+  $(document).on('change', '.js-editor-change-font', function () {
+    self.setFont(this)
+  })
+
+
+
 }
 
 var EditorProto = App.Editor.prototype = {}
@@ -204,6 +210,39 @@ EditorProto.setDefaultEditorMode = function (editorMode) {
   }
 }
 
+EditorProto.setFont = function (select) {
+  var fontValue = select.value
+    , fontName = $(select).find('option:selected').text()
+
+  this._getFont(fontValue, fontName)
+}
+
+EditorProto._getFont = function (fontValue, fontName) {
+  var self = this
+
+  $.get('/font', { name: fontName })
+    .success(function (data) {
+      self._initFont(data, fontName)
+  })
+}
+
+EditorProto._initFont = function (url, fontName) {
+  code = "\n@font-face {\n" +
+    "font-family: '" + fontName + "';\n" +
+    "src: url(" + url + ");\n}"
+
+  $(".js-current-font").html(code)
+
+  $('.CodeMirror').css({'font-family': fontName})
+
+  this._saveFont(fontName)
+}
+
+// Save font in user profile
+EditorProto._saveFont = function (fontName)  {
+  $.post('/user/font', { name: fontName })
+}
+
 EditorProto.setFontSize = function () {
   $(".js-font-size").on("change", function () {
     $(".CodeMirror").css("font-size", $(this).val())
@@ -215,7 +254,6 @@ EditorProto.setSyntax = function (select) {
 
   this._initSyntax(selectedMode)
 }
-
 
 EditorProto._initSyntax = function (mode) {
   var self = this
