@@ -4,13 +4,16 @@ html
     title=title
     link(rel='stylesheet', href='build/auth.css')
   body
-    if message==''
-      .message
-        .message__text #{message}
-    div.auth
-      form(class='auth__form', action='/signup', method='POST')
+    .auth
+      if message != ''
+        .message
+          .message__text= message
+      .auth__header
+        .auth__logo__name Gocodewith.me
+      form(class='auth__form auth__form__signup', action='/signup', method='POST')
         input(type='text', name='username', class='auth__form__input', placeholder='Username', required)
         input(type='email', name='email', class='auth__form__input', placeholder='Email', required)
         input(type='password',name='password', class='auth__form__input', placeholder='Password', required)
         input(type='password',name='confirmPassword', class='auth__form__input', placeholder='Confirm password', required)
         button(class='auth__form__button', type='submit') Register
+        a(href='/signin', class='auth__form__link') Sign in

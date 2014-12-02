@@ -5,15 +5,15 @@ html
     link(rel='stylesheet', href='build/auth.css')
   body
     .auth
-      if message
+      if message != ''
         .message
-          .message__text #{message}
+          .message__text= message
       .auth__header
         .auth__logo__name Gocodewith.me
-      form(class='auth__form', action='/signin', method='POST')
+      form(class='auth__form auth__form__signup', action='/signin', method='POST')
         input(type='text', name='username', class='auth__form__input', placeholder='Username', required)
         input(type='password',name='password', class='auth__form__input', placeholder='Password', required)
-        a(href='/')
-        button(class='auth__form__button', type='submit') Sign in
-        a(href='/auth/github') Sign in via GitHub
-        button(class='auth__form__button', type='submit') Sign in via GitHub
+        .auth__form__btn-group
+          button(class='auth__form__button', type='submit') Sign in
+          a(class='auth__form__btn-link', href='/auth/github') Sign in via GitHub
+        a(href='/signup', class='auth__form__link') Sign up

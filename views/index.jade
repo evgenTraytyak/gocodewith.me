@@ -6,7 +6,7 @@ html
     style(class='js-current-font')
   body
     #user_meta(style="display: none;" data-user-name=user.username)
-    if message
+    if message != ''
       .message
         .message__text #{message}
     header.header.header--dark

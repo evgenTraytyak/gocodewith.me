@@ -1,20 +1,24 @@
 doctype html
 html
   head
-    link(rel='stylesheet', href='./build/dashboard.css')
+    link(rel='stylesheet', href='../build/dashboard.css')
   body
-    if message
-      .message
-        .message__text #{message}
-    form(class='dashboard__create', action='/room/create', method='POST')
-      p(class='dashboard') Create room
-      input(type='text', class='dashboard__input', name='name' placeholder='Room name', required)
-      button(class='dashboard__button', type='submit') Create
-    form(class='dashboard__connect', action='/room', method='POST')
-      p Connect to room
-      input(type='text', class='dashboard__input', name='name', placeholder='Room name')
-      button(class='dashboard__button', type='submit') Connect
-      p Open recent
-        ul
-           li: a(href='/room/jquery') jquery
-           li: a(href='/room/backbone') backbone
+    .dashboard
+      if message != ''
+        .message
+          .message__text= message
+      .dashboard__form
+        form(class='dashboard__form__create', action='/room/create', method='POST')
+          p(class='dashboard__text') Create room:
+          input(type='text', class='dashboard__input', name='name' placeholder='Room name', required)
+          button(class='dashboard__button', type='submit') Create
+        form(class='dashboard__form__connect', action='/room', method='POST')
+          p(class='dashboard__text') Connect to room:
+          input(type='text', class='dashboard__input', name='name', placeholder='Room name', required)
+          button(class='dashboard__button', type='submit') Connect
+        p(class='dashboard__text') Open recent:
+          ul(class='dashboard__room__list')
+            li(class='dashboard__room__item')
+              a(class='dashboard__link', href='/room/jquery') jquery
+            li(class='dashboard__room__item')
+              a(class='dashboard__link', href='/room/backbone') backbone
