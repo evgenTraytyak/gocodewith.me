@@ -1,56 +1,26 @@
 {
-  "eighties dark": {
-    "url": "base16-eighties-dark.css"
-  },
-  "eighties light": {
-    "url": "base16-eighties-light.css"
-  },
-  "base16 light": {
-    "url": "base16-light.css"
-  },
-  "mocha dark": {
-    "url": "base16-mocha-dark.css"
-  },
-  "mocha light": {
-    "url": "base16-mocha-light.css"
-  },
-  "monokai dark": {
-    "url": "base16-monokai-dark.css"
-  },
-  "monokai light": {
-    "url": "base16-monokai-light.css"
-  },
-  "ocean dark": {
-    "url": "base16-ocean-dark.css"
-  },
-  "ocean light": {
-    "url": "base16-ocean-light.css"
-  },
-  "paraiso dark": {
-    "url": "base16-paraiso-dark.css"
-  },
-  "paraiso light": {
-    "url": "base16-paraiso-light.css"
-  },
-  "railscasts dark": {
-    "url": "base16-railscasts-dark.css"
-  },
-  "railscasts light": {
-    "url": "base16-railscasts-light.css"
-  },
-  "solarized dark": {
-    "url": "base16-solarized-dark.css"
-  },
-  "solarized light": {
-    "url": "base16-solarized-light.css"
-  },
-  "tomorrow dark": {
-    "url": "base16-tomorrow-dark.css"
-  },
-  "tomorrow light": {
-    "url": "base16-tomorrow-light.css"
-  },
-  "neo": {
-    "url": "neo.css"
-  }
+  "themes": [
+    "ambiance",
+    "applepips-dark",
+    "applepips-light",
+    "base16-dark",
+    "base16-light",
+    "eighties-dark",
+    "eighties-light",
+    "mocha-dark",
+    "mocha-light",
+    "monokai-dark",
+    "monokai-light",
+    "neo",
+    "ocean-dark",
+    "ocean-light",
+    "paraiso-dark",
+    "paraiso-light",
+    "railscasts-dark",
+    "railscasts-light",
+    "solarized-dark",
+    "solarized-light",
+    "tomorrow-dark",
+    "tomorrow-light"
+  ]
 }
