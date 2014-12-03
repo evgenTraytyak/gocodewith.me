@@ -4,7 +4,7 @@ var express = require('express')
   , cookieParser = require('cookie-parser')
   , url = require('url')
   , httpLogger = require('morgan')
-  , log = require('npmlog')
+  , favicon = require('serve-favicon')
 
 // Morgan logger
 app.use(httpLogger('dev'))
@@ -25,14 +25,15 @@ db.once('open', function callback () {
 })
 
 // View engine setup
-app.set('views', path.resolve(__dirname, '..', 'views'))
+app.set('views', path.resolve(dir_root, 'views'))
 app.set('view engine', 'jade')
 
+app.use(favicon(dir_root + '/public/images/favicon.ico'))
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use(express.static(path.resolve(__dirname, '..', 'public')))
+app.use(express.static(path.resolve(dir_root, 'public')))
 
 // Configuring Passport
 var passport = require('passport')
