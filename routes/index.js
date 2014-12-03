@@ -19,7 +19,6 @@ module.exports = function (passport) {
   router.post('/signin', passport.authenticate('signin',
     { successRedirect: '/'
     , failureRedirect: '/signin'
-    , failureFlash : 'failure signin'
   }))
 
   router.get('/signup', function (req, res) {
@@ -27,28 +26,17 @@ module.exports = function (passport) {
   })
 
   router.get('/auth/github', passport.authenticate('github'),
-    function (req, res) {
-
-    }
+    function (req, res) { }
   )
 
   router.get('/auth/github/callback', passport.authenticate('github',
     { failureRedirect: '/signin'
     }),
-    function (req, res) {
-     res.redirect('/')
-    }
+    function (req, res) { res.redirect('/') }
   )
 
-  router.get('/themes', function (req, res) {
-    var filePath = path.join(dir_root, 'public/themes/', 'themes.json')
-    fs.readFile(filePath, 'utf8', function (err, file) {
-      res.json(file)
-    })
-  })
-
   router.get('/theme', function (req, res) {
-    var filePath = path.join(dir_root, 'public/themes/', req.query.name)
+    var filePath = path.join(dir_root, 'public/themes/', req.query.name + '.css')
     fs.readFile(filePath, 'utf8', function (err, file) {
       res.send(file)
     })
@@ -103,6 +91,7 @@ module.exports = function (passport) {
   })
 
 
+  router.get('/user/settings', UsersController.defaultSettings)
   router.post('/user/font', UsersController.saveFont)
   router.post('/user/font-size', UsersController.saveFontSize)
   router.post('/user/theme', UsersController.saveTheme)
