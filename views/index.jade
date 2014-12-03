@@ -1,6 +1,7 @@
 doctype html
 html
   head
+    title Gocodewith.me
     link(rel='stylesheet', href='../build/application.css')
     script(type='text/javascript' src='../build/application.js')
     style(class='js-current-font')
@@ -14,7 +15,9 @@ html
         b.header__logo__name Gocodewith.me
       .header__control
         .control__theme
-          select.custom-select.control__theme-list
+          select.custom-select.js-editor-change-theme
+            -for(var name in themes)
+              option(value="#{themes[name]}")= themes[name]
         .control__editor-mode
           img(src='../blocks/header/moon.svg')
           input.js-switch.js-editor-mode-switch(type='checkbox')
@@ -24,13 +27,13 @@ html
             each size in [12, 13, 14, 15, 16]
               option(value='#{size}px')= size + ' px'
         .control__languages
-          select.custom-select.js-editor-change-language
-            -for(var name in languages)
-              option(value="#{languages[name].mode}")= name
+          select.custom-select.js-editor-change-syntax
+            -for(var name in syntax)
+              option(value="#{syntax[name].mode}")= name
         .control__fonts
           select.custom-select.js-editor-change-font
             -for(var name in fonts)
-              option(value="#{fonts[name].value}" data)= name
+              option(value="#{fonts[name].value}")= name
     .layout
       aside.sidebar.sidebar--dark
         ul.sidebar__users
@@ -38,4 +41,4 @@ html
         textarea#docEditor
     script#user-tpl(type='template')
       <li id="<%= id %>" class="sidebar__users__item" style="color: <%= color %>"><%= title %></li>
-    script(class='js-current-syntax')
+    style(class='js-current-theme')
