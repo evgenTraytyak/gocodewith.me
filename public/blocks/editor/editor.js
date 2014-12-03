@@ -6,17 +6,14 @@ App.Editor = function () {
   _.bindAll(self, "onCursorActivity")
 
   self.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0],
-    {
-      lineNumbers: true
-      , matchBrackets: true
-      , foldGutter: true        //сворачивание кода
+    { lineNumbers: true
+    , matchBrackets: true
+    , foldGutter: true        //сворачивание кода
     })
 
-  self.getThemesList()
+  // self.changeEditorMode()
 
-  self.changeEditorMode()
-
-  self.getDefaultEditorMode()
+  // self.getDefaultEditorMode()
 
   self.setFontSize()
 
@@ -24,16 +21,23 @@ App.Editor = function () {
   self.cursors = []
   self.selections = []
 
-  $(document).on('change', '.js-editor-change-language', function () {
-    self.setSyntax(this)
+  self.getDafaultSettings()
+
+  $(document).on('change', '.js-editor-change-syntax', function () {
+    var syntaxMode = $(this).val()
+
+    self.Syntax.set(syntaxMode)
   })
 
   $(document).on('change', '.js-editor-change-font', function () {
     self.setFont(this)
   })
 
+  $(document).on('change', '.js-editor-change-theme', function () {
+    var themeName = $(this).val()
 
-
+    self.Theme.set(themeName)
+  })
 }
 
 var EditorProto = App.Editor.prototype = {}
@@ -129,72 +133,27 @@ EditorProto.removeSelection = function (id) {
   }
 }
 
-EditorProto.getThemesList = function () {
-  var self = this
 
-  $.get("/themes", function (data) {
-    self.themesList = JSON.parse(data)
-  }).success(function () {
-    self.setThemesList()
-  })
-}
+// EditorProto.changeEditorMode = function () {
+//   var $header = $(".header")
+//     , $sidebar = $(".sidebar")
 
-EditorProto.setThemesList = function () {
-  var $themesList = $(".control__theme-list")
-    , themesList = this.themesList
+//   $(".js-editor-mode-switch").on("change", function () {
+//     if ($(this).is(":checked")) {
+//       $header.removeClass("header--dark").addClass("header--light")
+//       $sidebar.removeClass("sidebar--dark").addClass("sidebar--light")
+//     } else {
+//       $header.removeClass("header--light").addClass("header--dark")
+//       $sidebar.removeClass("sidebar--light").addClass("sidebar--dark")
+//     }
+//   })
+// }
 
-  for (var name in themesList) {
-    $themesList.append("<option value='" + themesList[name].url   + "'>" + name + "</option>")
-  }
+// EditorProto.getDefaultEditorMode = function () {
+//   var editorMode = "dark" //light or dark
 
-  $("body").append("<style class='theme_style'>")
-
-  this.addHandlerToThemeOption()
-}
-
-EditorProto.addHandlerToThemeOption = function () {
-  var self = this
-    , theme
-    , $themesList = $(".control__theme-list")
-
-  $themesList.on("change", function () {
-    theme = $(this).find("option:selected").val()
-    self.setTheme(theme)
-  })
-}
-
-EditorProto.setTheme = function (theme) {
-  var self = this
-
-  $.get("/theme", { name: theme })
-    .success(function (data) {
-      $(".theme_style").text(data)
-      self.codeEditor.setOption("theme", theme.slice(0, -4))
-    }).fail(function () {
-      console.log("Error downloading theme")
-    })
-}
-
-EditorProto.changeEditorMode = function () {
-  var $header = $(".header")
-    , $sidebar = $(".sidebar")
-
-  $(".js-editor-mode-switch").on("change", function () {
-    if ($(this).is(":checked")) {
-      $header.removeClass("header--dark").addClass("header--light")
-      $sidebar.removeClass("sidebar--dark").addClass("sidebar--light")
-    } else {
-      $header.removeClass("header--light").addClass("header--dark")
-      $sidebar.removeClass("sidebar--light").addClass("sidebar--dark")
-    }
-  })
-}
-
-EditorProto.getDefaultEditorMode = function () {
-  var editorMode = "dark" //light or dark
-
-  this.setDefaultEditorMode(editorMode);
-}
+//   this.setDefaultEditorMode(editorMode);
+// }
 
 EditorProto.setDefaultEditorMode = function (editorMode) {
   var $header = $(".header")
@@ -209,6 +168,44 @@ EditorProto.setDefaultEditorMode = function (editorMode) {
     $switchMode.click();
   }
 }
+
+EditorProto.getDafaultSettings = function () {
+  var self = this
+
+  $.get('/user/settings')
+    .success(function (data) {
+      self._getFont(null, data.font)
+      self.Theme.set(data.theme)
+      // self.setTheme(data.theme)
+    })
+}
+
+// EditorProto.setDafaultSettings = function () {
+
+// }
+
+// EditorProto.setTheme = function (theme) {
+
+//   this._initTheme(theme)
+// }
+
+// EditorProto.Font = {
+//   set: function () {
+
+//   },
+
+//   get: function () {
+
+//   },
+
+//   init: function () {
+
+//   },
+
+//   render: function () {
+
+//   }
+// }
 
 EditorProto.setFont = function (select) {
   var fontValue = select.value
@@ -247,34 +244,51 @@ EditorProto.setFontSize = function () {
   $(".js-font-size").on("change", function () {
     $(".CodeMirror").css("font-size", $(this).val())
   })
+
+  this.codeEditor.refresh()
 }
 
-EditorProto.setSyntax = function (select) {
-  var selectedMode = select.value
+EditorProto.Theme = {
+  set: function (themeName) {
+    var self = this
 
-  this._initSyntax(selectedMode)
+    this.get(themeName, function (themeCode) {
+      self.render(themeName, themeCode)
+    })
+  },
+
+  get: function (themeName, callback) {
+    $.get("/theme", { name: themeName })
+      .success(callback)
+      .fail(function () {
+        console.log("Error downloading theme")
+      })
+  },
+
+  render: function (themeName, themeCode) {
+    $(".js-current-theme").text(themeCode)
+    this.init(themeName)
+  },
+
+  init: function (themeName) {
+    App.Editor.codeEditor.setOption("theme", themeName)
+  }
 }
 
-EditorProto._initSyntax = function (mode) {
-  var self = this
+EditorProto.Syntax = {
+  set: function (syntaxMode) {
+    this.get(syntaxMode)
+  },
 
-  loadJs('/language/?name=' + mode, function() {
-    self.codeEditor.setOption("mode", mode)
-  })
+  get: function (syntaxMode) {
+    var self = this
 
-  function loadJs(src, callback) {
-    var scriptTag = document.createElement('script')
+    $.getScript('http://localhost:8090/language/?name=' + syntaxMode, function () {
+      self.init(syntaxMode)
+    })
+  },
 
-    scriptTag.src = src
-    scriptTag.async = true
-    scriptTag.onreadystatechange = scriptTag.onload = function () {
-      var state = scriptTag.readyState
-
-      if (!callback.done && (!state || /loaded|complete/.test(state))) {
-        callback.done = true
-        callback()
-      }
-    }
-    document.getElementsByTagName('head')[0].appendChild(scriptTag)
+  init: function (syntaxMode) {
+    App.Editor.codeEditor.setOption("mode", syntaxMode)
   }
 }
