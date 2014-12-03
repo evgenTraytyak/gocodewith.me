@@ -63,18 +63,22 @@ RoomsController = {
   },
 
   _showItem: function (req, res, room) {
-    var languagesPath = path.join(dir_root, 'public/codelanguages/', 'languages.json')
-      , languages = JSON.parse(fs.readFileSync(languagesPath, 'utf8'))
+    var syntaxPath = path.join(dir_root, 'public/codelanguages/', 'languages.json')
+      , syntax = JSON.parse(fs.readFileSync(syntaxPath, 'utf8'))
 
       , fontsPath = path.join(dir_root, 'public/fonts/', 'fonts.json')
       , fonts = JSON.parse(fs.readFileSync(fontsPath, 'utf8'))
+
+      , themesPath = path.join(dir_root, 'public/themes/', 'themes.json')
+      , themes = JSON.parse(fs.readFileSync(themesPath, 'utf8')).themes
 
     getUsersInRoom(req, room, function (users) {
       res.render('index',
       { user: req.user
       , users: users
       , fonts: fonts
-      , languages: languages
+      , themes: themes
+      , syntax: syntax
       , message: req.flash('message')
       })
     })
