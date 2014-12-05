@@ -6,7 +6,7 @@ html
     script(type='text/javascript' src='../build/application.js')
     style(class='js-current-font')
   body
-    #user_meta(style="display: none;" data-user-name=user.username)
+    #meta(style="display: none;" data-user-name=user.username)
     if message != ''
       .message
         .message__text #{message}
@@ -17,23 +17,23 @@ html
         .control__theme
           select.custom-select.js-editor-change-theme
             -for(var name in themes)
-              option(value="#{themes[name]}")= themes[name]
+              option(value="#{themes[name]}" selected=settings.theme==themes[name])= themes[name]
         .control__editor-mode
           img(src='../blocks/header/moon.svg')
           input.js-switch.js-editor-mode-switch(type='checkbox')
           img(src='../blocks/header/sun.svg')
         .control__font-size
-          select.custom-select.control__font-size-list.js-font-size
+          select.custom-select.control__font-size-list.js-editor-change-font-size
             each size in [12, 13, 14, 15, 16]
-              option(value='#{size}px')= size + ' px'
+              option(value='#{size}px' selected=settings.fontSize=='#{size}px')= size + ' px'
         .control__languages
           select.custom-select.js-editor-change-syntax
-            -for(var name in syntax)
-              option(value="#{syntax[name].mode}")= name
+            -for(var name in syntaxes)
+              option(value="#{name}" data-syntax-mode="#{syntaxes[name].mode}" selected=settings.syntaxName==name)= name
         .control__fonts
           select.custom-select.js-editor-change-font
             -for(var name in fonts)
-              option(value="#{fonts[name].value}")= name
+              option(value="#{name}" selected=settings.font==name)= name
     .layout
       aside.sidebar.sidebar--dark
         ul.sidebar__users

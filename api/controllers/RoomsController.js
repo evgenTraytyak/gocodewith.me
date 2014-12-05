@@ -63,8 +63,8 @@ RoomsController = {
   },
 
   _showItem: function (req, res, room) {
-    var syntaxPath = path.join(dir_root, 'public/codelanguages/', 'languages.json')
-      , syntax = JSON.parse(fs.readFileSync(syntaxPath, 'utf8'))
+    var syntaxesPath = path.join(dir_root, 'public/codelanguages/', 'languages.json')
+      , syntaxes = JSON.parse(fs.readFileSync(syntaxesPath, 'utf8'))
 
       , fontsPath = path.join(dir_root, 'public/fonts/', 'fonts.json')
       , fonts = JSON.parse(fs.readFileSync(fontsPath, 'utf8'))
@@ -78,7 +78,14 @@ RoomsController = {
       , users: users
       , fonts: fonts
       , themes: themes
-      , syntax: syntax
+      , syntaxes: syntaxes
+      , settings:
+        { syntaxName: room.settings.syntax.name
+        , syntaxMode: room.settings.syntax.mode
+        , font: req.user.settingEditor.font
+        , fontSize: req.user.settingEditor.fontSize
+        , theme: req.user.settingEditor.theme
+        }
       , message: req.flash('message')
       })
     })
@@ -103,13 +110,48 @@ RoomsController = {
         }
       }
     })
+  },
+
+  saveSyntax: function (req, res) {
+    var roomName = req.body.name
+      , syntaxName = req.body.syntaxName
+      , syntaxMode = req.body.syntaxMode
+      , query = { 'name': roomName }
+      , options = { '$set': { 'settings.syntax.name': syntaxName
+                            , 'settings.syntax.mode': syntaxMode
+                            }
+                  }
+
+    Room.findOneAndUpdate(query, options, function (err, room) {
+      if (err) { console.error(err) }
+      if (!room) {
+        res.status(404).send('Room not found!')
+      }
+      else {
+        res.status(200)
+      }
+    })
+  },
+
+  defaultSettings: function (req, res) {
+    var roomName = req.query.name
+
+    Room.findOne({'name': roomName}).exec(function (err, room) {
+      if (err) { console.error(err) }
+      if (!room) {
+        res.status(404).send('Room not found!')
+      }
+      else {
+        res.send(room.settings)
+      }
+    })
   }
 
 };
 
 var addUserToRoom = function (req, room) {
-  var query = { name: room.name }
-    , options = { $push: { user_ids: req.user._id } }
+  var query = { 'name': room.name }
+    , options = { '$push': { user_ids: req.user._id } }
 
   Room.findOneAndUpdate(query, options, function (err, room) {
     if (err) { console.log(err) }

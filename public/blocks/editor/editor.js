@@ -3,98 +3,116 @@ var App = App || {}
 App.Editor = function () {
   var self = this
 
-  _.bindAll(self, "onCursorActivity")
+  _.bindAll(self, 'onCursorActivity')
 
-  self.codeEditor = CodeMirror.fromTextArea($("#docEditor")[0],
+  self.codeEditor = CodeMirror.fromTextArea($('#docEditor')[0],
     { lineNumbers: true
     , matchBrackets: true
-    , foldGutter: true        //сворачивание кода
+    , foldGutter: true
+    , tabSize: 4
     })
 
-  // self.changeEditorMode()
-
-  // self.getDefaultEditorMode()
-
-  self.setFontSize()
-
-  self.codeEditor.on("cursorActivity", self.onCursorActivity)
+  self.codeEditor.on('cursorActivity', self.onCursorActivity)
   self.cursors = []
   self.selections = []
 
-  self.getDafaultSettings()
+  self.addHandlers()
 
-  $(document).on('change', '.js-editor-change-syntax', function () {
-    var syntaxMode = $(this).val()
-
-    self.Syntax.set(syntaxMode)
-  })
-
-  $(document).on('change', '.js-editor-change-font', function () {
-    self.setFont(this)
-  })
-
-  $(document).on('change', '.js-editor-change-theme', function () {
-    var themeName = $(this).val()
-
-    self.Theme.set(themeName)
-  })
+  self.getDefaultUserSettings()
+  self.getDefaultRoomSettings()
 }
 
 var EditorProto = App.Editor.prototype = {}
 
+EditorProto.addHandlers = function () {
+  var $document = $(document)
+    , self = this
+
+  $document.on('change', '.js-editor-change-syntax', function () {
+    var syntaxName = $(this).val()
+      , syntaxMode = $(this).find('option:selected').data('syntax-mode')
+
+    self.Syntax.set(syntaxName, syntaxMode)
+    self.Syntax.save(syntaxName, syntaxMode)
+  })
+
+  $document.on('change', '.js-editor-change-font', function () {
+    var fontName = $(this).val()
+
+    self.Font.set(fontName)
+    self.Font.save(fontName)
+  })
+
+  $document.on('change', '.js-editor-change-theme', function () {
+    var themeName = $(this).val()
+
+    self.Theme.set(themeName)
+    self.Theme.save(themeName)
+  })
+
+  $document.on('change', '.js-editor-change-font-size', function () {
+    var fontSize = $(this).val()
+
+    self.FontSize.set(fontSize)
+    self.FontSize.save(fontSize)
+  })
+}
+
 EditorProto.onCursorActivity = function () {
   var cursor = this.codeEditor.getCursor()
-  var meta = {
-    a: "meta"
-    , document: {
-      id: App.documentId
-    }
-    , id: App.__user.id
-    , color: App.__user.color
-    , meta: cursor
-  }
+    , meta =
+            { a: 'meta'
+            , document: { id: App.documentName }
+            , id: App.__user.id
+            , color: App.__user.color
+            , meta: cursor
+            }
+
+
   App.send(JSON.stringify(meta))
 }
 
 EditorProto.addCursor = function (cursorInfo) {
   var opt = {className: this.getCursorClass(cursorInfo.id, cursorInfo.color)}
-    , to = {
-      ch: cursorInfo.position.ch + 1,
-      line: cursorInfo.position.line
-    }
+    , to =
+          { ch: cursorInfo.position.ch + 1
+          , line: cursorInfo.position.line
+          }
+    , cursor = this.codeEditor.markText(cursorInfo.position, to, opt)
 
-  var cursor = this.codeEditor.markText(cursorInfo.position, to, opt)
-  if (cursor.lines.length)
+  if (cursor.lines.length) {
     this.cursors.push({id: cursorInfo.id, cursor: cursor})
-  else
+  }
+  else {
     this.addCursorOnLineEnd(cursorInfo)
+  }
 }
 
 EditorProto.getCursorClass = function (id, color) {
-  return "cm-cursor cm-cursor-" + color + " cursor-id-" + id
+  return 'cm-cursor cm-cursor-' + color + ' cursor-id-' + id
 }
 
 EditorProto.addCursorOnLineEnd = function (cursorInfo) {
-  var opt = {
-      className: this.getCursorClassAfter(cursorInfo.id, cursorInfo.color)
-    }
-    , to = {
-      ch: cursorInfo.position.ch - 1,
-      line: cursorInfo.position.line
-    }
+  var opt =
+            { className: this.getCursorClassAfter(cursorInfo.id, cursorInfo.color)
+            }
+    , to =
+            { ch: cursorInfo.position.ch - 1
+            , line: cursorInfo.position.line
+            }
+    , cursor = this.codeEditor.markText(to, cursorInfo.position, opt)
 
-  var cursor = this.codeEditor.markText(to, cursorInfo.position, opt)
   this.cursors.push({id: cursorInfo.id, cursor: cursor})
 }
 
 EditorProto.getCursorClassAfter = function (id, color) {
-  return "cm-cursor-last cm-cursor-last-" + color + " cursor-id-" + id
+  return 'cm-cursor-last cm-cursor-last-' + color + ' cursor-id-' + id
 }
 
 EditorProto.updateCursor = function (cursorInfo) {
   this.removeCursor(cursorInfo.id)
   this.addCursor(cursorInfo)
-  $(".cursor-id-"+cursorInfo.id+"").css("border-color",cursorInfo.color)
+  $('.cursor-id-' + cursorInfo.id + '').css('border-color', cursorInfo.color)
 }
 
 EditorProto.removeCursor = function (id) {
@@ -107,16 +125,16 @@ EditorProto.removeCursor = function (id) {
 }
 
 EditorProto.addSelection = function (selectionInfo) {
-  var opt = {
-    className: this.getSelectionClass(selectionInfo.id, selectionInfo.color)
-  }
+  var opt =
+            { className: this.getSelectionClass(selectionInfo.id, selectionInfo.color)
+            }
+    , sel = this.codeEditor.markText(selectionInfo.from, selectionInfo.to, opt)
 
-  var sel = this.codeEditor.markText(selectionInfo.from, selectionInfo.to, opt)
   this.selections.push({id: selectionInfo.id, sel: sel})
 }
 
 EditorProto.getSelectionClass = function (id, color) {
-  return "cm-background-" + color + " selection-id-" + id
+  return 'cm-background-' + color + ' selection-id-' + id
 }
 
 EditorProto.updateSelection = function (selectionInfo) {
@@ -135,7 +153,7 @@ EditorProto.removeSelection = function (id) {
 
 
 // EditorProto.changeEditorMode = function () {
-//   var $header = $(".header")
+//   var $header = $('.header")
 //     , $sidebar = $(".sidebar")
 
 //   $(".js-editor-mode-switch").on("change", function () {
@@ -169,83 +187,79 @@ EditorProto.setDefaultEditorMode = function (editorMode) {
   }
 }
 
-EditorProto.getDafaultSettings = function () {
+EditorProto.getDefaultUserSettings = function () {
   var self = this
 
-  $.get('/user/settings')
-    .success(function (data) {
-      self._getFont(null, data.font)
-      self.Theme.set(data.theme)
-      // self.setTheme(data.theme)
+  $.get('/settings/user')
+    .success(function (settings) {
+      self.Font.set(settings.font)
+      self.Theme.set(settings.theme)
+      self.FontSize.set(settings.fontSize)
     })
 }
 
-// EditorProto.setDafaultSettings = function () {
-
-// }
-
-// EditorProto.setTheme = function (theme) {
-
-//   this._initTheme(theme)
-// }
-
-// EditorProto.Font = {
-//   set: function () {
-
-//   },
-
-//   get: function () {
-
-//   },
-
-//   init: function () {
-
-//   },
-
-//   render: function () {
-
-//   }
-// }
-
-EditorProto.setFont = function (select) {
-  var fontValue = select.value
-    , fontName = $(select).find('option:selected').text()
-
-  this._getFont(fontValue, fontName)
-}
-
-EditorProto._getFont = function (fontValue, fontName) {
+EditorProto.getDefaultRoomSettings = function () {
   var self = this
+    , roomName = App.documentName
 
-  $.get('/font', { name: fontName })
-    .success(function (data) {
-      self._initFont(data, fontName)
-  })
+  $.get('/settings/room', { name: roomName })
+    .success(function (settings) {
+      self.Syntax.set(settings.syntax.name, settings.syntax.mode)
+    })
+    .fail(function () {
+      console.log('Error getting room settings')
+    })
 }
 
-EditorProto._initFont = function (url, fontName) {
-  code = "\n@font-face {\n" +
+EditorProto.Font = {
+  set: function (fontName) {
+    this.get(fontName)
+  },
+
+  get: function (fontName) {
+    var self = this
+
+    $.get('/font', { name: fontName })
+      .success(function (fontURL) {
+        self.init(fontURL, fontName)
+      })
+      .fail(function () {
+        console.log("Error downloading font")
+      })
+  },
+
+  init: function (fontURL, fontName) {
+    var code = "\n@font-face {\n" +
     "font-family: '" + fontName + "';\n" +
-    "src: url(" + url + ");\n}"
+    "src: url(" + fontURL + ");\n}"
 
-  $(".js-current-font").html(code)
+    $(".js-current-font").html(code)
 
-  $('.CodeMirror').css({'font-family': fontName})
+    $('.CodeMirror').css({'font-family': fontName})
+  },
 
-  this._saveFont(fontName)
+  save: function (fontName) {
+    $.post('/settings/user/font', { name: fontName })
+  }
 }
 
-// Save font in user profile
-EditorProto._saveFont = function (fontName)  {
-  $.post('/user/font', { name: fontName })
-}
+EditorProto.FontSize = {
+  set: function (fontSize) {
+    $('.CodeMirror').css(
+      { 'font-size': fontSize
+      , 'line-height': '1.3'
+      }
+    )
+    this.init()
+  },
 
-EditorProto.setFontSize = function () {
-  $(".js-font-size").on("change", function () {
-    $(".CodeMirror").css("font-size", $(this).val())
-  })
+  init: function () {
+    App.Editor.codeEditor.refresh()
+  },
 
-  this.codeEditor.refresh()
+  save: function (fontSize) {
+    $.post('/settings/user/font-size', { size: fontSize })
+  }
 }
 
 EditorProto.Theme = {
@@ -258,37 +272,50 @@ EditorProto.Theme = {
   },
 
   get: function (themeName, callback) {
-    $.get("/theme", { name: themeName })
+    $.get('/theme', { name: themeName })
       .success(callback)
       .fail(function () {
-        console.log("Error downloading theme")
+        console.log('Error downloading theme')
       })
   },
 
   render: function (themeName, themeCode) {
-    $(".js-current-theme").text(themeCode)
+    $('.js-current-theme').text(themeCode)
     this.init(themeName)
   },
 
   init: function (themeName) {
-    App.Editor.codeEditor.setOption("theme", themeName)
+    App.Editor.codeEditor.setOption('theme', themeName)
+  },
+
+  save: function (themeName) {
+    $.post('/settings/user/theme', { name: themeName })
   }
 }
 
 EditorProto.Syntax = {
-  set: function (syntaxMode) {
+  set: function (syntaxName, syntaxMode) {
     this.get(syntaxMode)
   },
 
   get: function (syntaxMode) {
     var self = this
 
-    $.getScript('http://localhost:8090/language/?name=' + syntaxMode, function () {
-      self.init(syntaxMode)
-    })
+    $.getScript( '/language/?name=' + syntaxMode
+                , function () { self.init(syntaxMode) }
+                )
   },
 
   init: function (syntaxMode) {
-    App.Editor.codeEditor.setOption("mode", syntaxMode)
+    App.Editor.codeEditor.setOption('mode', syntaxMode)
+  },
+
+  save: function (syntaxName, syntaxMode) {
+    $.post( '/settings/room/syntax'
+          , { name: App.documentName
+            , syntaxName: syntaxName
+            , syntaxMode: syntaxMode
+            }
+          )
   }
 }

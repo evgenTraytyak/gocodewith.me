@@ -91,11 +91,13 @@ module.exports = function (passport) {
   })
 
   router.get('/settings/room/', RoomsController.defaultSettings)
+  router.post('/settings/room/syntax', RoomsController.saveSyntax)
+
   router.get('/settings/user/', UsersController.defaultSettings)
 
-  router.post('/user/font', UsersController.saveFont)
-  router.post('/user/font-size', UsersController.saveFontSize)
-  router.post('/user/theme', UsersController.saveTheme)
+  router.post('/settings/user/font', UsersController.saveFont)
+  router.post('/settings/user/font-size', UsersController.saveFontSize)
+  router.post('/settings/user/theme', UsersController.saveTheme)
 
 
   // router.get(/^\/room\/\?name=()/, function(req, res) {
@@ -121,10 +123,18 @@ module.exports = function (passport) {
 }
 
 var isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated() || req.url == '/signin' || req.url == '/signup' || /^\/auth/.test(req.url)) {
-    return next()
+  var authUrls = new RegExp('^\\/(' + ['signin', 'signup', 'auth'].join('|') + ')').test(req.url)
+    , isAuthenticated = req.isAuthenticated();
+
+  if ((authUrls && !isAuthenticated) || (!authUrls && isAuthenticated)) {
+    next()
   }
-  res.redirect('/signin')
+  else if (isAuthenticated) {
+    res.redirect('/')
+  }
+  else {
+    res.redirect('/signin')
+  }
 }
 
 
