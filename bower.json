@@ -1,11 +1,12 @@
 {
-  "name": "Later",
-  "version": "0.0.1",
-  "homepage": "https://github.com/yandex-shri-minsk-2014/team-1",
+  "name": "Gocodewith.me",
+  "version": "0.0.3",
+  "homepage": "https://github.com/evgenTraytyak/gocodewith.me",
   "authors": [
+    "evgenTraytyak",
     "Yandex SHRI Team 1"
   ],
-  "description": "application for a multi-user online document editing",
+  "description": "This is collaborative online code editor with supporting 60 programming languages, variety of themes and fonts.",
   "moduleType": [
     "node"
   ],
@@ -21,7 +22,6 @@
   "dependencies": {
     "jquery": "~2.1.1",
     "lodash": "~2.4.1",
-    "socket.io-client": "~1.1.0",
     "codemirror": "~4.8.0",
     "ot": "~0.0.14",
     "share-codemirror": "~0.0.5"
