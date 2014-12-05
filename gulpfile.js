@@ -50,30 +50,29 @@ gulp.task('scripts', function () {
     .pipe( gulp.dest(dir.build._) )
 })
 
-gulp.task('sass', function() {
+gulp.task('stylesheets', function() {
   gulp
     .src(dir.dev.scss)
     .pipe( plugins.sass() )
     .pipe( plugins.autoprefixer('last 3 version', '> 5%', { cascade: true }) )
     .pipe( gulp.dest(dir.build._) )
-})
-
-gulp.task('stylesheets', function() {
-  gulp
-    .src(
-      [ 'libs/codemirror/lib/codemirror.css'
-      , 'public/build/index.css'
-      ])
-    .pipe( plugins.concat('application.css') )
-    .pipe( gulp.dest(dir.build._) )
+    .on('end', function() {
+      gulp
+        .src(
+          [ 'libs/codemirror/lib/codemirror.css'
+          , 'public/build/index.css'
+          ])
+        .pipe( plugins.concat('application.css') )
+        .pipe( gulp.dest(dir.build._) )
+    })
 })
 
 gulp.task('watch', function() {
-  gulp.watch(dir.dev.scss, ['sass'])
+  gulp.watch(dir.dev.scss, ['stylesheets'])
   gulp.watch(dir.dev.js, ['scripts'])
 })
 
-gulp.task('build', ['config', 'scripts', 'sass', 'stylesheets'])
+gulp.task('build', ['config', 'scripts', 'stylesheets'])
 
 gulp.task('default', ['build', 'watch'])
 
