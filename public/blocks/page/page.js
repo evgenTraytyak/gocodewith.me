@@ -5,15 +5,15 @@ App = {
   start: function (options) {
     _.bindAll(this)
 
-    this.documentId = this.getDocId()
+    this.documentName = this.getDocId()
 
     this.socket = this.getSocket(options.socketUrl)
     this.sjs = new window.sharejs.Connection(this.socket)
-    this.doc = this.sjs.get('users-' + this.documentId, 'seph')
+    this.doc = this.sjs.get('users-' + this.documentName, 'seph')
 
     this.bindSocketHandlers()
 
-    this.__user = $('#user_meta').data('user-name')
+    this.__user = $('#meta').data('user-name')
 
     this.openDocument();
   }
@@ -54,7 +54,7 @@ App = {
       { a: 'open'
       , user: this.__user
       , document:
-        { id: this.documentId
+        { id: this.documentName
         }
       }
     ) )
@@ -78,20 +78,11 @@ App = {
       if (typeof callback !== 'undefined') {
         callback()
       }
-    }, 1000)
+    })
   }
 
   , waitForConnection: function (callback, interval) {
-    var that = this
-
-    if (this.socket.readyState === 1)
-    { callback()
-    } else {
-      setTimeout(function ()
-        { that.waitForConnection(callback)
-        }
-        , interval)
-    }
+    this.socket.onopen = callback;
   }
 
   , onSocketJoin: function (data) {
@@ -122,7 +113,7 @@ App = {
   , saveDocument: function () {
     var docContentObj = {
       operation: 'save'
-      , docName: this.documentId
+      , docName: this.documentName
       , docContent: this.Editor.codeEditor.getValue()
     }
 
@@ -141,7 +132,7 @@ App = {
   , loadDocument: function (docId) {
     var docContentObj = {
       operation: 'get'
-      , docName: this.documentId
+      , docName: this.documentName
     }
 
     $.ajax({ type: "POST"
