@@ -90,8 +90,9 @@ module.exports = function (passport) {
     })
   })
 
+  router.get('/settings/room/', RoomsController.defaultSettings)
+  router.get('/settings/user/', UsersController.defaultSettings)
 
-  router.get('/user/settings', UsersController.defaultSettings)
   router.post('/user/font', UsersController.saveFont)
   router.post('/user/font-size', UsersController.saveFontSize)
   router.post('/user/theme', UsersController.saveTheme)
