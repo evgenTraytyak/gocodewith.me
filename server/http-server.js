@@ -14,7 +14,7 @@ var mongoose = require('mongoose')
   , dbConfig = require('../config/index.js').mongodb
   , db = mongoose.connection
 
-mongoose.connect(process.env.MONGO_URI || dbConfig.url)
+mongoose.connect(process.env.MONGOLAB_URI || dbConfig.url)
 
 db.on('error', function (err) {
   console.error('Database connection error:'.red, err.message);
