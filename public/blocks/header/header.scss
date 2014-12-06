@@ -99,17 +99,20 @@
     }
   }
 
+.custom-select {
+  margin: 0 10px;
+}
 
 .header--dark {
   background-color: #293143;
   border-bottom: 1px solid #212936;
+  color: #6C7A89;
 
   .header__logo {
     background-color: #212936;
     }
 
   .custom-select {
-    margin: 0 10px;
     background-color: #293143;
     }
   }
@@ -117,6 +120,7 @@
 .header--light {
   background-color: #ECF0F1;
   border-bottom: 1px solid #d3d3d3;
+  color: $color-indigo;
 
   .header__logo {
     background-color: #ABB7B7;

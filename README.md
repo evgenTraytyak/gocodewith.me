@@ -53,4 +53,3 @@ For development you need to start 2 processes. Gulp for build frontend part and 
     + to configure tab size
   - Remove source files from `public` directory
   - Add files minification (gulp task)
-

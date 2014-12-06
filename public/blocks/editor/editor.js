@@ -56,6 +56,12 @@ EditorProto.addHandlers = function () {
     self.FontSize.set(fontSize)
     self.FontSize.save(fontSize)
   })
+
+  $document.on('change', '.js-editor-change-lightmode', function () {
+    var lightMode = $(this).prop('checked')
+
+    self.LightMode.set(lightMode)
+  })
 }
 
 EditorProto.onCursorActivity = function () {
@@ -151,42 +157,6 @@ EditorProto.removeSelection = function (id) {
   }
 }
 
-
-// EditorProto.changeEditorMode = function () {
-//   var $header = $('.header")
-//     , $sidebar = $(".sidebar")
-
-//   $(".js-editor-mode-switch").on("change", function () {
-//     if ($(this).is(":checked")) {
-//       $header.removeClass("header--dark").addClass("header--light")
-//       $sidebar.removeClass("sidebar--dark").addClass("sidebar--light")
-//     } else {
-//       $header.removeClass("header--light").addClass("header--dark")
-//       $sidebar.removeClass("sidebar--light").addClass("sidebar--dark")
-//     }
-//   })
-// }
-
-// EditorProto.getDefaultEditorMode = function () {
-//   var editorMode = "dark" //light or dark
-
-//   this.setDefaultEditorMode(editorMode);
-// }
-
-EditorProto.setDefaultEditorMode = function (editorMode) {
-  var $header = $(".header")
-    , $sidebar = $(".sidebar")
-    , $switchMode = $(".js-editor-mode-switch")
-
-  $header.addClass("header--" + editorMode)
-  $sidebar.addClass("sidebar--" + editorMode)
-
-  if (editorMode == "light") {
-    // $switchMode.prop("checked", true) // don't work
-    $switchMode.click();
-  }
-}
-
 EditorProto.getDefaultUserSettings = function () {
   var self = this
 
@@ -195,6 +165,7 @@ EditorProto.getDefaultUserSettings = function () {
       self.Font.set(settings.font)
       self.Theme.set(settings.theme)
       self.FontSize.set(settings.fontSize)
+      self.LightMode.set(settings.lightMode)
     })
 }
 
@@ -211,6 +182,22 @@ EditorProto.getDefaultRoomSettings = function () {
     })
 }
 
+EditorProto.LightMode = {
+  set: function (lightMode) {
+    var $header = $('.header')
+      , $sidebar = $('.sidebar')
+
+    if (lightMode) {
+      $header.removeClass('header--dark').addClass('header--light')
+      $sidebar.removeClass('sidebar--dark').addClass('sidebar--light')
+    }
+    else {
+      $header.removeClass('header--light').addClass('header--dark')
+      $sidebar.removeClass('sidebar--light').addClass('sidebar--dark')
+    }
+  }
+}
+
 EditorProto.Font = {
   set: function (fontName) {
     this.get(fontName)
@@ -224,16 +211,16 @@ EditorProto.Font = {
         self.init(fontURL, fontName)
       })
       .fail(function () {
-        console.log("Error downloading font")
+        console.log('Error downloading font')
       })
   },
 
   init: function (fontURL, fontName) {
-    var code = "\n@font-face {\n" +
-    "font-family: '" + fontName + "';\n" +
-    "src: url(" + fontURL + ");\n}"
+    var code = '\n@font-face {\n' +
+    'font-family: \'' + fontName + '\';\n' +
+    'src: url(' + fontURL + ');\n}'
 
-    $(".js-current-font").html(code)
+    $('.js-current-font').html(code)
 
     $('.CodeMirror').css({'font-family': fontName})
   },

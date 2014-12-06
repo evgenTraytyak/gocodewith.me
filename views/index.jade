@@ -19,9 +19,8 @@ html
             -for(var name in themes)
               option(value="#{themes[name]}" selected=settings.theme==themes[name])= themes[name]
         .control__editor-mode
-          img(src='../blocks/header/moon.svg')
-          input.js-switch.js-editor-mode-switch(type='checkbox')
-          img(src='../blocks/header/sun.svg')
+          input.js-editor-change-lightmode(type='checkbox' checked=settings.lightMode)
+          span light mode
         .control__font-size
           select.custom-select.control__font-size-list.js-editor-change-font-size
             each size in [12, 13, 14, 15, 16]

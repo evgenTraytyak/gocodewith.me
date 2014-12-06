@@ -85,6 +85,7 @@ RoomsController = {
         , font: req.user.settingEditor.font
         , fontSize: req.user.settingEditor.fontSize
         , theme: req.user.settingEditor.theme
+        , lightMode: req.user.settingEditor.lightMode
         }
       , message: req.flash('message')
       })
