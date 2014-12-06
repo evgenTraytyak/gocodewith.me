@@ -2,14 +2,14 @@
 
 This project is new version of [WingPad](https://github.com/yandex-shri-minsk-2014/team-1)
 
-Installing:
+**Installing**:
 `npm install`
 This run native npm installer. After that run bower install and gulp build.
 
-Launch:
+**Launch**:
 `npm run app`
 
-Developing:
+**Developing**:
 For development you need to start 2 processes. Gulp for build frontend part and nodejs server.
 `npm run gulp` - compile project and start watching files
 `npm start` - start server with `supervisor`
@@ -36,11 +36,10 @@ For development you need to start 2 processes. Gulp for build frontend part and 
   - Selecting font size (12-16px)
   - Saving your editor settings
   - Creating a named room
-  - Room stores programming language
+  - Room stores programming language highlight
   - Save documents in database instead of saving it in file system
   - Deploy on [Heroku](https://www.heroku.com)
   - Add the domain name - [gocodewith.me](https://gocodewith.me)
-  - Add the ability to save the syntax in the room
 
 
 ###Todo
@@ -49,7 +48,7 @@ For development you need to start 2 processes. Gulp for build frontend part and 
   - Add caching themes, fonts and syntax highlight files
   - Add the ability
     + to set a password on the room
-    + to set user rights (for example, read-only)
+    + to set user permission (for example, read-only)
     + to configure tab size
   - Remove source files from `public` directory
   - Add files minification (gulp task)
