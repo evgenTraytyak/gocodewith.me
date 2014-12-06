@@ -10,6 +10,11 @@ module.exports = function (passport) {
       })
   })
 
+  router.get('/logout', function (req, res) {
+    req.logout()
+    res.redirect('/')
+  })
+
   router.get('/signin', function (req, res) {
     var flashText = req.flash('message')
       , obj = flashText.length ? { message: flashText } : {}
