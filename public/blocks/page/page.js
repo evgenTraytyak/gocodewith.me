@@ -73,16 +73,26 @@ App = {
     var self = this
 
     this.waitForConnection(function () {
+
       self.socket.send(message)
 
       if (typeof callback !== 'undefined') {
         callback()
       }
-    })
+    }, 0)
   }
 
   , waitForConnection: function (callback, interval) {
-    this.socket.onopen = callback;
+    var that = this
+
+    if (this.socket.readyState === 1)
+    { callback()
+    } else {
+      setTimeout(function ()
+        { that.waitForConnection(callback)
+        }
+        , interval)
+    }
   }
 
   , onSocketJoin: function (data) {

@@ -17,7 +17,7 @@ App.Editor = function () {
   self.selections = []
 
   self.addHandlers()
-
+  self.codeEditor.addKeyMap('sublime')
   self.getDefaultUserSettings()
   self.getDefaultRoomSettings()
 }

@@ -3,7 +3,7 @@ var mongoose = require('mongoose'),
 
 var UsersSchema = new Schema(
   { id: String
-  , githubId: { type: String, unique: true }
+  , githubId: { type: String, unique: true, default: Date.now() }
   , username: { type: String, trim: true, required: true, unique: true }
   , email: { type: String, trim: true, required: true, unique: true }
   , password: { type: String }
